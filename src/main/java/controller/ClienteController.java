@@ -37,9 +37,9 @@ public class ClienteController {
         this.clienteSrv = clienteSvc;
     }
 
-    @GetMapping("/activas")
-    @Operation(summary = "Lista las categorías activas")
-    public ResponseEntity<List<Cliente>> obtenerCategoriasActivas() {
+    @GetMapping("/coordenadas")
+    @Operation(summary = "obtener coordenadas cliente")
+    public ResponseEntity<Cliente> obtenerCategoriasActivas() {
         return ResponseEntity.ok(clienteSrv.obtenerActivas());
     }
 

@@ -9,6 +9,7 @@ import java.util.List;
 import models.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  *
@@ -16,7 +17,8 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    @Query(value = "SELECT * FROM categoriasv", nativeQuery = true)
-    public List<Cliente> findCategoriasActivas();
+    @Query(value = "select * from clientes c\n"
+            + "where c.nombre = :nombre", nativeQuery = true)
+    public Cliente findCategoriasActivas(@Param("nombre")String nombre);
 
 }

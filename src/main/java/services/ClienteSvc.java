@@ -15,7 +15,7 @@ import models.Cliente;
  */
 public interface ClienteSvc{
 
-    public List<Cliente> obtenerActivas();
+    public Cliente obtenerActivas();
     
     void crearCliente(CrearClienteDto datos);
 }

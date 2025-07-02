@@ -29,8 +29,8 @@ public class ClienteSvcImpl implements ClienteSvc {
     }
 
     @Override
-    public List<Cliente> obtenerActivas() {
-        return this.repository.findCategoriasActivas();
+    public Cliente obtenerActivas() {
+        return this.repository.findCategoriasActivas("sa");
     }
 
     @Override
