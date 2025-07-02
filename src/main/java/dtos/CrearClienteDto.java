@@ -3,19 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package services;
+package dtos;
 
-import dtos.CrearClienteDto;
-import java.util.List;
-import models.Cliente;
+import lombok.Data;
 
 /**
  *
  * @author Samuel
  */
-public interface ClienteSvc{
+@Data
+public class CrearClienteDto {
 
-    public List<Cliente> obtenerActivas();
-    
-    void crearCliente(CrearClienteDto datos);
+    private String nombre;
+    private String latitud;
+    private String longitud;
 }

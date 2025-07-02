@@ -9,7 +9,6 @@ import dtos.CrearUsuarioDto;
 import dtos.LoginRequestDto;
 import dtos.UsuarioDto;
 import jakarta.servlet.http.HttpServletRequest;
-import models.Usuario.Rol;
 import org.springframework.http.ResponseEntity;
 import projection.DataUserProjection;
 

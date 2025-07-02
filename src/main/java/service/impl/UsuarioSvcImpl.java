@@ -48,8 +48,8 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         nuevoUsuario.setApellido(datos.getApellido());
         nuevoUsuario.setCorreo(datos.getCorreo());
         nuevoUsuario.setUsuario(datos.getUsuario());
-        nuevoUsuario.setDPI(datos.getDPI());
-        nuevoUsuario.setNIT(datos.getNIT());
+        nuevoUsuario.setDpi(datos.getDPI());
+        nuevoUsuario.setNit(datos.getNIT());
         nuevoUsuario.setDireccion(datos.getDireccion());
         nuevoUsuario.setContrasena(datos.getContrasena());
         nuevoUsuario.setRol(datos.getRol());

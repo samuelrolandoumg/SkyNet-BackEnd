@@ -19,6 +19,7 @@ import jakarta.persistence.TemporalType;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
+import models.Roles.Rol;
 import org.springframework.data.jpa.repository.Temporal;
 
 /**
@@ -28,7 +29,7 @@ import org.springframework.data.jpa.repository.Temporal;
 @Getter
 @Setter
 @Entity
-@Table(name = "Usuario")
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id
@@ -41,14 +42,14 @@ public class Usuario {
     @Column(name = "apellido", nullable = false, length = 100)
     private String apellido;
 
-    @Column(name = "DPI", nullable = false, length = 100)
-    private String DPI;
+    @Column(name = "dpi", nullable = false, length = 100)
+    private String dpi;
 
-    @Column(name = "NIT", nullable = false, length = 100)
-    private String NIT;
+    @Column(name = "nit", nullable = false, length = 100)
+    private String nit;
 
-    @Column(name = "Direccion", nullable = false, length = 100)
-    private String Direccion;
+    @Column(name = "direccion", nullable = false, length = 100)
+    private String direccion;
 
     @Column(name = "correo", nullable = false, unique = true, length = 100)
     private String correo;
@@ -63,7 +64,6 @@ public class Usuario {
     @Column(name = "rol", nullable = false, length = 20)
     private Rol rol;
 
-    // Relación autorreferenciada con el supervisor
     @ManyToOne
     @JoinColumn(name = "id_supervisor")
     private Usuario supervisor;
@@ -72,12 +72,5 @@ public class Usuario {
     private Boolean estado = true;
 
     @Column(name = "fecha_creacion")
-    //@Temporal(TemporalType.TIMESTAMP)
     private Date fechaCreacion = new Date();
-
-    public enum Rol {
-        ADMIN,
-        SUPERVISOR,
-        TECNICO
-    }
 }

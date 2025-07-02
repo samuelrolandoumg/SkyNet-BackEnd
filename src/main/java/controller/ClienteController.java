@@ -5,6 +5,7 @@
  */
 package controller;
 
+import dtos.CrearClienteDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,9 +26,9 @@ import services.ClienteSvc;
  *
  * @author Samuel
  */
-@Tag(name = "Categoría", description = "Controlador para gestión de categorías")
+@Tag(name = "Cliente", description = "Controlador para gestión de categorías")
 @RestController
-@RequestMapping("/categoria")
+@RequestMapping("/cliente")
 public class ClienteController {
 
     private final ClienteSvc clienteSrv;
@@ -43,12 +44,9 @@ public class ClienteController {
     }
 
     @PostMapping("/crear")
-    @Operation(summary = "se crea")
-    public void ingresarCategoria(@RequestParam(name = "nombre", required = true) String nombre,
-            @RequestParam(name = "estado", required = true) Boolean estado,
-            @RequestParam(name = "descripcion", required = true) String descripcion,
-            @RequestParam(name = "fecha", required = true) String fecha) {
-        this.clienteSrv.ingresarCategoria(nombre, estado, descripcion, fecha);
+    @Operation(summary = "Crea un nuevo cliente con geolocalización")
+    public void crearCliente(@RequestBody CrearClienteDto datos) {
+        clienteSrv.crearCliente(datos);
     }
 
 

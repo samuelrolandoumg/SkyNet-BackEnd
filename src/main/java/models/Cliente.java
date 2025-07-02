@@ -17,25 +17,23 @@ import org.springframework.data.jpa.repository.Temporal;
  *
  * @author Samuel
  */
-@Entity
-@Table(name = "categoriasv")
 @Getter
 @Setter
+@Entity
+@Table(name = "clientes")
 public class Cliente implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre")
-    private String nombreCategoria;
+    @Column(name = "nombre", length = 100)
+    private String nombre;
 
-    @Column(name = "estado")
-    private Boolean estado;
+    @Column(name = "Latitud", columnDefinition = "TEXT")
+    private String Latitud; // Ej: "14.6349152,-90.5068821"
 
-    @Column(name = "descripcion")
-    private String descripcion;
+    @Column(name = "Longitud", columnDefinition = "TEXT")
+    private String Longitud; // Ej: "14.6349152,-90.5068821"
 
-    @Column(name = "fecha_creacion")
-    private Date fechaCreacion;
 }

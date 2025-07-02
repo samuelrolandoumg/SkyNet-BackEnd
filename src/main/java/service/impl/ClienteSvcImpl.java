@@ -5,12 +5,11 @@
  */
 package service.impl;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import dtos.CrearClienteDto;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import models.Cliente;
+import models.Usuario;
 import org.springframework.stereotype.Service;
 import repository.ClienteRepository;
 import services.ClienteSvc;
@@ -35,23 +34,12 @@ public class ClienteSvcImpl implements ClienteSvc {
     }
 
     @Override
-    public void ingresarCategoria(String nombre, Boolean estado, String descripcion, String fecha) {
-        Cliente datos = new Cliente();
-
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            Date fechaParseada = sdf.parse(fecha);
-
-            datos.setNombreCategoria(nombre);
-            datos.setEstado(estado);
-            datos.setDescripcion(descripcion);
-            datos.setFechaCreacion(fechaParseada);
-
-            this.repository.save(datos);
-        } catch (ParseException e) {
-            // Podés lanzar una excepción controlada o loggear
-            throw new RuntimeException("Formato de fecha inválido: " + fecha, e);
-        }
+    public void crearCliente(CrearClienteDto datos) {
+        Cliente nuevo = new Cliente();
+        nuevo.setNombre(datos.getNombre());
+        nuevo.setLatitud(datos.getLatitud());
+        nuevo.setLongitud(datos.getLongitud());
+        repository.save(nuevo);
     }
 
 }

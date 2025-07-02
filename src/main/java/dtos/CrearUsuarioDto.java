@@ -6,7 +6,7 @@
 package dtos;
 
 import lombok.Data;
-import models.Usuario.Rol;
+import models.Roles.Rol;
 
 /**
  *
