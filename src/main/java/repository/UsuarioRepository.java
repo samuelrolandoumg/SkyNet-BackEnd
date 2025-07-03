@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import projection.DataUserProjection;
+import projection.usuariobyrolProjection;
 
 /**
  *
@@ -32,6 +33,14 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Usuario findByCorreoAndContrasena(String correo, String contrasena);
 
     Usuario findByCorreo(String correo);
+
+    @Query(value = "select nombre || ' ' || apellido as usuario,\n"
+            + "	r.id as idRol\n"
+            + "from usuarios u\n"
+            + "inner join roles r on\n"
+            + "u.id_rol = r.id\n"
+            + "where r.rol = :rol", nativeQuery = true)
+    public usuariobyrolProjection usuariobyRol(@Param("rol")String rol);
     
-    
+
 }

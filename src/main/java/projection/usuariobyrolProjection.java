@@ -10,6 +10,6 @@ package projection;
  * @author Samuel
  */
 public interface usuariobyrolProjection {
-    String getid();
-    String getnombre();
+    String getidRol();
+    String getusuario();
 }

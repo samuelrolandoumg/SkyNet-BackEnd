@@ -117,7 +117,6 @@ public class UsuarioSvcImpl implements UsuarioSvc {
     
     @Override
     public usuariobyrolProjection usuariobyRol(String rol){
-    return null;
-    //usuariobyrolProjection();
+    return usuarioRepo.usuariobyRol(rol);
     }
 }
