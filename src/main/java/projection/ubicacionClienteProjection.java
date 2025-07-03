@@ -14,4 +14,5 @@ public interface ubicacionClienteProjection {
     String getLongitud();
     String getNombreCliente();
     String getNombreNegocio();
+    Long getIdCliente();
 }

@@ -39,7 +39,7 @@ public class ClienteController {
     }
 
     @GetMapping("/coordenadas")
-    @Operation(summary = "obtener coordenadas cliente")
+    @Operation(summary = "obtener lista de coordenadas cliente")
     public ResponseEntity<List<ubicacionClienteProjection>> clientesbySuper(@RequestParam Long idSupervisor) {
         return ResponseEntity.ok(clienteSrv.clientesbySuper(idSupervisor));
     }
@@ -50,5 +50,10 @@ public class ClienteController {
         clienteSrv.crearCliente(datos);
     }
 
+    @GetMapping("/coordenadas-cliente")
+    @Operation(summary = "obtener coordenadas cliente")
+    public ResponseEntity<ubicacionClienteProjection> coordenadasCliente(@RequestParam Long idCliente) {
+        return ResponseEntity.ok(clienteSrv.coordenadasCliente(idCliente));
+    }
 
 }

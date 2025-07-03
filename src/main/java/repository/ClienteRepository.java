@@ -21,12 +21,24 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     @Query(value = "select c.latitud,\n"
             + "	c.longitud,\n"
             + "	c.nombre_cliente as nombreCliente,\n"
-            + "	c.nombre_negocio as nombreNegocio\n"
+            + "	c.nombre_negocio as nombreNegocio,\n"
+            + "	c.id as idCliente\n"
             + "from clientes c\n"
             + "inner join usuarios u on\n"
             + "c.id_supervisor = u.id\n"
             + "where u.id = :idSupervisor and c.estado = true", nativeQuery = true)
     public List<ubicacionClienteProjection> clientesbySuper(@Param("idSupervisor") Long idSupervisor);
+
+    @Query(value = "select c.latitud,\n"
+            + "	c.longitud,\n"
+            + "	c.nombre_cliente as nombreCliente,\n"
+            + "	c.nombre_negocio as nombreNegocio,\n"
+            + "	c.id as idCliente\n"
+            + "from clientes c\n"
+            + "inner join usuarios u on\n"
+            + "c.id_supervisor = u.id\n"
+            + "where c.id = :idCliente and c.estado = true", nativeQuery = true)
+    public ubicacionClienteProjection coordenadasCliente(@Param("idCliente") Long idCliente);
 
     @Query(value = "select id from roles where id = :idRol", nativeQuery = true)
     public Long finRol(@Param("idRol") Long idRol);

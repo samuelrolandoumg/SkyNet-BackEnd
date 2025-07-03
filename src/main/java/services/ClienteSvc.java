@@ -14,9 +14,12 @@ import projection.ubicacionClienteProjection;
  *
  * @author Samuel
  */
-public interface ClienteSvc{
+public interface ClienteSvc {
 
     public List<ubicacionClienteProjection> clientesbySuper(Long idSupervisor);
-    
+
     void crearCliente(CrearClienteDto datos);
+
+    public ubicacionClienteProjection coordenadasCliente(Long idCliente);
+    
 }

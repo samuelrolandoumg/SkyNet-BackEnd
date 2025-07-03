@@ -45,6 +45,14 @@ public class ClienteSvcImpl implements ClienteSvc {
     }
 
     @Override
+    public ubicacionClienteProjection coordenadasCliente(Long idCliente) {
+        return this.repository.coordenadasCliente(idCliente);
+    }
+
+    
+
+    @Override
+
     public void crearCliente(CrearClienteDto datos) {
         Cliente nuevo = new Cliente();
         nuevo.setNombreCliente(datos.getNombreCliente());
