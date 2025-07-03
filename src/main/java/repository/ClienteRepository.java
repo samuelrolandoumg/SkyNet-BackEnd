@@ -5,12 +5,12 @@
  */
 package repository;
 
+import java.util.List;
 import models.Cliente;
-import models.Roles;
-import models.Roles.Rol;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import projection.ubicacionClienteProjection;
 
 /**
  *
@@ -18,9 +18,15 @@ import org.springframework.data.repository.query.Param;
  */
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    @Query(value = "select * from clientes c\n"
-            + "where c.nombre = :nombre", nativeQuery = true)
-    public Cliente findCategoriasActivas(@Param("nombre") String nombre);
+    @Query(value = "select c.latitud,\n"
+            + "	c.longitud,\n"
+            + "	c.nombre_cliente as nombreCliente,\n"
+            + "	c.nombre_negocio as nombreNegocio\n"
+            + "from clientes c\n"
+            + "inner join usuarios u on\n"
+            + "c.id_supervisor = u.id\n"
+            + "where u.id = :idSupervisor and c.estado = true", nativeQuery = true)
+    public List<ubicacionClienteProjection> clientesbySuper(@Param("idSupervisor") Long idSupervisor);
 
     @Query(value = "select id from roles where id = :idRol", nativeQuery = true)
     public Long finRol(@Param("idRol") Long idRol);

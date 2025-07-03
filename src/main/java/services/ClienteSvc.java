@@ -8,6 +8,7 @@ package services;
 import dtos.CrearClienteDto;
 import java.util.List;
 import models.Cliente;
+import projection.ubicacionClienteProjection;
 
 /**
  *
@@ -15,7 +16,7 @@ import models.Cliente;
  */
 public interface ClienteSvc{
 
-    public Cliente obtenerActivas();
+    public List<ubicacionClienteProjection> clientesbySuper(Long idSupervisor);
     
     void crearCliente(CrearClienteDto datos);
 }

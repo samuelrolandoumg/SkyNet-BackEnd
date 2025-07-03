@@ -7,11 +7,13 @@ package service.impl;
 
 import dtos.CrearClienteDto;
 import java.util.Date;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import models.Cliente;
 import models.Roles;
 import models.Usuario;
 import org.springframework.stereotype.Service;
+import projection.ubicacionClienteProjection;
 import repository.ClienteRepository;
 import repository.RolesRepository;
 import repository.UsuarioRepository;
@@ -38,8 +40,8 @@ public class ClienteSvcImpl implements ClienteSvc {
     }
 
     @Override
-    public Cliente obtenerActivas() {
-        return this.repository.findCategoriasActivas("sa");
+    public List<ubicacionClienteProjection> clientesbySuper(Long idSupervisor) {
+        return this.repository.clientesbySuper(idSupervisor);
     }
 
     @Override

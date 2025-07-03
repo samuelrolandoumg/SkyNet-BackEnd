@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import projection.ubicacionClienteProjection;
 import services.ClienteSvc;
 
 /**
@@ -39,8 +40,8 @@ public class ClienteController {
 
     @GetMapping("/coordenadas")
     @Operation(summary = "obtener coordenadas cliente")
-    public ResponseEntity<Cliente> obtenerCategoriasActivas() {
-        return ResponseEntity.ok(clienteSrv.obtenerActivas());
+    public ResponseEntity<List<ubicacionClienteProjection>> clientesbySuper(@RequestParam Long idSupervisor) {
+        return ResponseEntity.ok(clienteSrv.clientesbySuper(idSupervisor));
     }
 
     @PostMapping("/crear")
