@@ -23,7 +23,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             + "	rol,\n"
             + "	correo\n"
             + "from\n"
-            + "	railway.usuario u\n"
+            + "	usuarios u\n"
             + "where\n"
             + "	u.correo = :usuario\n"
             + "	and u.contrasena = :password", nativeQuery = true)
@@ -32,4 +32,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Usuario findByCorreoAndContrasena(String correo, String contrasena);
 
     Usuario findByCorreo(String correo);
+    
+    
 }

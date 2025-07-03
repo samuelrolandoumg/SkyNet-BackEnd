@@ -11,8 +11,6 @@ import dtos.UsuarioDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.List;
-import models.Cliente;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import projection.DataUserProjection;
+import projection.usuariobyrolProjection;
 import services.UsuarioSvc;
 
 /**
@@ -55,4 +53,11 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDto> obtenerUsuarioDesdeToken(HttpServletRequest request) {
         return ResponseEntity.ok(usuarioService.obtenerUsuarioDesdeToken(request));
     }
+
+    @GetMapping("usuarios-rol")
+    @Operation(summary = "se listan usuarios segun su rol")
+    public ResponseEntity<usuariobyrolProjection> usuariobyRol(@RequestParam String rol) {
+        return ResponseEntity.ok(usuarioService.usuariobyRol(rol));
+    }
+
 }

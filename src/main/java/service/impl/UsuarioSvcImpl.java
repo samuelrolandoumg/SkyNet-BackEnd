@@ -18,6 +18,7 @@ import models.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import projection.DataUserProjection;
+import projection.usuariobyrolProjection;
 import repository.RolesRepository;
 import repository.UsuarioRepository;
 import services.UsuarioSvc;
@@ -112,5 +113,11 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         respuesta.setRol(usuario.getRol().toString());
         //respuesta.setToken(token);
         return respuesta;
+    }
+    
+    @Override
+    public usuariobyrolProjection usuariobyRol(String rol){
+    return null;
+    //usuariobyrolProjection();
     }
 }

@@ -9,8 +9,7 @@ import dtos.CrearUsuarioDto;
 import dtos.LoginRequestDto;
 import dtos.UsuarioDto;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.ResponseEntity;
-import projection.DataUserProjection;
+import projection.usuariobyrolProjection;
 
 /**
  *
@@ -23,4 +22,6 @@ public interface UsuarioSvc {
     public UsuarioDto login(LoginRequestDto loginDto);
 
     public UsuarioDto obtenerUsuarioDesdeToken(HttpServletRequest request);
+    
+    public usuariobyrolProjection usuariobyRol(String rol);
 }
