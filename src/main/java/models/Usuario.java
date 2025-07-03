@@ -60,9 +60,10 @@ public class Usuario {
     @Column(name = "contrasena", nullable = false, length = 255)
     private String contrasena;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "rol", nullable = false, length = 20)
-    private Rol rol;
+    // Relación automática con la tabla roles
+    @ManyToOne
+    @JoinColumn(name = "id_rol", nullable = false)
+    private Roles rol;
 
     @ManyToOne
     @JoinColumn(name = "id_supervisor")

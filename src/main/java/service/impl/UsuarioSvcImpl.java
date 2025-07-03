@@ -13,12 +13,12 @@ import exceptions.ErrorEnum;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
+import models.Roles;
 import models.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import projection.DataUserProjection;
+import repository.RolesRepository;
 import repository.UsuarioRepository;
 import services.UsuarioSvc;
 import util.JwtUtil;
@@ -32,12 +32,14 @@ import util.JwtUtil;
 public class UsuarioSvcImpl implements UsuarioSvc {
 
     private final UsuarioRepository usuarioRepo;
+    private final RolesRepository rolesRepo;
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public UsuarioSvcImpl(UsuarioRepository usuarioRepo, JwtUtil jwtUtil) {
+    public UsuarioSvcImpl(UsuarioRepository usuarioRepo, JwtUtil jwtUtil, RolesRepository rolesRepo) {
         this.usuarioRepo = usuarioRepo;
         this.jwtUtil = jwtUtil;
+        this.rolesRepo = rolesRepo;
     }
 
     @Override
@@ -52,16 +54,21 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         nuevoUsuario.setNit(datos.getNIT());
         nuevoUsuario.setDireccion(datos.getDireccion());
         nuevoUsuario.setContrasena(datos.getContrasena());
-        nuevoUsuario.setRol(datos.getRol());
+
+        // ✅ Buscar el rol por ID
+        Roles rol = rolesRepo.findById(datos.getIdRol()).orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + datos.getIdRol()));
+        nuevoUsuario.setRol(rol);
+
         nuevoUsuario.setEstado(true);
         nuevoUsuario.setFechaCreacion(new Date());
 
-        // Validamos si hay un supervisor asignado (solo si el rol lo requiere)
-        if (datos.getIdSupervisor() != null) {
-            Usuario supervisor = usuarioRepo.findById(datos.getIdSupervisor())
+        if (datos.getIdSupervisor() != null) {Usuario supervisor = usuarioRepo.findById(datos.getIdSupervisor())
                     .orElseThrow(() -> new RuntimeException("Supervisor no encontrado con ID: " + datos.getIdSupervisor()));
             nuevoUsuario.setSupervisor(supervisor);
+        } else {
+            nuevoUsuario.setSupervisor(null);
         }
+
         usuarioRepo.save(nuevoUsuario);
     }
 

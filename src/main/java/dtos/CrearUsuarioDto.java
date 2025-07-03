@@ -23,7 +23,7 @@ public class CrearUsuarioDto {
     private String correo;
     private String usuario;
     private String contrasena;
-    private Rol rol;
+    private Long idRol;
     private Long idSupervisor; // Solo el ID del supervisor para evitar referencias cíclicas
     private Boolean estado;
     private String fechaCreacion; 

@@ -3,22 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dtos;
+package services;
 
-import lombok.Data;
+import java.util.List;
 import models.Roles;
-import models.Usuario;
 
 /**
  *
  * @author Samuel
  */
-@Data
-public class CrearClienteDto {
-
-    private String nombre;
-    private String latitud;
-    private String longitud;
-    private Long idRol;
-    private Long IdSupervisor;
+public interface RolesSvc {
+    public List<Roles> roles();
 }

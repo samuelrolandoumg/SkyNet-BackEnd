@@ -5,12 +5,21 @@
  */
 package models;
 
-import jakarta.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.TemporalType;
 import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
+import models.Roles.Rol;
 import org.springframework.data.jpa.repository.Temporal;
 
 /**
@@ -21,7 +30,7 @@ import org.springframework.data.jpa.repository.Temporal;
 @Setter
 @Entity
 @Table(name = "clientes")
-public class Cliente implements Serializable {
+public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +40,17 @@ public class Cliente implements Serializable {
     private String nombre;
 
     @Column(name = "Latitud", columnDefinition = "TEXT")
-    private String Latitud; // Ej: "14.6349152,-90.5068821"
+    private String Latitud;
 
     @Column(name = "Longitud", columnDefinition = "TEXT")
-    private String Longitud; // Ej: "14.6349152,-90.5068821"
+    private String Longitud;
+
+    @ManyToOne
+    @JoinColumn(name = "id_rol", nullable = false)
+    private Roles rol;
+
+    @ManyToOne
+    @JoinColumn(name = "id_supervisor")
+    private Usuario supervisor;
 
 }
