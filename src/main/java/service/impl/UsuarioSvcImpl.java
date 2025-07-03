@@ -12,6 +12,7 @@ import exceptions.CustomException;
 import exceptions.ErrorEnum;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import models.Roles;
 import models.Usuario;
@@ -116,7 +117,7 @@ public class UsuarioSvcImpl implements UsuarioSvc {
     }
     
     @Override
-    public usuariobyrolProjection usuariobyRol(String rol){
+    public List<usuariobyrolProjection> usuariobyRol(String rol){
     return usuarioRepo.usuariobyRol(rol);
     }
 }

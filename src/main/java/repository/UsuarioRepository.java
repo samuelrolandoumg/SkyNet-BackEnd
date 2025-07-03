@@ -5,6 +5,7 @@
  */
 package repository;
 
+import java.util.List;
 import models.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -40,7 +41,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             + "inner join roles r on\n"
             + "u.id_rol = r.id\n"
             + "where r.rol = :rol", nativeQuery = true)
-    public usuariobyrolProjection usuariobyRol(@Param("rol")String rol);
+    public List<usuariobyrolProjection> usuariobyRol(@Param("rol")String rol);
     
 
 }

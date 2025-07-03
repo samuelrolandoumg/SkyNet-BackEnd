@@ -11,6 +11,7 @@ import dtos.UsuarioDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,7 +57,7 @@ public class UsuarioController {
 
     @GetMapping("usuarios-rol")
     @Operation(summary = "se listan usuarios segun su rol")
-    public ResponseEntity<usuariobyrolProjection> usuariobyRol(@RequestParam String rol) {
+    public ResponseEntity<List<usuariobyrolProjection>> usuariobyRol(@RequestParam String rol) {
         return ResponseEntity.ok(usuarioService.usuariobyRol(rol));
     }
 

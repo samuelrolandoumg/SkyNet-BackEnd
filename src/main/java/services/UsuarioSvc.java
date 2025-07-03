@@ -9,6 +9,7 @@ import dtos.CrearUsuarioDto;
 import dtos.LoginRequestDto;
 import dtos.UsuarioDto;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import projection.usuariobyrolProjection;
 
 /**
@@ -23,5 +24,5 @@ public interface UsuarioSvc {
 
     public UsuarioDto obtenerUsuarioDesdeToken(HttpServletRequest request);
     
-    public usuariobyrolProjection usuariobyRol(String rol);
+    public List<usuariobyrolProjection> usuariobyRol(String rol);
 }
