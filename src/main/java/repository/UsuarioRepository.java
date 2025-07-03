@@ -20,12 +20,13 @@ import projection.usuariobyrolProjection;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Query(value = "select\n"
-            + "	id,\n"
-            + "	nombre,\n"
-            + "	rol,\n"
-            + "	correo\n"
-            + "from\n"
-            + "	usuarios u\n"
+            + "	u.id,\n"
+            + "	u.nombre,\n"
+            + "	r.rol,\n"
+            + "	u.correo\n"
+            + "from usuarios u \n"
+            + "inner join roles r on\n"
+            + "u.id_rol = r.id\n"
             + "where\n"
             + "	u.correo = :usuario\n"
             + "	and u.contrasena = :password", nativeQuery = true)
