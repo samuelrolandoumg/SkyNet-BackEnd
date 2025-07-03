@@ -36,12 +36,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Usuario findByCorreo(String correo);
 
     @Query(value = "select nombre || ' ' || apellido as usuario,\n"
-            + "	r.id as idRol\n"
+            + "	u.id as idUsuario\n"
             + "from usuarios u\n"
             + "inner join roles r on\n"
             + "u.id_rol = r.id\n"
             + "where r.rol = :rol", nativeQuery = true)
-    public List<usuariobyrolProjection> usuariobyRol(@Param("rol")String rol);
-    
+    public List<usuariobyrolProjection> usuariobyRol(@Param("rol") String rol);
 
 }
