@@ -45,24 +45,24 @@ public class ClienteSvcImpl implements ClienteSvc {
     @Override
     public void crearCliente(CrearClienteDto datos) {
         Cliente nuevo = new Cliente();
-        nuevo.setNombre(datos.getNombre());
+        nuevo.setNombreCliente(datos.getNombreCliente());
+        nuevo.setNombreNegocio(datos.getNombreNegocio());
         nuevo.setLatitud(datos.getLatitud());
         nuevo.setLongitud(datos.getLongitud());
+        nuevo.setNit(datos.getNit());
+        nuevo.setTelefono(datos.getTelefono());
+        nuevo.setCorreo(datos.getCorreo());
+        nuevo.setEstado(datos.getEstado() != null ? datos.getEstado() : true);
+        nuevo.setFechaRegistro(new Date());
 
-        Long roles = repository.finRol(datos.getIdRol());
-        if (roles.equals("")) {
-            return;
-        }
-
-        // ✅ Buscar el rol por ID
-        Roles rol = rolesRepo.findById(datos.getIdRol()).orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + datos.getIdRol()));
+        Roles rol = rolesRepo.findById(datos.getIdRol())
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + datos.getIdRol()));
         nuevo.setRol(rol);
+
         if (datos.getIdSupervisor() != null) {
             Usuario supervisor = usuarioRepo.findById(datos.getIdSupervisor())
                     .orElseThrow(() -> new RuntimeException("Supervisor no encontrado con ID: " + datos.getIdSupervisor()));
             nuevo.setSupervisor(supervisor);
-        } else {
-            nuevo.setSupervisor(null);
         }
 
         repository.save(nuevo);

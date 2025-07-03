@@ -15,10 +15,15 @@ import models.Usuario;
  */
 @Data
 public class CrearClienteDto {
-
-    private String nombre;
+    private String nombreCliente;
+    private String nombreNegocio;
     private String latitud;
     private String longitud;
     private Long idRol;
-    private Long IdSupervisor;
+    private Long idSupervisor;
+
+    private String nit;
+    private String telefono;
+    private String correo;
+    private Boolean estado;
 }

@@ -36,14 +36,32 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre", length = 100)
-    private String nombre;
+    @Column(name = "nombre_cliente", length = 100)
+    private String nombreCliente;
 
-    @Column(name = "Latitud", columnDefinition = "TEXT")
-    private String Latitud;
+    @Column(name = "nombre_negocio", length = 100)
+    private String nombreNegocio;
 
-    @Column(name = "Longitud", columnDefinition = "TEXT")
-    private String Longitud;
+    @Column(name = "latitud", columnDefinition = "TEXT")
+    private String latitud;
+
+    @Column(name = "longitud", columnDefinition = "TEXT")
+    private String longitud;
+
+    @Column(name = "nit", length = 20)
+    private String nit;
+
+    @Column(name = "telefono", length = 20)
+    private String telefono;
+
+    @Column(name = "correo", length = 100)
+    private String correo;
+
+    @Column(name = "fecha_registro")
+    private Date fechaRegistro;
+
+    @Column(name = "estado")
+    private Boolean estado = true;
 
     @ManyToOne
     @JoinColumn(name = "id_rol", nullable = false)
@@ -52,5 +70,4 @@ public class Cliente {
     @ManyToOne
     @JoinColumn(name = "id_supervisor")
     private Usuario supervisor;
-
 }
