@@ -70,9 +70,9 @@ public class ClienteSvcImpl implements ClienteSvc {
         nuevo.setRol(rol);
 
         if (datos.getIdSupervisor() != null) {
-            Usuario supervisor = usuarioRepo.findById(datos.getIdSupervisor())
+            Usuario tecnico = usuarioRepo.findById(datos.getIdSupervisor())
                     .orElseThrow(() -> new RuntimeException("Supervisor no encontrado con ID: " + datos.getIdSupervisor()));
-            nuevo.setSupervisor(supervisor);
+            nuevo.setTecnico(tecnico);
         }
 
         repository.save(nuevo);

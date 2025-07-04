@@ -64,7 +64,8 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         nuevoUsuario.setEstado(true);
         nuevoUsuario.setFechaCreacion(new Date());
 
-        if (datos.getIdSupervisor() != null) {Usuario supervisor = usuarioRepo.findById(datos.getIdSupervisor())
+        if (datos.getIdSupervisor() != null) {
+            Usuario supervisor = usuarioRepo.findById(datos.getIdSupervisor())
                     .orElseThrow(() -> new RuntimeException("Supervisor no encontrado con ID: " + datos.getIdSupervisor()));
             nuevoUsuario.setSupervisor(supervisor);
         } else {
@@ -115,9 +116,14 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         //respuesta.setToken(token);
         return respuesta;
     }
-    
+
     @Override
-    public List<usuariobyrolProjection> usuariobyRol(String rol){
-    return usuarioRepo.usuariobyRol(rol);
+    public List<usuariobyrolProjection> usuariobyRol(String rol) {
+        return usuarioRepo.usuariobyRol(rol);
+    }
+
+    @Override
+    public List<usuariobyrolProjection> tecnicobySupervisor(Long idSupervisor) {
+        return usuarioRepo.tecnicobySupervisor(idSupervisor);
     }
 }

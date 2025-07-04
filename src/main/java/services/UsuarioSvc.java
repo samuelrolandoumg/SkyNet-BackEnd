@@ -23,6 +23,10 @@ public interface UsuarioSvc {
     public UsuarioDto login(LoginRequestDto loginDto);
 
     public UsuarioDto obtenerUsuarioDesdeToken(HttpServletRequest request);
-    
+
     public List<usuariobyrolProjection> usuariobyRol(String rol);
+
+    public List<usuariobyrolProjection> tecnicobySupervisor(Long idSupervisor);
+
+    
 }

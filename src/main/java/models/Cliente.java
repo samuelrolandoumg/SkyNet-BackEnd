@@ -68,6 +68,6 @@ public class Cliente {
     private Roles rol;
 
     @ManyToOne
-    @JoinColumn(name = "id_supervisor")
-    private Usuario supervisor;
+    @JoinColumn(name = "id_tecnico")
+    private Usuario tecnico;
 }

@@ -61,4 +61,10 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.usuariobyRol(rol));
     }
 
+    @GetMapping("tecnicos-supervisor")
+    @Operation(summary = "se listan usuarios segun su rol")
+    public ResponseEntity<List<usuariobyrolProjection>> tecnicobySupervisor(@RequestParam Long idSupervisor) {
+        return ResponseEntity.ok(usuarioService.tecnicobySupervisor(idSupervisor));
+    }
+
 }

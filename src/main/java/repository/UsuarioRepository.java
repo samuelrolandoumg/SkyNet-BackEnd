@@ -44,4 +44,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             + "where r.rol = :rol", nativeQuery = true)
     public List<usuariobyrolProjection> usuariobyRol(@Param("rol") String rol);
 
+    @Query(value = "select nombre || ' ' || apellido as usuario,\n"
+            + "	u.id as idUsuario\n"
+            + "from usuarios u\n"
+            + "inner join roles r on\n"
+            + "u.id_rol = r.id\n"
+            + "where u.id_supervisor = :idSupervisor", nativeQuery = true)
+    public List<usuariobyrolProjection> tecnicobySupervisor(@Param("idSupervisor") Long idSupervisor);
+
 }
