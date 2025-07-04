@@ -21,7 +21,7 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "visitas")
 public class Visita {
-
+    //trae el id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
