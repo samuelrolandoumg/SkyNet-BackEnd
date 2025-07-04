@@ -25,8 +25,8 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
             + "	c.id as idCliente\n"
             + "from clientes c\n"
             + "inner join usuarios u on\n"
-            + "c.id_supervisor = u.id\n"
-            + "where u.id = :idSupervisor and c.estado = true", nativeQuery = true)
+            + "c.id_tecnico = u.id\n"
+            + "where u.id_supervisor = :idSupervisor and c.estado = true", nativeQuery = true)
     public List<ubicacionClienteProjection> clientesbySuper(@Param("idSupervisor") Long idSupervisor);
 
     @Query(value = "select c.latitud,\n"
