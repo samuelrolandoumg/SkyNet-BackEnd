@@ -69,9 +69,9 @@ public class ClienteSvcImpl implements ClienteSvc {
                 .orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + datos.getIdRol()));
         nuevo.setRol(rol);
 
-        if (datos.getIdSupervisor() != null) {
-            Usuario tecnico = usuarioRepo.findById(datos.getIdSupervisor())
-                    .orElseThrow(() -> new RuntimeException("Supervisor no encontrado con ID: " + datos.getIdSupervisor()));
+        if (datos.getIdTecnico() != null) {
+            Usuario tecnico = usuarioRepo.findById(datos.getIdTecnico())
+                    .orElseThrow(() -> new RuntimeException("Supervisor no encontrado con ID: " + datos.getIdTecnico()));
             nuevo.setTecnico(tecnico);
         }
 
