@@ -11,9 +11,9 @@ package projection;
  */
 public interface VisitasTecnicoProjection {
     String getLatitud();
+    
     String getLongitud();
     String getNombreCliente();
-    
     String getNombreNegocio();
     Long getIdCliente();
     String getfechaVisita();
