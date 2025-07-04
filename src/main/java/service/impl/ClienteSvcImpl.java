@@ -14,6 +14,7 @@ import models.Roles;
 import models.Usuario;
 import org.springframework.stereotype.Service;
 import projection.ubicacionClienteProjection;
+import projection.usuariobyrolProjection;
 import repository.ClienteRepository;
 import repository.RolesRepository;
 import repository.UsuarioRepository;
@@ -49,10 +50,13 @@ public class ClienteSvcImpl implements ClienteSvc {
         return this.repository.coordenadasCliente(idCliente);
     }
 
-    
-
     @Override
+    public List<usuariobyrolProjection> clientesbyTecnico(Long idTecnico) {
+        return this.repository.clientesbyTecnico(idTecnico);
+    }
 
+    
+    @Override
     public void crearCliente(CrearClienteDto datos) {
         Cliente nuevo = new Cliente();
         nuevo.setNombreCliente(datos.getNombreCliente());

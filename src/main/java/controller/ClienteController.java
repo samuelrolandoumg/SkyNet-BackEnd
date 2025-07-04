@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import projection.ubicacionClienteProjection;
+import projection.usuariobyrolProjection;
 import services.ClienteSvc;
 
 /**
@@ -54,6 +55,12 @@ public class ClienteController {
     @Operation(summary = "obtener coordenadas cliente")
     public ResponseEntity<ubicacionClienteProjection> coordenadasCliente(@RequestParam Long idCliente) {
         return ResponseEntity.ok(clienteSrv.coordenadasCliente(idCliente));
+    }
+
+    @GetMapping("clientes-tecnico")
+    @Operation(summary = "se listan usuarios segun su rol")
+    public ResponseEntity<List<usuariobyrolProjection>> clientesbyTecnico(@RequestParam Long idTecnico) {
+        return ResponseEntity.ok(clienteSrv.clientesbyTecnico(idTecnico));
     }
 
 }

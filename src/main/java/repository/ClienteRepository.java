@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import projection.ubicacionClienteProjection;
+import projection.usuariobyrolProjection;
 
 /**
  *
@@ -43,4 +44,9 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     @Query(value = "select id from roles where id = :idRol", nativeQuery = true)
     public Long finRol(@Param("idRol") Long idRol);
 
+    @Query(value = "select c.id as idUsuario,\n"
+            + "	c.nombre_cliente as usuario\n"
+            + "from clientes c \n"
+            + "where c.id_tecnico = :idTecnico", nativeQuery = true)
+    public List<usuariobyrolProjection> clientesbyTecnico(@Param("idTecnico") Long idTecnico);
 }

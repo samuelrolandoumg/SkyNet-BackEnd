@@ -9,6 +9,7 @@ import dtos.CrearClienteDto;
 import java.util.List;
 import models.Cliente;
 import projection.ubicacionClienteProjection;
+import projection.usuariobyrolProjection;
 
 /**
  *
@@ -21,5 +22,7 @@ public interface ClienteSvc {
     void crearCliente(CrearClienteDto datos);
 
     public ubicacionClienteProjection coordenadasCliente(Long idCliente);
-    
+
+    public List<usuariobyrolProjection> clientesbyTecnico(Long idTecnico);
+
 }
