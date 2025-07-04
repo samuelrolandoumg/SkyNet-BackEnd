@@ -7,12 +7,14 @@ package service.impl;
 
 import dtos.CrearVisitaDto;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import models.Cliente;
 import models.Usuario;
 import models.Visita;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import projection.VisitasTecnicoProjection;
 import repository.ClienteRepository;
 import repository.UsuarioRepository;
 import repository.VisitaRepository;
@@ -56,5 +58,9 @@ public class VisitaSvcImpl implements VisitaSvc {
         nueva.setEstado("CREADO");
 
         visitaRepo.save(nueva);
+    }
+
+    public List<VisitasTecnicoProjection> visitasbyTecnico(Long idTecnico) {
+        return this.visitaRepo.visitasbyTecnico(idTecnico);
     }
 }

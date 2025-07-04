@@ -6,6 +6,8 @@
 package services;
 
 import dtos.CrearVisitaDto;
+import java.util.List;
+import projection.VisitasTecnicoProjection;
 
 /**
  *
@@ -13,4 +15,6 @@ import dtos.CrearVisitaDto;
  */
 public interface VisitaSvc {
     public void crearVisita(CrearVisitaDto dto);
+    
+    public List<VisitasTecnicoProjection> visitasbyTecnico(Long idTecnico);
 }
