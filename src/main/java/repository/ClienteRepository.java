@@ -36,7 +36,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
             + "	c.id as idCliente\n"
             + "from clientes c\n"
             + "inner join usuarios u on\n"
-            + "c.id_supervisor = u.id\n"
+            + "c.id_tecnico = u.id\n"
             + "where c.id = :idCliente and c.estado = true", nativeQuery = true)
     public ubicacionClienteProjection coordenadasCliente(@Param("idCliente") Long idCliente);
 
