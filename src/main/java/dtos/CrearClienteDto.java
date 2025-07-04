@@ -20,7 +20,7 @@ public class CrearClienteDto {
     private String latitud;
     private String longitud;
     private Long idRol;
-    private Long idSupervisor;
+    private Long idTecnico;
 
     private String nit;
     private String telefono;
