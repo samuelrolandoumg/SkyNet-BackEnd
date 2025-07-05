@@ -14,13 +14,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "visitas")
 public class Visita {
+
     //trae el id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,12 +31,15 @@ public class Visita {
     @Column(name = "fecha_visita", nullable = false)
     private LocalDate fechaVisita;
 
+    @Column(name = "fecha_creacion", nullable = false)
+    private Date fechaCreacion;
+
     @Column(name = "hora_ingreso")
-    private LocalTime horaIngreso;
+    private LocalDateTime horaIngreso;
 
     @Column(name = "hora_egreso")
-    private LocalTime horaEgreso;
-
+    private LocalDateTime horaEgreso;
+    
     @Column(name = "latitud_ingreso", columnDefinition = "TEXT")
     private String latitudIngreso;
 

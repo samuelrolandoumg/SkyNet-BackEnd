@@ -7,6 +7,7 @@ package service.impl;
 
 import dtos.CrearVisitaDto;
 import jakarta.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import models.Cliente;
@@ -40,6 +41,7 @@ public class VisitaSvcImpl implements VisitaSvc {
     @Override
     @Transactional
     public void crearVisita(CrearVisitaDto dto) {
+        Date fecha = new Date();
         Visita nueva = new Visita();
 
         Cliente cliente = clienteRepo.findById(dto.getIdCliente())
@@ -55,6 +57,7 @@ public class VisitaSvcImpl implements VisitaSvc {
         nueva.setTecnico(tecnico);
         nueva.setSupervisor(supervisor);
         nueva.setFechaVisita(dto.getFechaVisita());
+        nueva.setFechaCreacion(fecha);
         nueva.setEstado("CREADO");
 
         visitaRepo.save(nueva);
