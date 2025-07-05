@@ -11,7 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import services.DetalleVisitaSvc;
 
 /**
@@ -29,9 +32,15 @@ public class DetalleVisitaController {
         this.detalleVisitaSvc = detalleVisitaSvc;
     }
 
-    @PostMapping("/crear")
-    public ResponseEntity<String> crearDetalleVisita(@RequestBody DetalleVisitaDto dto) {
-        detalleVisitaSvc.crearDetalleVisita(dto);
+    @PostMapping(value = "/crear", consumes = "multipart/form-data")
+    public ResponseEntity<String> crearDetalleVisita(
+            @RequestParam("idVisita") Long idVisita,
+            @RequestParam("resultadoVisita") String resultadoVisita,
+            @RequestParam(value = "observaciones", required = false) String observaciones,
+            @RequestParam(value = "comentarioAdicional", required = false) String comentarioAdicional,
+            @RequestPart("fotos") MultipartFile[] fotos) {
+
+        detalleVisitaSvc.crearDetalleVisita(idVisita, resultadoVisita, observaciones, comentarioAdicional, fotos);
         return ResponseEntity.ok("Detalle de visita creado correctamente");
     }
 }

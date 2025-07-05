@@ -5,7 +5,7 @@
  */
 package services;
 
-import dtos.DetalleVisitaDto;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -13,6 +13,6 @@ import dtos.DetalleVisitaDto;
  */
 public interface DetalleVisitaSvc {
 
-    void crearDetalleVisita(DetalleVisitaDto dto);
+   public void crearDetalleVisita(Long idVisita, String resultadoVisita, String observaciones, String comentarioAdicional, MultipartFile[] fotos);
 
 }
