@@ -6,6 +6,8 @@
 package service.impl;
 
 import dtos.CrearVisitaDto;
+import exceptions.CustomException;
+import exceptions.ErrorEnum;
 import jakarta.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
@@ -63,7 +65,23 @@ public class VisitaSvcImpl implements VisitaSvc {
         visitaRepo.save(nueva);
     }
 
+    @Override
     public List<VisitasTecnicoProjection> visitasbyTecnico(Long idTecnico) {
         return this.visitaRepo.visitasbyTecnico(idTecnico);
     }
+
+    @Override
+    @Transactional
+    public String iniciarServicio(Date fechaIngreso, Long idVisita) {
+        //0 si no se ha empezado, 1 si ya se inicio
+        Long empezado = this.visitaRepo.getinicioServicio(idVisita);
+
+        if (empezado == 1) {
+            throw new RuntimeException("ya se ha registrado un inicio de servicio");
+        }
+
+        this.iniciarServicio(fechaIngreso, idVisita);
+        return "se ha iniciado la hora del servicio";
+    }
+
 }

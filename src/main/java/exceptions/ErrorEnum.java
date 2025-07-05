@@ -10,9 +10,9 @@ package exceptions;
  * @author Samuel
  */
 public enum ErrorEnum {
-    S_DESCONOCIDO   (1000, EstadoHttp.UNAUTHORIZED, "Credenciales de usuario inválidas."),
-    TOKEN_I           (1001, EstadoHttp.UNAUTHORIZED, "Token invalido");
-
+    S_DESCONOCIDO(1000, EstadoHttp.UNAUTHORIZED, "Credenciales de usuario inválidas."),
+    TOKEN_I(1001, EstadoHttp.UNAUTHORIZED, "Token invalido");
+    
     private final int codigo;
     private final int estadoHttp;
     private final String mensaje;

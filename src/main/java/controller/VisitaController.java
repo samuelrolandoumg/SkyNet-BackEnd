@@ -8,6 +8,7 @@ package controller;
 import dtos.CrearVisitaDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.Date;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +45,13 @@ public class VisitaController {
     @Operation(summary = "se listan usuarios segun su rol")
     public ResponseEntity<List<VisitasTecnicoProjection>> visitasbyTecnico(@RequestParam Long idTecnico) {
         return ResponseEntity.ok(visitaSvc.visitasbyTecnico(idTecnico));
+    }
+    
+    @PostMapping("iniciar-servicio")
+    @Operation(summary = "el tecnico inicia el servicio")
+    public ResponseEntity<String> iniciarServicio(@RequestParam Date fechaIngreso,
+            @RequestParam Long idVisita){
+        return ResponseEntity.ok(visitaSvc.iniciarServicio(fechaIngreso, idVisita));
     }
 
 }

@@ -5,9 +5,12 @@
  */
 package repository;
 
+import jakarta.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import models.Visita;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import projection.VisitasTecnicoProjection;
@@ -31,4 +34,23 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
             + "where v.id_tecnico = :idTecnico\n"
             + "order by v.fecha_visita desc", nativeQuery = true)
     public List<VisitasTecnicoProjection> visitasbyTecnico(@Param("idTecnico") Long idTecnico);
+
+    @Query(value = "select case\n"
+            + "   when exists (\n"
+            + "       select 1\n"
+            + "       from visitas v\n"
+            + "       where v.id = :idVisita\n"
+            + "         and v.hora_egreso is not null)\n"
+            + "   then 1\n"
+            + "   else 0\n"
+            + "end as resultado", nativeQuery = true)
+    public Long getinicioServicio(@Param("idVisita") Long idVisita);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update visitas \n"
+            + "set hora_egreso = :fechaIngreso\n"
+            + "where id = :idVisita", nativeQuery = true)
+    public String iniciarServicio(@Param("fechaIngreso") Date fechaIngreso, @Param("idVisita") Long idVisita);
+
 }

@@ -35,10 +35,10 @@ public class Visita {
     private Date fechaCreacion;
 
     @Column(name = "hora_ingreso")
-    private LocalDateTime horaIngreso;
+    private Date horaIngreso;
 
     @Column(name = "hora_egreso")
-    private LocalDateTime horaEgreso;
+    private Date horaEgreso;
     
     @Column(name = "latitud_ingreso", columnDefinition = "TEXT")
     private String latitudIngreso;
