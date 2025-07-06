@@ -51,10 +51,9 @@ public class VisitaController {
 
     @PostMapping("iniciar-servicio")
     @Operation(summary = "el tecnico inicia el servicio")
-    public ResponseEntity<String> iniciarServicio(
+    public void iniciarServicio(
             @RequestParam Long idVisita) {
-
-        return ResponseEntity.ok(visitaSvc.iniciarServicio(idVisita));
+        visitaSvc.iniciarServicio(idVisita);
     }
 
 }

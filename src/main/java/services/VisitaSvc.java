@@ -20,5 +20,5 @@ public interface VisitaSvc {
     
     public List<VisitasTecnicoProjection> visitasbyTecnico(Long idTecnico);
     
-    public String iniciarServicio (Long idVisita);
+    public void iniciarServicio (Long idVisita);
 }
