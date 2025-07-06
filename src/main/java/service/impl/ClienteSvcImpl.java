@@ -6,6 +6,8 @@
 package service.impl;
 
 import dtos.CrearClienteDto;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -55,9 +57,12 @@ public class ClienteSvcImpl implements ClienteSvc {
         return this.repository.clientesbyTecnico(idTecnico);
     }
 
-    
     @Override
     public void crearCliente(CrearClienteDto datos) {
+        LocalDateTime fecha = LocalDateTime.now();
+
+        Date fechaConvertida = Date.from(fecha.atZone(ZoneId.systemDefault()).toInstant());
+
         Cliente nuevo = new Cliente();
         nuevo.setNombreCliente(datos.getNombreCliente());
         nuevo.setNombreNegocio(datos.getNombreNegocio());
@@ -67,7 +72,7 @@ public class ClienteSvcImpl implements ClienteSvc {
         nuevo.setTelefono(datos.getTelefono());
         nuevo.setCorreo(datos.getCorreo());
         nuevo.setEstado(datos.getEstado() != null ? datos.getEstado() : true);
-        nuevo.setFechaRegistro(new Date());
+        nuevo.setFechaRegistro(fechaConvertida);
 
         Roles rol = rolesRepo.findById(datos.getIdRol())
                 .orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + datos.getIdRol()));

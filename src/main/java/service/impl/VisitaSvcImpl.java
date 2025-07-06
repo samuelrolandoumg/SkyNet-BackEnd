@@ -9,6 +9,8 @@ import dtos.CrearVisitaDto;
 import exceptions.CustomException;
 import exceptions.ErrorEnum;
 import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +45,9 @@ public class VisitaSvcImpl implements VisitaSvc {
     @Override
     @Transactional
     public void crearVisita(CrearVisitaDto dto) {
-        Date fecha = new Date();
+        LocalDateTime fecha = LocalDateTime.now();
+        Date fechaConvertida = Date.from(fecha.atZone(ZoneId.systemDefault()).toInstant());
+
         Visita nueva = new Visita();
 
         Cliente cliente = clienteRepo.findById(dto.getIdCliente())
@@ -59,7 +63,7 @@ public class VisitaSvcImpl implements VisitaSvc {
         nueva.setTecnico(tecnico);
         nueva.setSupervisor(supervisor);
         nueva.setFechaVisita(dto.getFechaVisita());
-        nueva.setFechaCreacion(fecha);
+        nueva.setFechaCreacion(fechaConvertida);
         nueva.setEstado("CREADO");
 
         visitaRepo.save(nueva);
@@ -74,7 +78,7 @@ public class VisitaSvcImpl implements VisitaSvc {
     @Transactional
     public void iniciarServicio(Long idVisita) {
 
-        Date fecha = new Date();
+        LocalDateTime fecha = LocalDateTime.now(ZoneId.of("America/Guatemala"));
         log.debug("Fecha actual: {}", fecha);
 
         Integer empezado = this.visitaRepo.getinicioServicio(idVisita);

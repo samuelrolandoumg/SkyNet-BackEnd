@@ -11,6 +11,8 @@ import dtos.UsuarioDto;
 import exceptions.CustomException;
 import exceptions.ErrorEnum;
 import jakarta.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +48,9 @@ public class UsuarioSvcImpl implements UsuarioSvc {
 
     @Override
     public void crearUsuario(CrearUsuarioDto datos) {
+        LocalDateTime fecha = LocalDateTime.now();
+        Date fechaConvertida = Date.from(fecha.atZone(ZoneId.systemDefault()).toInstant());
+        
         Usuario nuevoUsuario = new Usuario();
 
         nuevoUsuario.setNombre(datos.getNombre());
@@ -62,7 +67,7 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         nuevoUsuario.setRol(rol);
 
         nuevoUsuario.setEstado(true);
-        nuevoUsuario.setFechaCreacion(new Date());
+        nuevoUsuario.setFechaCreacion(fechaConvertida);
 
         if (datos.getIdSupervisor() != null) {
             Usuario supervisor = usuarioRepo.findById(datos.getIdSupervisor())

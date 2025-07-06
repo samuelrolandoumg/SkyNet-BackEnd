@@ -6,6 +6,7 @@
 package repository;
 
 import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import models.Visita;
@@ -51,6 +52,6 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
     @Query(value = "update visitas \n"
             + "set hora_ingreso = :fechaIngreso\n"
             + "where id = :idVisita", nativeQuery = true)
-    public void iniciarServicio(@Param("fechaIngreso") Date fechaIngreso, @Param("idVisita") Long idVisita);
+    public void iniciarServicio(@Param("fechaIngreso") LocalDateTime fechaIngreso, @Param("idVisita") Long idVisita);
 
 }
