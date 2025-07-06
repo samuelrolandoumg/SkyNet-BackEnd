@@ -52,10 +52,9 @@ public class VisitaController {
     @PostMapping("iniciar-servicio")
     @Operation(summary = "el tecnico inicia el servicio")
     public ResponseEntity<String> iniciarServicio(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date fechaIngreso,
             @RequestParam Long idVisita) {
 
-        return ResponseEntity.ok(visitaSvc.iniciarServicio(fechaIngreso, idVisita));
+        return ResponseEntity.ok(visitaSvc.iniciarServicio(idVisita));
     }
 
 }

@@ -72,7 +72,9 @@ public class VisitaSvcImpl implements VisitaSvc {
 
     @Override
     @Transactional
-    public String iniciarServicio(Date fechaIngreso, Long idVisita) {
+    public String iniciarServicio(Long idVisita) {
+        
+        Date fecha = new Date();
         //0 si no se ha empezado, 1 si ya se inicio
         Long empezado = this.visitaRepo.getinicioServicio(idVisita);
 
@@ -80,7 +82,7 @@ public class VisitaSvcImpl implements VisitaSvc {
             throw new RuntimeException("ya se ha registrado un inicio de servicio");
         }
 
-        this.visitaRepo.iniciarServicio(fechaIngreso, idVisita);
+        this.visitaRepo.iniciarServicio(fecha, idVisita);
         return "se ha iniciado la hora del servicio";
     }
 
