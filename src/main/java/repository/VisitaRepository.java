@@ -40,7 +40,7 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
             + "       select 1\n"
             + "       from visitas v\n"
             + "       where v.id = :idVisita\n"
-            + "         and v.hora_egreso is not null)\n"
+            + "         and v.hora_ingreso is not null)\n"
             + "   then 1\n"
             + "   else 0\n"
             + "end as resultado", nativeQuery = true)
@@ -49,7 +49,7 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
     @Transactional
     @Modifying
     @Query(value = "update visitas \n"
-            + "set hora_egreso = :fechaIngreso\n"
+            + "set hora_ingreso = :fechaIngreso\n"
             + "where id = :idVisita", nativeQuery = true)
     public void iniciarServicio(@Param("fechaIngreso") Date fechaIngreso, @Param("idVisita") Long idVisita);
 

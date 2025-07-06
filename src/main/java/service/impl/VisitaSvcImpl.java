@@ -74,19 +74,16 @@ public class VisitaSvcImpl implements VisitaSvc {
     @Transactional
     public void iniciarServicio(Long idVisita) {
 
-        try {
-            Date fecha = new Date();
-            //0 si no se ha empezado, 1 si ya se inicio
-            Integer empezado = this.visitaRepo.getinicioServicio(idVisita);
+        Date fecha = new Date();
+        log.debug("Fecha actual: {}", fecha);
 
-            if (empezado == 1) {
-                throw new RuntimeException("ya se ha registrado un inicio de servicio");
-            }
+        Integer empezado = this.visitaRepo.getinicioServicio(idVisita);
 
-            this.visitaRepo.iniciarServicio(fecha, idVisita);
-        } catch (Exception e) {
+        if (empezado == 1) {
+            throw new CustomException(ErrorEnum.SERVICIO_REGISTRADO);
         }
 
+        this.visitaRepo.iniciarServicio(fecha, idVisita);
     }
 
 }
