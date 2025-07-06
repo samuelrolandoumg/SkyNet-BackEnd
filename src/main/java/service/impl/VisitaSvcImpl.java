@@ -80,7 +80,7 @@ public class VisitaSvcImpl implements VisitaSvc {
             throw new RuntimeException("ya se ha registrado un inicio de servicio");
         }
 
-        this.iniciarServicio(fechaIngreso, idVisita);
+        this.visitaRepo.iniciarServicio(fechaIngreso, idVisita);
         return "se ha iniciado la hora del servicio";
     }
 
