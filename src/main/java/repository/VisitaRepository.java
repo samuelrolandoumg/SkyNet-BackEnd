@@ -32,7 +32,8 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
             + "from visitas v\n"
             + "inner join clientes c on\n"
             + "c.id_tecnico = v.id_tecnico\n"
-            + "where v.id_tecnico = :idTecnico\n"
+            + "where v.id_tecnico = :idTecnico \n"
+            + "	and v.hora_egreso is not null\n"
             + "order by v.fecha_visita desc", nativeQuery = true)
     public List<VisitasTecnicoProjection> visitasbyTecnico(@Param("idTecnico") Long idTecnico);
 
