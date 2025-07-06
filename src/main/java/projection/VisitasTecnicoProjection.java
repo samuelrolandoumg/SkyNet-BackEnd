@@ -17,4 +17,5 @@ public interface VisitasTecnicoProjection {
     Long getIdCliente();
     String getfechaVisita();
     Long getidVisita();
+    String getEstado();
 }
