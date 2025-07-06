@@ -52,8 +52,7 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
     @Override
     @Transactional
     public void crearDetalleVisita(Long idVisita, String resultadoVisita, String observaciones, String comentarioAdicional, MultipartFile[] fotos) {
-        Visita visita = visitaRepo.findById(idVisita)
-                .orElseThrow(() -> new RuntimeException("Visita no encontrada"));
+        Visita visita = visitaRepo.findById(idVisita).orElseThrow(() -> new RuntimeException("Visita no encontrada"));
 
         DetalleVisita detalle = new DetalleVisita();
         detalle.setVisita(visita);
@@ -61,7 +60,7 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
         detalle.setObservaciones(observaciones);
         detalle.setComentarioAdicional(comentarioAdicional);
 
-        if (resultadoVisita.toLowerCase().contains("incidencia")) {
+        if (resultadoVisita.toLowerCase().contains("Incidencia")) {
             detalle.setTipoIncidencia("GENERICA");
         }
 
@@ -101,7 +100,5 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
 
             seguimientoRepo.save(seguimiento);
         }
-
-        log.info("Detalle de visita creado con ID: {}", detalle.getId());
     }
 }

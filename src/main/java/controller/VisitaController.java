@@ -6,12 +6,10 @@
 package controller;
 
 import dtos.CrearVisitaDto;
+import dtos.iniciarServicioDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,9 +49,8 @@ public class VisitaController {
 
     @PostMapping("iniciar-servicio")
     @Operation(summary = "el tecnico inicia el servicio")
-    public void iniciarServicio(
-            @RequestParam Long idVisita) {
-        visitaSvc.iniciarServicio(idVisita);
+    public void iniciarServicio(@RequestBody iniciarServicioDto datos) {
+        visitaSvc.iniciarServicio(datos);
     }
 
 }

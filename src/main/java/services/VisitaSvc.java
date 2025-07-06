@@ -6,6 +6,7 @@
 package services;
 
 import dtos.CrearVisitaDto;
+import dtos.iniciarServicioDto;
 import java.util.Date;
 import java.util.List;
 import projection.VisitasTecnicoProjection;
@@ -20,5 +21,5 @@ public interface VisitaSvc {
     
     public List<VisitasTecnicoProjection> visitasbyTecnico(Long idTecnico);
     
-    public void iniciarServicio (Long idVisita);
+    public void iniciarServicio(iniciarServicioDto datos);
 }

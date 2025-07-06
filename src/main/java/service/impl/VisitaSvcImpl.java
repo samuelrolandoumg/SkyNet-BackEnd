@@ -6,6 +6,7 @@
 package service.impl;
 
 import dtos.CrearVisitaDto;
+import dtos.iniciarServicioDto;
 import exceptions.CustomException;
 import exceptions.ErrorEnum;
 import jakarta.transaction.Transactional;
@@ -76,18 +77,24 @@ public class VisitaSvcImpl implements VisitaSvc {
 
     @Override
     @Transactional
-    public void iniciarServicio(Long idVisita) {
+    public void iniciarServicio(iniciarServicioDto datos) {
 
         LocalDateTime fecha = LocalDateTime.now(ZoneId.of("America/Guatemala"));
         log.debug("Fecha actual: {}", fecha);
 
-        Integer empezado = this.visitaRepo.getinicioServicio(idVisita);
+        Integer empezado = this.visitaRepo.getinicioServicio(datos.getIdVisita());
 
         if (empezado == 1) {
             throw new CustomException(ErrorEnum.SERVICIO_REGISTRADO);
         }
 
-        this.visitaRepo.iniciarServicio(fecha, idVisita);
+        this.visitaRepo.iniciarServicio(
+                fecha,
+                datos.getLatitud(),
+                datos.getLongitud(),
+                datos.getEstado(),
+                datos.getIdVisita()
+        );
     }
 
 }
