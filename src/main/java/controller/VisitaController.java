@@ -8,8 +8,10 @@ package controller;
 import dtos.CrearVisitaDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,11 +48,13 @@ public class VisitaController {
     public ResponseEntity<List<VisitasTecnicoProjection>> visitasbyTecnico(@RequestParam Long idTecnico) {
         return ResponseEntity.ok(visitaSvc.visitasbyTecnico(idTecnico));
     }
-    
+
     @PostMapping("iniciar-servicio")
     @Operation(summary = "el tecnico inicia el servicio")
-    public ResponseEntity<String> iniciarServicio(@RequestParam Date fechaIngreso,
-            @RequestParam Long idVisita){
+    public ResponseEntity<String> iniciarServicio(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date fechaIngreso,
+            @RequestParam Long idVisita) {
+
         return ResponseEntity.ok(visitaSvc.iniciarServicio(fechaIngreso, idVisita));
     }
 
