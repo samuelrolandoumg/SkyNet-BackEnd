@@ -76,7 +76,7 @@ public class VisitaSvcImpl implements VisitaSvc {
         
         Date fecha = new Date();
         //0 si no se ha empezado, 1 si ya se inicio
-        Long empezado = this.visitaRepo.getinicioServicio(idVisita);
+        Integer empezado = this.visitaRepo.getinicioServicio(idVisita);
 
         if (empezado == 1) {
             throw new RuntimeException("ya se ha registrado un inicio de servicio");

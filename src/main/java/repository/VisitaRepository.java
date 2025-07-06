@@ -44,13 +44,13 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
             + "   then 1\n"
             + "   else 0\n"
             + "end as resultado", nativeQuery = true)
-    public Long getinicioServicio(@Param("idVisita") Long idVisita);
+    public Integer getinicioServicio(@Param("idVisita") Long idVisita);
 
     @Transactional
     @Modifying
     @Query(value = "update visitas \n"
             + "set hora_egreso = :fechaIngreso\n"
             + "where id = :idVisita", nativeQuery = true)
-    public String iniciarServicio(@Param("fechaIngreso") Date fechaIngreso, @Param("idVisita") Long idVisita);
+    public void iniciarServicio(@Param("fechaIngreso") Date fechaIngreso, @Param("idVisita") Long idVisita);
 
 }
