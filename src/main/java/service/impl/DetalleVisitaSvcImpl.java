@@ -59,15 +59,12 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
         detalle.setResultadoVisita(resultadoVisita);
         detalle.setObservaciones(observaciones);
         detalle.setComentarioAdicional(comentarioAdicional);
-
         if (resultadoVisita.toLowerCase().contains("Incidencia")) {
             detalle.setTipoIncidencia("GENERICA");
         }
-
         detalleRepo.save(detalle);
 
         List<FotoDetalleVisita> listaFotos = new ArrayList<>();
-
         for (MultipartFile file : fotos) {
             try {
                 String url = cloudinary.uploader().upload(file.getBytes(), Map.of(
@@ -84,7 +81,6 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
                 throw new RuntimeException("Error al subir imagen a Cloudinary", e);
             }
         }
-
         fotoRepo.saveAll(listaFotos);
         detalle.setFotos(listaFotos);
         detalleRepo.save(detalle);
@@ -97,7 +93,6 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
             seguimiento.setSupervisor(visita.getSupervisor());
             seguimiento.setFechaProgramada(LocalDate.now().plusDays(20));
             seguimiento.setMotivo(observaciones != null ? observaciones : "Incidencia registrada");
-
             seguimientoRepo.save(seguimiento);
         }
     }

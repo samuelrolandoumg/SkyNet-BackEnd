@@ -53,4 +53,10 @@ public class VisitaController {
         visitaSvc.iniciarServicio(datos);
     }
 
+    @PostMapping("finalizar-servicio")
+    @Operation(summary = "el tecnico inicia el servicio")
+    public void finalizarServicio(@RequestBody iniciarServicioDto datos) {
+        visitaSvc.finalizarServicio(datos);
+    }
+
 }

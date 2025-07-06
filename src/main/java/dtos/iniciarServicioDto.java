@@ -12,7 +12,6 @@ import lombok.Data;
  * @author Samuel
  */
 @Data
-
 public class iniciarServicioDto {
     private Long idVisita;
     private String latitud;

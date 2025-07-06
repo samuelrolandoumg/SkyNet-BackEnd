@@ -59,4 +59,14 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
             + "where id = :idVisita", nativeQuery = true)
     public void iniciarServicio(@Param("fechaIngreso") LocalDateTime fechaIngreso, @Param("latitud") String latitud, @Param("longitud") String longitud, @Param("estado") String estado, @Param("idVisita") Long idVisita);
 
+    @Transactional
+    @Modifying
+    @Query(value = "update visitas \n"
+            + "set hora_egreso = :fechaegreso,\n"
+            + "    latitud_egreso = :latitud,\n"
+            + "    longitud_egreso = :longitud,\n"
+            + "    estado = :estado\n"
+            + "where id = :idVisita", nativeQuery = true)
+    public void finalizarServicio(@Param("fechaegreso") LocalDateTime fechaegreso, @Param("latitud") String latitud, @Param("longitud") String longitud, @Param("estado") String estado, @Param("idVisita") Long idVisita);
+
 }

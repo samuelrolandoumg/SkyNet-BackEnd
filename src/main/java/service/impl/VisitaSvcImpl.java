@@ -97,4 +97,17 @@ public class VisitaSvcImpl implements VisitaSvc {
         );
     }
 
+    @Override
+    @Transactional
+    public void finalizarServicio(iniciarServicioDto datos) {
+        LocalDateTime fecha = LocalDateTime.now(ZoneId.of("America/Guatemala"));
+        this.visitaRepo.finalizarServicio(
+                fecha,
+                datos.getLatitud(),
+                datos.getLongitud(),
+                datos.getEstado(),
+                datos.getIdVisita()
+        );
+    }
+
 }

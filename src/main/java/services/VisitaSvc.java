@@ -16,10 +16,13 @@ import projection.VisitasTecnicoProjection;
  * @author Samuel
  */
 public interface VisitaSvc {
-    
+
     public void crearVisita(CrearVisitaDto dto);
-    
+
     public List<VisitasTecnicoProjection> visitasbyTecnico(Long idTecnico);
-    
+
     public void iniciarServicio(iniciarServicioDto datos);
+
+    public void finalizarServicio(iniciarServicioDto datos);
+
 }
