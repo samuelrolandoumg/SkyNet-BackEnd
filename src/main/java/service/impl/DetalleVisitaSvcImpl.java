@@ -20,10 +20,12 @@ import models.Visita;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import projection.DatosCorreoClienteProjection;
 import repository.DetalleVisitaRepository;
 import repository.FotoDetalleVisitaRepository;
 import repository.SeguimientoIncidenciaRepository;
 import repository.VisitaRepository;
+import services.CorreoSvc;
 import services.DetalleVisitaSvc;
 
 /**
@@ -49,8 +51,12 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
     @Autowired
     private Cloudinary cloudinary;
 
+    @Autowired
+    private CorreoSvc correoSvc;
+
     @Override
     @Transactional
+
     public void crearDetalleVisita(Long idVisita, String resultadoVisita, String observaciones, String comentarioAdicional, MultipartFile[] fotos) {
         Visita visita = visitaRepo.findById(idVisita).orElseThrow(() -> new RuntimeException("Visita no encontrada"));
 
@@ -95,5 +101,15 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
             seguimiento.setMotivo(observaciones != null ? observaciones : "Incidencia registrada");
             seguimientoRepo.save(seguimiento);
         }
+
+        //obtener correo cliente
+        DatosCorreoClienteProjection correoCliente = detalleRepo.getCorreoCliente(idVisita);
+
+        correoSvc.enviarCorreoCliente(
+                correoCliente.getCorreo(),
+                "Reporte de visita finalizada",
+                "<h3>Hola " + correoCliente.getNombre() + "</h3><p>Tu visita ha finalizado:</p>" + resultadoVisita
+        );
+
     }
 }
