@@ -53,6 +53,12 @@ public class VisitaController {
         visitaSvc.iniciarServicio(datos);
     }
 
+    @PostMapping("estado")
+    @Operation(summary = "el tecnico inicia el servicio")
+    public void estado(@RequestParam Long idVisita) {
+        visitaSvc.estado(idVisita);
+    }
+
     @PostMapping("finalizar-servicio")
     @Operation(summary = "el tecnico inicia el servicio")
     public void finalizarServicio(@RequestBody iniciarServicioDto datos) {

@@ -98,6 +98,15 @@ public class VisitaSvcImpl implements VisitaSvc {
     }
 
     @Override
+    public void estado(Long idVisita) {
+        Integer empezado = this.visitaRepo.getinicioServicio(idVisita);
+
+        if (empezado == 1) {
+            throw new CustomException(ErrorEnum.SERVICIO_REGISTRADO);
+        }
+    }
+
+    @Override
     @Transactional
     public void finalizarServicio(iniciarServicioDto datos) {
         LocalDateTime fecha = LocalDateTime.now(ZoneId.of("America/Guatemala"));

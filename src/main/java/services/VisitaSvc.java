@@ -23,6 +23,8 @@ public interface VisitaSvc {
 
     public void iniciarServicio(iniciarServicioDto datos);
 
+    public void estado(Long idVisita);
+
     public void finalizarServicio(iniciarServicioDto datos);
 
 }
