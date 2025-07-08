@@ -59,14 +59,14 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
 
     public void crearDetalleVisita(Long idVisita, String resultadoVisita, String observaciones, String comentarioAdicional, MultipartFile[] fotos) {
         Visita visita = visitaRepo.findById(idVisita).orElseThrow(() -> new RuntimeException("Visita no encontrada"));
-
+        
         DetalleVisita detalle = new DetalleVisita();
         detalle.setVisita(visita);
         detalle.setResultadoVisita(resultadoVisita);
         detalle.setObservaciones(observaciones);
         detalle.setComentarioAdicional(comentarioAdicional);
         if (resultadoVisita.toLowerCase().contains("Incidencia")) {
-            detalle.setTipoIncidencia("GENERICA");
+            detalle.setTipoIncidencia("CON INCIDENCIA");
         }
         detalleRepo.save(detalle);
 
@@ -104,6 +104,10 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
 
         //obtener correo cliente
         DatosCorreoClienteProjection correoCliente = detalleRepo.getCorreoCliente(idVisita);
+        
+        //si se envia actualizo en db
+        visita.setEnviadoCorreo(Boolean.TRUE);
+        visitaRepo.save(visita);
 
         correoSvc.enviarCorreoCliente(
                 correoCliente.getCorreo(),

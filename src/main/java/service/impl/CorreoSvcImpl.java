@@ -33,7 +33,8 @@ public class CorreoSvcImpl implements CorreoSvc {
 
             helper.setTo(destinatario);
             helper.setSubject(asunto);
-            helper.setText(cuerpoHtml, true); 
+            helper.setText(cuerpoHtml, true);
+            helper.setFrom("no-reply@skynet.com");
 
             mailSender.send(mensaje);
             log.info("Correo enviado exitosamente a {}", destinatario);
