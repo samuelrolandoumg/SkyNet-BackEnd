@@ -138,8 +138,11 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
 
         
         JasperReport report = JasperCompileManager.compileReport(inputStream);
-        String name = "samuel";
         
+        //DetalleVisitaReporteDto datos
+        
+        String name = "samuel";
+    
         Map<String, Object> params = new HashMap<>();
         params.put("nombreCliente", name);
         params.put("nombreTecnico", dto.getNombreTecnico());
