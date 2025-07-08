@@ -7,13 +7,12 @@ package service.impl;
 
 import com.cloudinary.Cloudinary;
 import dtos.DetalleVisitaReporteDto;
-import jakarta.servlet.http.HttpServletResponse;
+import dtos.ImagenesDto;
 import jakarta.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,6 @@ import models.DetalleVisita;
 import models.FotoDetalleVisita;
 import models.SeguimientoIncidencia;
 import models.Visita;
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -30,7 +28,6 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 import projection.DatosCorreoClienteProjection;
 import projection.DetalleVisitaReporteProjection;
@@ -150,7 +147,6 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
 
         List<DetalleVisitaReporteDto> dato = new ArrayList<>();
         DetalleVisitaReporteDto data = new DetalleVisitaReporteDto();
-
         data.setNombreCliente(datos.getNombreCliente());
         data.setNombreTecnico(datos.getNombreTecnico());
         data.setFechaInicio(datos.getFechaInicio());
@@ -159,6 +155,17 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
         data.setObservaciones(datos.getObservaciones());
         data.setComentarioAdicional(datos.getComentarioAdicional());
         data.setProximaFechaPorIncidencia(datos.getProximaFechaPorIncidencia());
+        //data.setFotos(urls);
+        // Transformar URLs en objetos ImagenesDto
+        List<String> urls = this.detalleRepo.getUrlImagen(idVisita);
+
+        List<ImagenesDto> imagenes = new ArrayList<>();
+        for (String url : urls) {
+            ImagenesDto imagen = new ImagenesDto();
+            imagen.setUrlFoto(url);
+            imagenes.add(imagen);
+        }
+        
         dato.add(data);
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(report, null, new JRBeanCollectionDataSource(dato));

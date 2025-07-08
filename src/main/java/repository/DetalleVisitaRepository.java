@@ -5,6 +5,7 @@
  */
 package repository;
 
+import java.util.List;
 import models.DetalleVisita;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -42,4 +43,9 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             + "where v.id = :idVisita", nativeQuery = true)
     public DetalleVisitaReporteProjection getDatosReporte(@Param("idVisita") Long idVisita);
 
+    @Query(value = "select url_foto from visitas v \n"
+            + "inner join detalle_visita dv on dv.id_visita = v.id\n"
+            + "inner join foto_detalle_visita fdv on fdv.id_detalle_visita = dv.id\n"
+            + "where v.id = :idVisita", nativeQuery = true)
+    public List<String> getUrlImagen(@Param("idVisita") Long idVisita);
 }
