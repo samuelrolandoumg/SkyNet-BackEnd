@@ -76,7 +76,7 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
         detalle.setResultadoVisita(resultadoVisita);
         detalle.setObservaciones(observaciones);
         detalle.setComentarioAdicional(comentarioAdicional);
-        if (resultadoVisita.toLowerCase().contains("Incidencia")) {
+        if (resultadoVisita.toLowerCase().contains("incidencia")) {
             detalle.setTipoIncidencia("CON INCIDENCIA");
         }
         detalleRepo.save(detalle);

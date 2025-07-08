@@ -17,18 +17,14 @@
 	</background>
 	<title>
 		<band height="79" splitType="Stretch">
-			<textField>
-				<reportElement x="180" y="24" width="245" height="30" uuid="3598fc07-1149-4c00-a584-27f239979702"/>
-				<textFieldExpression><![CDATA["INFORME DE SERVICIO PARA CLIENTE"]]></textFieldExpression>
-			</textField>
+			<staticText>
+				<reportElement x="140" y="32" width="310" height="30" uuid="eaa29dab-883f-4e2c-b26d-ea82340fadad"/>
+				<textElement markup="styled"/>
+				<text><![CDATA[<style isBold='true' pdfFontName='Helvetica-Bold'>Reporte Visita a Cliente</style>]]></text>
+			</staticText>
 		</band>
 	</title>
 	<detail>
-		<band height="125" splitType="Stretch">
-			<textField>
-				<reportElement x="227" y="50" width="100" height="30" uuid="404e2ed1-00da-45a2-a148-0d8b7d29c8bd"/>
-				<textFieldExpression><![CDATA[$F{nombreCliente}]]></textFieldExpression>
-			</textField>
-		</band>
+		<band height="271" splitType="Stretch"/>
 	</detail>
 </jasperReport>
