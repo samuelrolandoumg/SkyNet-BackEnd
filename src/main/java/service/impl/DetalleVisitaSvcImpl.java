@@ -6,10 +6,14 @@
 package service.impl;
 
 import com.cloudinary.Cloudinary;
+import dtos.DetalleVisitaReporteDto;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +21,16 @@ import models.DetalleVisita;
 import models.FotoDetalleVisita;
 import models.SeguimientoIncidencia;
 import models.Visita;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 import projection.DatosCorreoClienteProjection;
 import repository.DetalleVisitaRepository;
@@ -56,10 +68,9 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
 
     @Override
     @Transactional
-
     public void crearDetalleVisita(Long idVisita, String resultadoVisita, String observaciones, String comentarioAdicional, MultipartFile[] fotos) {
         Visita visita = visitaRepo.findById(idVisita).orElseThrow(() -> new RuntimeException("Visita no encontrada"));
-        
+
         DetalleVisita detalle = new DetalleVisita();
         detalle.setVisita(visita);
         detalle.setResultadoVisita(resultadoVisita);
@@ -105,6 +116,8 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
         //obtener correo cliente
         DatosCorreoClienteProjection correoCliente = detalleRepo.getCorreoCliente(idVisita);
         
+        //ADJUNTAR EL PDF
+
         //si se envia actualizo en db
         visita.setEnviadoCorreo(Boolean.TRUE);
         visitaRepo.save(visita);
@@ -114,6 +127,31 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
                 "Reporte de visita finalizada",
                 "<h3>Hola " + correoCliente.getNombre() + "</h3><p>Tu visita ha finalizado:</p>" + resultadoVisita
         );
+    }
 
+    @Override
+    public byte[] generarPDFVisita(DetalleVisitaReporteDto dto) throws Exception {
+        InputStream inputStream = getClass().getResourceAsStream("/Jasper/ReporteCliente.jrxml");
+        if (inputStream == null) {
+            throw new RuntimeException("No se encontró el archivo ReporteCliente.jrxml en /resources/Jasper");
+        }
+
+        
+        JasperReport report = JasperCompileManager.compileReport(inputStream);
+        String name = "samuel";
+        
+        Map<String, Object> params = new HashMap<>();
+        params.put("nombreCliente", name);
+        params.put("nombreTecnico", dto.getNombreTecnico());
+        params.put("fechaInicio", dto.getFechaInicio());
+        params.put("fechaFin", dto.getFechaFin());
+        params.put("resultadoVisita", dto.getResultadoVisita());
+        params.put("observaciones", dto.getObservaciones());
+        params.put("comentarioAdicional", dto.getComentarioAdicional());
+        params.put("IMAGENES", new JRBeanCollectionDataSource(dto.getFotos()));
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(report, params, new JREmptyDataSource());
+
+        return JasperExportManager.exportReportToPdf(jasperPrint);
     }
 }

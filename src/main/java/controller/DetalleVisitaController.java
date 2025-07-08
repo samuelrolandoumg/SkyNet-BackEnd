@@ -5,8 +5,10 @@
  */
 package controller;
 
-import dtos.DetalleVisitaDto;
+import dtos.DetalleVisitaReporteDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,5 +44,22 @@ public class DetalleVisitaController {
 
         detalleVisitaSvc.crearDetalleVisita(idVisita, resultadoVisita, observaciones, comentarioAdicional, fotos);
         return ResponseEntity.ok("Detalle de visita creado correctamente");
+    }
+
+    @PostMapping("/reporte")
+    public void generarReporteVisita(@RequestBody DetalleVisitaReporteDto dto, HttpServletResponse response) {
+        try {
+            byte[] pdf = detalleVisitaSvc.generarPDFVisita(dto);
+
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "attachment; filename=reporte_visita.pdf");
+
+            OutputStream out = response.getOutputStream();
+            out.write(pdf);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al generar el reporte PDF", e);
+        }
     }
 }
