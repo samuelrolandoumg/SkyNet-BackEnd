@@ -16,15 +16,158 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
+		<band height="120" splitType="Stretch">
 			<staticText>
-				<reportElement x="140" y="32" width="310" height="30" uuid="eaa29dab-883f-4e2c-b26d-ea82340fadad"/>
-				<textElement markup="styled"/>
+				<reportElement x="122" y="24" width="310" height="30" uuid="eaa29dab-883f-4e2c-b26d-ea82340fadad"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font size="20"/>
+				</textElement>
 				<text><![CDATA[<style isBold='true' pdfFontName='Helvetica-Bold'>Reporte Visita a Cliente</style>]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="11" y="64" width="150" height="14" uuid="56ae96c0-49ef-418a-ab8f-85356996bccb"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Fecha de servicio terminado:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="190" y="63" width="279" height="16" forecolor="#CF1815" uuid="6c51ecb9-ab19-44af-a533-46606e681dc5"/>
+				<box>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="styled"/>
+				<textFieldExpression><![CDATA[$F{fechaFin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="92" width="150" height="14" uuid="f9ee84bc-6f76-4eef-a0cf-b70f932142d2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Resultado]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="190" y="91" width="282" height="16" forecolor="#CF1815" backcolor="#FFFFFF" uuid="8089db9a-60bf-4237-93fe-8f5383820fcc"/>
+				<box>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{resultadoVisita}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<detail>
-		<band height="271" splitType="Stretch"/>
+		<band height="271" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" x="10" y="40" width="252" height="26" uuid="40eb14fd-c7c7-4065-b48a-110714746409"/>
+				<box leftPadding="14">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+					<font fontName="SansSerif" size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nombre Cliente:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="262" y="40" width="285" height="26" uuid="9214cc6d-f296-4dee-a392-e0630683241a"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="SansSerif" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreCliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="66" width="252" height="26" uuid="6bfc3017-d3b4-430e-94e4-7463fc01bd15"/>
+				<box leftPadding="14">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+					<font fontName="SansSerif" size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nombre Tecnico:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="262" y="66" width="285" height="26" uuid="76dcbfe2-b08e-497a-bf9d-d622a583e10d"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="SansSerif" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreTecnico}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="92" width="252" height="26" uuid="638bf6f6-952b-4dcc-a059-d4fc95bffb77"/>
+				<box leftPadding="14">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+					<font fontName="SansSerif" size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Observaciones:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="262" y="92" width="285" height="26" uuid="0d4245eb-0c72-446c-b5f0-a30cf900a2ff"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="SansSerif" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{observaciones}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement positionType="Float" x="10" y="118" width="252" height="26" uuid="75d43381-1f26-428b-805b-5ba027d59c2d"/>
+				<box leftPadding="14">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+					<font fontName="SansSerif" size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Comentario Adicional:]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="262" y="118" width="285" height="26" uuid="13513af5-af70-4621-a4c5-3c48d24c5470"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="SansSerif" size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comentarioAdicional}]]></textFieldExpression>
+			</textField>
+		</band>
 	</detail>
 </jasperReport>

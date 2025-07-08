@@ -18,5 +18,5 @@ public interface DetalleVisitaSvc {
 
    public void crearDetalleVisita(Long idVisita, String resultadoVisita, String observaciones, String comentarioAdicional, MultipartFile[] fotos);
 
-    byte[] generarPDFVisita(DetalleVisitaReporteDto dto) throws Exception;
+    byte[] generarPDFVisita(Long idVisita) throws Exception;
 }

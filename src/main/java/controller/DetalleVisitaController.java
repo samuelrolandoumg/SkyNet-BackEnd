@@ -47,9 +47,9 @@ public class DetalleVisitaController {
     }
 
     @PostMapping("/reporte")
-    public void generarReporteVisita(@RequestBody DetalleVisitaReporteDto dto, HttpServletResponse response) {
+    public void generarReporteVisita(@RequestParam("idVisita") Long idVisita, HttpServletResponse response) {
         try {
-            byte[] pdf = detalleVisitaSvc.generarPDFVisita(dto);
+            byte[] pdf = detalleVisitaSvc.generarPDFVisita(idVisita);
 
             response.setContentType("application/pdf");
             response.setHeader("Content-Disposition", "attachment; filename=reporte_visita.pdf");

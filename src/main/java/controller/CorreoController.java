@@ -23,19 +23,32 @@ public class CorreoController {
 
     private final CorreoSvc correoSvc;
 
-    
     public CorreoController(CorreoSvc correoSvc) {
         this.correoSvc = correoSvc;
     }
+
     @PostMapping("/enviar-prueba")
     public String enviarCorreoPrueba(@RequestParam String destinatario) {
-        String asunto = "Correo de prueba desde SkyNet";
+        String asunto = "Correo de prueba con PDF adjunto desde SkyNet";
         String cuerpoHtml = """
-            <h1>Holi</h1>
-            <p>Este es un correo de prueba enviado correctamente a <strong>%s</strong>.</p>
-        """.formatted(destinatario);
+        <h1>Hola %s</h1>
+        <p>Este es un correo de prueba enviado correctamente con un PDF adjunto.</p>
+    """.formatted(destinatario);
 
-        correoSvc.enviarCorreoCliente(destinatario, asunto, cuerpoHtml);
-        return "✅ Correo enviado (ver consola/logs para confirmación)";
+        try {
+            // Simular un PDF de prueba (puede ser generado con Jasper u otro método)
+            byte[] pdf = "PDF DE PRUEBA SKYNET".getBytes(); // Aquí puedes poner un byte[] real si tenés el método generarPDFVisita()
+
+            correoSvc.enviarCorreoConAdjunto(
+                    destinatario,
+                    asunto,
+                    cuerpoHtml,
+                    pdf,
+                    "prueba_skynet.pdf"
+            );
+            return "✅ Correo enviado con PDF (ver consola/logs para confirmación)";
+        } catch (Exception e) {
+            return "❌ Error al enviar correo de prueba: " + e.getMessage();
+        }
     }
 }

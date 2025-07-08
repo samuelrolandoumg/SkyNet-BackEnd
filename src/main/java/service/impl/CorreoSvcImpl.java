@@ -9,6 +9,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class CorreoSvcImpl implements CorreoSvc {
     private JavaMailSender mailSender;
 
     @Override
-    public void enviarCorreoCliente(String destinatario, String asunto, String cuerpoHtml) {
+    public void enviarCorreoConAdjunto(String destinatario, String asunto, String cuerpoHtml, byte[] pdf, String nombreArchivo) {
         try {
             MimeMessage mensaje = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
@@ -34,13 +35,15 @@ public class CorreoSvcImpl implements CorreoSvc {
             helper.setTo(destinatario);
             helper.setSubject(asunto);
             helper.setText(cuerpoHtml, true);
-            helper.setFrom("no-reply@skynet.com");
+
+            // Adjuntar PDF
+            helper.addAttachment(nombreArchivo, new ByteArrayResource(pdf));
 
             mailSender.send(mensaje);
-            log.info("Correo enviado exitosamente a {}", destinatario);
-        } catch (MessagingException e) {
-            log.error("Error al enviar correo: {}", e.getMessage());
-            throw new RuntimeException("No se pudo enviar el correo", e);
+            log.info("Correo con PDF enviado a {}", destinatario);
+        } catch (Exception e) {
+            log.error("Error al enviar correo con adjunto: {}", e.getMessage());
+            throw new RuntimeException("Error al enviar el correo con adjunto", e);
         }
     }
 

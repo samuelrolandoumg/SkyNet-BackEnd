@@ -33,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 import projection.DatosCorreoClienteProjection;
+import projection.DetalleVisitaReporteProjection;
 import repository.DetalleVisitaRepository;
 import repository.FotoDetalleVisitaRepository;
 import repository.SeguimientoIncidenciaRepository;
@@ -115,45 +116,52 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
 
         //obtener correo cliente
         DatosCorreoClienteProjection correoCliente = detalleRepo.getCorreoCliente(idVisita);
-        
+
         //ADJUNTAR EL PDF
+        try {
+            byte[] pdf = this.generarPDFVisita(idVisita);
+            correoSvc.enviarCorreoConAdjunto(
+                    correoCliente.getCorreo(),
+                    "Reporte de visita finalizada",
+                    "<h3>Hola " + correoCliente.getNombre() + "</h3><p>Tu visita ha finalizado:</p>" + resultadoVisita,
+                    pdf,
+                    "reporte_visita.pdf"
+            );
+        } catch (Exception ex) {
+            log.error("Error al generar o enviar el reporte PDF: {}", ex.getMessage());
+            throw new RuntimeException("Error al generar o enviar el reporte PDF", ex);
+        }
 
         //si se envia actualizo en db
         visita.setEnviadoCorreo(Boolean.TRUE);
         visitaRepo.save(visita);
-
-        correoSvc.enviarCorreoCliente(
-                correoCliente.getCorreo(),
-                "Reporte de visita finalizada",
-                "<h3>Hola " + correoCliente.getNombre() + "</h3><p>Tu visita ha finalizado:</p>" + resultadoVisita
-        );
     }
 
     @Override
-    public byte[] generarPDFVisita(DetalleVisitaReporteDto dto) throws Exception {
+    public byte[] generarPDFVisita(Long idVisita) throws Exception {
         InputStream inputStream = getClass().getResourceAsStream("/Jasper/ReporteCliente.jrxml");
         if (inputStream == null) {
             throw new RuntimeException("No se encontró el archivo ReporteCliente.jrxml en /resources/Jasper");
         }
 
-        
         JasperReport report = JasperCompileManager.compileReport(inputStream);
-        
-        //DetalleVisitaReporteDto datos
-        
-        String name = "samuel";
-    
-        Map<String, Object> params = new HashMap<>();
-        params.put("nombreCliente", name);
-        params.put("nombreTecnico", dto.getNombreTecnico());
-        params.put("fechaInicio", dto.getFechaInicio());
-        params.put("fechaFin", dto.getFechaFin());
-        params.put("resultadoVisita", dto.getResultadoVisita());
-        params.put("observaciones", dto.getObservaciones());
-        params.put("comentarioAdicional", dto.getComentarioAdicional());
-        params.put("IMAGENES", new JRBeanCollectionDataSource(dto.getFotos()));
 
-        JasperPrint jasperPrint = JasperFillManager.fillReport(report, params, new JREmptyDataSource());
+        DetalleVisitaReporteProjection datos = this.detalleRepo.getDatosReporte(idVisita);
+
+        List<DetalleVisitaReporteDto> dato = new ArrayList<>();
+        DetalleVisitaReporteDto data = new DetalleVisitaReporteDto();
+
+        data.setNombreCliente(datos.getNombreCliente());
+        data.setNombreTecnico(datos.getNombreTecnico());
+        data.setFechaInicio(datos.getFechaInicio());
+        data.setFechaFin(datos.getFechaFin());
+        data.setResultadoVisita(datos.getResultadoVisita());
+        data.setObservaciones(datos.getObservaciones());
+        data.setComentarioAdicional(datos.getComentarioAdicional());
+        data.setProximaFechaPorIncidencia(datos.getProximaFechaPorIncidencia());
+        dato.add(data);
+
+        JasperPrint jasperPrint = JasperFillManager.fillReport(report, null, new JRBeanCollectionDataSource(dato));
 
         return JasperExportManager.exportReportToPdf(jasperPrint);
     }
