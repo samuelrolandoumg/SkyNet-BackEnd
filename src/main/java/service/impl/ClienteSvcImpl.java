@@ -6,6 +6,7 @@
 package service.impl;
 
 import dtos.ActualizarClienteDto;
+import dtos.ClienteConsultaDto;
 import dtos.ClienteDto;
 import dtos.CrearClienteDto;
 import dtos.UsuarioDto;
@@ -128,7 +129,7 @@ public class ClienteSvcImpl implements ClienteSvc {
     }
 
     @Override
-    public List<ClienteDto> listarClientes(HttpServletRequest request) {
+    public List<ClienteConsultaDto> listarClientes(HttpServletRequest request) {
         UsuarioDto usuario = usuarioService.obtenerUsuarioDesdeToken(request);
         String rol = usuario.getRol();
 
@@ -150,8 +151,8 @@ public class ClienteSvcImpl implements ClienteSvc {
             throw new CustomException(ErrorEnum.ROL_INVALIDO);
         }
         return clientes.stream().map(cliente -> {
-            ClienteDto dto = new ClienteDto();
-            dto.setId(cliente.getId());
+            ClienteConsultaDto dto = new ClienteConsultaDto();
+            dto.setIdCliente(cliente.getId());
             dto.setNombreCliente(cliente.getNombreCliente());
             dto.setNombreNegocio(cliente.getNombreNegocio());
             dto.setTelefono(cliente.getTelefono());
@@ -161,8 +162,8 @@ public class ClienteSvcImpl implements ClienteSvc {
     }
 
     @Override
-    public ClienteDto obtenerClientePorId(Long id) {
-        Cliente cliente = repository.findById(id)
+    public ClienteDto obtenerClientePorId(Long idCliente) {
+        Cliente cliente = repository.findById(idCliente)
                 .orElseThrow(() -> new CustomException(ErrorEnum.NO_REGISTRADO));
 
         ClienteDto dto = new ClienteDto();

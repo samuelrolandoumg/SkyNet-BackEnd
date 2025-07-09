@@ -6,6 +6,7 @@
 package services;
 
 import dtos.ActualizarClienteDto;
+import dtos.ClienteConsultaDto;
 import dtos.ClienteDto;
 import dtos.CrearClienteDto;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,8 +30,8 @@ public interface ClienteSvc {
 
     public void actualizarCliente(ActualizarClienteDto datos);
 
-    List<ClienteDto> listarClientes(HttpServletRequest request);
+    public List<ClienteConsultaDto> listarClientes(HttpServletRequest request);
     
-    public ClienteDto obtenerClientePorId(Long id);
+    public ClienteDto obtenerClientePorId(Long idCliente);
 
 }

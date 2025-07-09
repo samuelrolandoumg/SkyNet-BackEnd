@@ -6,6 +6,7 @@
 package controller;
 
 import dtos.ActualizarClienteDto;
+import dtos.ClienteConsultaDto;
 import dtos.ClienteDto;
 import dtos.CrearClienteDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -72,14 +73,14 @@ public class ClienteController {
 
     @GetMapping("/listar")
     @Operation(summary = "Lista clientes según el rol del usuario autenticado")
-    public List<ClienteDto> listarClientes(HttpServletRequest request) {
+    public List<ClienteConsultaDto> listarClientes(HttpServletRequest request) {
         return clienteSrv.listarClientes(request);
     }
 
     @GetMapping("/obtener/{id}")
     @Operation(summary = "Obtiene un cliente por su ID")
-    public ClienteDto obtenerClientePorId(@PathVariable Long id) {
-        return clienteSrv.obtenerClientePorId(id);
+    public ClienteDto obtenerClientePorId(@PathVariable Long idCliente) {
+        return clienteSrv.obtenerClientePorId(idCliente);
     }
 
 }
