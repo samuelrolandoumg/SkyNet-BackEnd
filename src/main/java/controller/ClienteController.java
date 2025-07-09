@@ -77,7 +77,7 @@ public class ClienteController {
         return clienteSrv.listarClientes(request);
     }
 
-    @GetMapping("/obtener/{id}")
+    @GetMapping("/obtener/{idCliente}")
     @Operation(summary = "Obtiene un cliente por su ID")
     public ClienteDto obtenerClientePorId(@PathVariable Long idCliente) {
         return clienteSrv.obtenerClientePorId(idCliente);
