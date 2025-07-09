@@ -5,6 +5,7 @@
  */
 package controller;
 
+import dtos.ActualizarUsuarioDto;
 import dtos.CrearUsuarioDto;
 import dtos.LoginRequestDto;
 import dtos.UsuarioDto;
@@ -14,7 +15,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -66,6 +69,18 @@ public class UsuarioController {
     @Operation(summary = "Lista técnicos asignados a un supervisor")
     public ResponseEntity<List<UsuarioListarProjection>> listarTecnicosPorSupervisor(@RequestParam Long idSupervisor) {
         return ResponseEntity.ok(usuarioService.listarTecnicosPorSupervisor(idSupervisor));
+    }
+
+    @PutMapping("/actualizar")
+    @Operation(summary = "Actualiza un usuario existente")
+    public void actualizarUsuario(@RequestBody ActualizarUsuarioDto datos) {
+        usuarioService.actualizarUsuario(datos);
+    }
+
+    @GetMapping("/obtener/{id}")
+    @Operation(summary = "Obtiene un usuario por su ID")
+    public ResponseEntity<ActualizarUsuarioDto> obtenerUsuarioPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(usuarioService.obtenerUsuarioPorId(id));
     }
 
 }

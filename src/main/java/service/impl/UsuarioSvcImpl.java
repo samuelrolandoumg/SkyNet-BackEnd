@@ -5,6 +5,7 @@
  */
 package service.impl;
 
+import dtos.ActualizarUsuarioDto;
 import dtos.CrearUsuarioDto;
 import dtos.LoginRequestDto;
 import dtos.UsuarioDto;
@@ -143,4 +144,55 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         return usuarioRepo.listarTecnicosPorSupervisor(idSupervisor);
     }
 
+    @Override
+    public void actualizarUsuario(ActualizarUsuarioDto datos) {
+        Usuario usuario = usuarioRepo.findById(datos.getId()).orElseThrow(() -> new CustomException(ErrorEnum.S_DESCONOCIDO));
+
+        usuario.setNombre(datos.getNombre());
+        usuario.setApellido(datos.getApellido());
+        usuario.setCorreo(datos.getCorreo());
+        usuario.setUsuario(datos.getUsuario());
+        usuario.setDireccion(datos.getDireccion());
+        usuario.setDpi(datos.getDpi());
+        usuario.setNit(datos.getNit());
+        usuario.setEstado(datos.getEstado() != null ? datos.getEstado() : usuario.getEstado());
+
+        Roles rol = rolesRepo.findById(datos.getIdRol())
+                .orElseThrow(() -> new CustomException(ErrorEnum.S_DESCONOCIDO));
+        usuario.setRol(rol);
+
+        if (datos.getIdSupervisor() != null) {
+            Usuario supervisor = usuarioRepo.findById(datos.getIdSupervisor())
+                    .orElseThrow(() -> new CustomException(ErrorEnum.S_DESCONOCIDO));
+            usuario.setSupervisor(supervisor);
+        } else {
+            usuario.setSupervisor(null);
+        }
+
+        usuarioRepo.save(usuario);
+    }
+
+    @Override
+    public ActualizarUsuarioDto obtenerUsuarioPorId(Long id) {
+        Usuario usuario = usuarioRepo.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorEnum.U_NO_REGISTRADO));
+
+        ActualizarUsuarioDto dto = new ActualizarUsuarioDto();
+        dto.setId(usuario.getId());
+        dto.setNombre(usuario.getNombre());
+        dto.setApellido(usuario.getApellido());
+        dto.setCorreo(usuario.getCorreo());
+        dto.setUsuario(usuario.getUsuario());
+        dto.setDireccion(usuario.getDireccion());
+        dto.setDpi(usuario.getDpi());
+        dto.setNit(usuario.getNit());
+        dto.setIdRol(usuario.getRol().getId());
+        dto.setEstado(usuario.getEstado());
+
+        if (usuario.getSupervisor() != null) {
+            dto.setIdSupervisor(usuario.getSupervisor().getId());
+        }
+
+        return dto;
+    }
 }

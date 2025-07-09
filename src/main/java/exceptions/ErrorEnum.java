@@ -15,7 +15,8 @@ public enum ErrorEnum {
     ROL_INVALIDO         (1001, EstadoHttp.UNAUTHORIZED, "Rol no autorizado para listar clientes"),
     
     SERVICIO_REGISTRADO (1001, EstadoHttp.BAD_REQUEST, "Ya se ha registrado un inicio de servicio"),
-    NO_REGISTRADO (1001, EstadoHttp.BAD_REQUEST, "Cliente no registrado");
+    NO_REGISTRADO (1001, EstadoHttp.BAD_REQUEST, "Cliente no registrado"),
+    U_NO_REGISTRADO (1001, EstadoHttp.BAD_REQUEST, "Usuario no registrado");
 
     
     

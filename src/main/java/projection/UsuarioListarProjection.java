@@ -10,10 +10,7 @@ package projection;
  * @author Samuel
  */
 public interface UsuarioListarProjection {
-
     Long getIdUsuario();
-
     String getNombreTecnico();
-
     String getRol();
 }

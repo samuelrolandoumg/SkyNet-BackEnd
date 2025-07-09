@@ -5,6 +5,7 @@
  */
 package services;
 
+import dtos.ActualizarUsuarioDto;
 import dtos.CrearUsuarioDto;
 import dtos.LoginRequestDto;
 import dtos.UsuarioDto;
@@ -32,5 +33,9 @@ public interface UsuarioSvc {
     public List<UsuarioListarProjection> listarSupervisores();
 
     public List<UsuarioListarProjection> listarTecnicosPorSupervisor(Long idSupervisor);
+    
+    public void actualizarUsuario(ActualizarUsuarioDto datos);
+    
+    public ActualizarUsuarioDto obtenerUsuarioPorId(Long id);
 
 }
