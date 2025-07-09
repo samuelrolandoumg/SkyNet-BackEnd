@@ -50,7 +50,7 @@ public class UsuarioSvcImpl implements UsuarioSvc {
     public void crearUsuario(CrearUsuarioDto datos) {
         LocalDateTime fecha = LocalDateTime.now();
         Date fechaConvertida = Date.from(fecha.atZone(ZoneId.systemDefault()).toInstant());
-        
+
         Usuario nuevoUsuario = new Usuario();
 
         nuevoUsuario.setNombre(datos.getNombre());
@@ -101,7 +101,7 @@ public class UsuarioSvcImpl implements UsuarioSvc {
 
     @Override
     public UsuarioDto obtenerUsuarioDesdeToken(HttpServletRequest request) {
-        //String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzUxNTIyNTY0LCJleHAiOjE3NTE2MDg5NjR9.xOPnbMFY3gdmln8nyujWztl3URtMy434hdIDehtKlf0";
+        //String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzIiwiaWF0IjoxNzUyMDI2NDIzLCJleHAiOjE3NTIxMTI4MjN9.nTzJVwTEt9MnAY-TBI_bHEpcnE3KDX74m3uc9CuR2t8";
         String token = jwtUtil.obtenerTokenDesdeHeader(request);
 
         if (token == null || !jwtUtil.validarToken(token)) {
@@ -114,11 +114,11 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         if (usuario == null) {
             throw new CustomException(ErrorEnum.S_DESCONOCIDO);
         }
+
         UsuarioDto respuesta = new UsuarioDto();
         respuesta.setId(usuario.getId());
         respuesta.setNombre(usuario.getNombre());
-        respuesta.setRol(usuario.getRol().toString());
-        //respuesta.setToken(token);
+        respuesta.setRol(usuario.getRol().getRol().name()); // ← 🔥 aquí está el fix bueno
         return respuesta;
     }
 

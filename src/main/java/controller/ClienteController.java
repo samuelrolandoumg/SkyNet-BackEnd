@@ -6,9 +6,11 @@
 package controller;
 
 import dtos.ActualizarClienteDto;
+import dtos.ClienteDto;
 import dtos.CrearClienteDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,6 +67,12 @@ public class ClienteController {
     @Operation(summary = "Actualiza un cliente existente")
     public void actualizarCliente(@RequestBody ActualizarClienteDto datos) {
         clienteSrv.actualizarCliente(datos);
+    }
+
+    @GetMapping("/listar")
+    @Operation(summary = "Lista clientes según el rol del usuario autenticado")
+    public List<ClienteDto> listarClientes(HttpServletRequest request) {
+        return clienteSrv.listarClientes(request);
     }
 
 }

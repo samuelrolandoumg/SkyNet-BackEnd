@@ -12,6 +12,7 @@ package exceptions;
 public enum ErrorEnum {
     S_DESCONOCIDO   (1000, EstadoHttp.UNAUTHORIZED, "Credenciales de usuario inválidas."),
     TOKEN_I         (1001, EstadoHttp.UNAUTHORIZED, "Token invalido"),
+    ROL_INVALIDO         (1001, EstadoHttp.UNAUTHORIZED, "Rol no autorizado para listar clientes"),
     
     SERVICIO_REGISTRADO (1001, EstadoHttp.BAD_REQUEST, "Ya se ha registrado un inicio de servicio");
     

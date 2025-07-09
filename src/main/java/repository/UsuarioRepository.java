@@ -19,6 +19,8 @@ import projection.usuariobyrolProjection;
  */
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
+    List<Usuario> findBySupervisorId(Long idSupervisor);
+
     @Query(value = "select\n"
             + "	u.id,\n"
             + "	u.nombre,\n"

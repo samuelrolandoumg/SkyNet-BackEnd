@@ -6,7 +6,9 @@
 package services;
 
 import dtos.ActualizarClienteDto;
+import dtos.ClienteDto;
 import dtos.CrearClienteDto;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import projection.ubicacionClienteProjection;
 import projection.usuariobyrolProjection;
@@ -27,4 +29,5 @@ public interface ClienteSvc {
 
     public void actualizarCliente(ActualizarClienteDto datos);
 
+    List<ClienteDto> listarClientes(HttpServletRequest request);
 }

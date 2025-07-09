@@ -19,6 +19,8 @@ import projection.usuariobyrolProjection;
  */
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
+    List<Cliente> findByTecnicoIdIn(List<Long> ids);
+
     @Query(value = "select c.latitud,\n"
             + "	c.longitud,\n"
             + "	c.nombre_cliente as nombreCliente,\n"
