@@ -30,4 +30,7 @@ public interface ClienteSvc {
     public void actualizarCliente(ActualizarClienteDto datos);
 
     List<ClienteDto> listarClientes(HttpServletRequest request);
+    
+    public ClienteDto obtenerClientePorId(Long id);
+
 }

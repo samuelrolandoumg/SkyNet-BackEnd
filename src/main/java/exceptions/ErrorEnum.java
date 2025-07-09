@@ -14,8 +14,9 @@ public enum ErrorEnum {
     TOKEN_I         (1001, EstadoHttp.UNAUTHORIZED, "Token invalido"),
     ROL_INVALIDO         (1001, EstadoHttp.UNAUTHORIZED, "Rol no autorizado para listar clientes"),
     
-    SERVICIO_REGISTRADO (1001, EstadoHttp.BAD_REQUEST, "Ya se ha registrado un inicio de servicio");
-    
+    SERVICIO_REGISTRADO (1001, EstadoHttp.BAD_REQUEST, "Ya se ha registrado un inicio de servicio"),
+    NO_REGISTRADO (1001, EstadoHttp.BAD_REQUEST, "Cliente no registrado");
+
     
     
     private final int codigo;

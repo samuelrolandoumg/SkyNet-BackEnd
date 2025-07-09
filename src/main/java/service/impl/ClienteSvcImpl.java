@@ -158,7 +158,31 @@ public class ClienteSvcImpl implements ClienteSvc {
             dto.setCorreo(cliente.getCorreo());
             return dto;
         }).toList();
+    }
 
+    @Override
+    public ClienteDto obtenerClientePorId(Long id) {
+        Cliente cliente = repository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorEnum.NO_REGISTRADO));
+
+        ClienteDto dto = new ClienteDto();
+        dto.setId(cliente.getId());
+        dto.setNombreCliente(cliente.getNombreCliente());
+        dto.setNombreNegocio(cliente.getNombreNegocio());
+        dto.setTelefono(cliente.getTelefono());
+        dto.setCorreo(cliente.getCorreo());
+        dto.setNit(cliente.getNit());
+        dto.setLatitud(cliente.getLatitud());
+        dto.setLongitud(cliente.getLongitud());
+        dto.setEstado(cliente.getEstado());
+        dto.setIdRol(cliente.getRol().getId());
+
+        if (cliente.getTecnico() != null) {
+            dto.setIdTecnico(cliente.getTecnico().getId());
+            dto.setNombreTecnico(cliente.getTecnico().getNombre() + " " + cliente.getTecnico().getApellido());
+        }
+
+        return dto;
     }
 
 }

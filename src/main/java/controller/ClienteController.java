@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -73,6 +74,12 @@ public class ClienteController {
     @Operation(summary = "Lista clientes según el rol del usuario autenticado")
     public List<ClienteDto> listarClientes(HttpServletRequest request) {
         return clienteSrv.listarClientes(request);
+    }
+
+    @GetMapping("/obtener/{id}")
+    @Operation(summary = "Obtiene un cliente por su ID")
+    public ClienteDto obtenerClientePorId(@PathVariable Long id) {
+        return clienteSrv.obtenerClientePorId(id);
     }
 
 }
