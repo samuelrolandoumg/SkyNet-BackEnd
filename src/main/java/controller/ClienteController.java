@@ -5,17 +5,15 @@
  */
 package controller;
 
+import dtos.ActualizarClienteDto;
 import dtos.CrearClienteDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.List;
-import models.Cliente;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,6 +59,12 @@ public class ClienteController {
     @Operation(summary = "se listan usuarios segun su rol")
     public ResponseEntity<List<usuariobyrolProjection>> clientesbyTecnico(@RequestParam Long idTecnico) {
         return ResponseEntity.ok(clienteSrv.clientesbyTecnico(idTecnico));
+    }
+
+    @PutMapping("/actualizar")
+    @Operation(summary = "Actualiza un cliente existente")
+    public void actualizarCliente(@RequestBody ActualizarClienteDto datos) {
+        clienteSrv.actualizarCliente(datos);
     }
 
 }

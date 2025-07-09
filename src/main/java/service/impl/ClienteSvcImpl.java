@@ -5,6 +5,7 @@
  */
 package service.impl;
 
+import dtos.ActualizarClienteDto;
 import dtos.CrearClienteDto;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -85,6 +86,37 @@ public class ClienteSvcImpl implements ClienteSvc {
         }
 
         repository.save(nuevo);
+    }
+
+    @Override
+    public void actualizarCliente(ActualizarClienteDto datos) {
+        Cliente cliente = repository.findById(datos.getId())
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + datos.getId()));
+
+        cliente.setNombreCliente(datos.getNombreCliente());
+        cliente.setNombreNegocio(datos.getNombreNegocio());
+        cliente.setLatitud(datos.getLatitud());
+        cliente.setLongitud(datos.getLongitud());
+        cliente.setNit(datos.getNit());
+        cliente.setTelefono(datos.getTelefono());
+        cliente.setCorreo(datos.getCorreo());
+        cliente.setEstado(datos.getEstado() != null ? datos.getEstado() : cliente.getEstado());
+
+        // Actualizar rol
+        Roles rol = rolesRepo.findById(datos.getIdRol())
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + datos.getIdRol()));
+        cliente.setRol(rol);
+
+        // Actualizar técnico (opcional)
+        if (datos.getIdTecnico() != null) {
+            Usuario tecnico = usuarioRepo.findById(datos.getIdTecnico())
+                    .orElseThrow(() -> new RuntimeException("Técnico no encontrado con ID: " + datos.getIdTecnico()));
+            cliente.setTecnico(tecnico);
+        } else {
+            cliente.setTecnico(null); // Puedes ajustar esto si deseas mantener el anterior
+        }
+
+        repository.save(cliente);
     }
 
 }
