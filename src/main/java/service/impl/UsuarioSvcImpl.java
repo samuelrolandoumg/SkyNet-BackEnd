@@ -101,8 +101,8 @@ public class UsuarioSvcImpl implements UsuarioSvc {
 
     @Override
     public UsuarioDto obtenerUsuarioDesdeToken(HttpServletRequest request) {
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzUyMDM0NTUwLCJleHAiOjE3NTIxMjA5NTB9.8Wjecp6PT2WxkpUOCz_ztzNLTS5oV6epndgeQnAzUVQ";
-        //String token = jwtUtil.obtenerTokenDesdeHeader(request);
+        //String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzUyMDM0NTUwLCJleHAiOjE3NTIxMjA5NTB9.8Wjecp6PT2WxkpUOCz_ztzNLTS5oV6epndgeQnAzUVQ";
+        String token = jwtUtil.obtenerTokenDesdeHeader(request);
 
         if (token == null || !jwtUtil.validarToken(token)) {
             throw new CustomException(ErrorEnum.TOKEN_I);

@@ -9,6 +9,7 @@ import dtos.ActualizarClienteDto;
 import dtos.ClienteConsultaDto;
 import dtos.ClienteDto;
 import dtos.CrearClienteDto;
+import dtos.TecnicoDto;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import projection.ubicacionClienteProjection;
@@ -33,5 +34,7 @@ public interface ClienteSvc {
     public List<ClienteConsultaDto> listarClientes(HttpServletRequest request);
     
     public ClienteDto obtenerClientePorId(Long idCliente);
+
+    List<TecnicoDto> obtenerTecnicosPorRolAutenticado(HttpServletRequest request);
 
 }

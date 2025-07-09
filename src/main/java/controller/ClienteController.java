@@ -9,6 +9,7 @@ import dtos.ActualizarClienteDto;
 import dtos.ClienteConsultaDto;
 import dtos.ClienteDto;
 import dtos.CrearClienteDto;
+import dtos.TecnicoDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -81,6 +82,12 @@ public class ClienteController {
     @Operation(summary = "Obtiene un cliente por su ID")
     public ClienteDto obtenerClientePorId(@PathVariable Long idCliente) {
         return clienteSrv.obtenerClientePorId(idCliente);
+    }
+
+    @GetMapping("/tecnicos-by-rol")
+    @Operation(summary = "Lista técnicos según el rol del usuario autenticado")
+    public List<TecnicoDto> obtenerTecnicos(HttpServletRequest request) {
+        return clienteSrv.obtenerTecnicosPorRolAutenticado(request);
     }
 
 }

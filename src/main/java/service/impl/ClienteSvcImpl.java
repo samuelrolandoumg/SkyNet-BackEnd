@@ -9,12 +9,14 @@ import dtos.ActualizarClienteDto;
 import dtos.ClienteConsultaDto;
 import dtos.ClienteDto;
 import dtos.CrearClienteDto;
+import dtos.TecnicoDto;
 import dtos.UsuarioDto;
 import exceptions.CustomException;
 import exceptions.ErrorEnum;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ import models.Cliente;
 import models.Roles;
 import models.Usuario;
 import org.springframework.stereotype.Service;
+import projection.tecnicosbyRolPrejection;
 import projection.ubicacionClienteProjection;
 import projection.usuariobyrolProjection;
 import repository.ClienteRepository;
@@ -184,6 +187,24 @@ public class ClienteSvcImpl implements ClienteSvc {
         }
 
         return dto;
+    }
+
+    @Override
+    public List<TecnicoDto> obtenerTecnicosPorRolAutenticado(HttpServletRequest request) {
+        UsuarioDto usuario = usuarioService.obtenerUsuarioDesdeToken(request);
+        String rol = usuario.getRol();
+        Long idUsuario = usuario.getId();
+
+        List<tecnicosbyRolPrejection> data = this.repository.tecnicosbyRol(usuario.getRol(), usuario.getId());
+        List<TecnicoDto> lista = new ArrayList<>();
+
+        for (tecnicosbyRolPrejection pSet : data) {
+            TecnicoDto dto = new TecnicoDto();
+            dto.setIdUsuario(pSet.getidUsuario());
+            dto.setNombreTecnico(pSet.getnombreTecnico());
+            lista.add(dto);
+        }
+        return lista;
     }
 
 }

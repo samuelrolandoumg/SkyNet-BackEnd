@@ -10,6 +10,7 @@ import models.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import projection.tecnicosbyRolPrejection;
 import projection.ubicacionClienteProjection;
 import projection.usuariobyrolProjection;
 
@@ -51,4 +52,13 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
             + "from clientes c \n"
             + "where c.id_tecnico = :idTecnico", nativeQuery = true)
     public List<usuariobyrolProjection> clientesbyTecnico(@Param("idTecnico") Long idTecnico);
+
+    @Query(value = "SELECT u.id as idUsuario, u.nombre || ' ' || u.apellido as nombreTecnico\n"
+            + "FROM usuarios u\n"
+            + "JOIN roles r ON u.id_rol = r.id\n"
+            + "WHERE r.rol = 'TECNICO'\n"
+            + "AND (:rolBusqueda = 'ADMIN'\n"
+            + "    OR (:rolBusqueda = 'SUPERVISOR' AND u.id_supervisor = :idUsuarioBusqueda))", nativeQuery = true)
+    public List<tecnicosbyRolPrejection> tecnicosbyRol(@Param("rolBusqueda") String rolBusqueda, @Param("idUsuarioBusqueda") Long idUsuarioBusqueda);
+    
 }
