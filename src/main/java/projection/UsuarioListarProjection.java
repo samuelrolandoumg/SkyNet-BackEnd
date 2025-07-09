@@ -9,8 +9,11 @@ package projection;
  *
  * @author Samuel
  */
-public interface usuariobyrolProjection {
-    String getidUsuario();
-    String getusuario();
+public interface UsuarioListarProjection {
+
+    Long getIdUsuario();
+
+    String getNombreTecnico();
+
     String getRol();
 }

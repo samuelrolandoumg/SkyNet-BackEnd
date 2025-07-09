@@ -21,6 +21,7 @@ import models.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import projection.DataUserProjection;
+import projection.UsuarioListarProjection;
 import projection.usuariobyrolProjection;
 import repository.RolesRepository;
 import repository.UsuarioRepository;
@@ -131,4 +132,15 @@ public class UsuarioSvcImpl implements UsuarioSvc {
     public List<usuariobyrolProjection> tecnicobySupervisor(Long idSupervisor) {
         return usuarioRepo.tecnicobySupervisor(idSupervisor);
     }
+
+    @Override
+    public List<UsuarioListarProjection> listarSupervisores() {
+        return usuarioRepo.listarSupervisores();
+    }
+
+    @Override
+    public List<UsuarioListarProjection> listarTecnicosPorSupervisor(Long idSupervisor) {
+        return usuarioRepo.listarTecnicosPorSupervisor(idSupervisor);
+    }
+
 }

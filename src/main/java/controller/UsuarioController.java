@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import projection.UsuarioListarProjection;
 import projection.usuariobyrolProjection;
 import services.UsuarioSvc;
 
@@ -61,10 +62,10 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.usuariobyRol(rol));
     }
 
-    @GetMapping("tecnicos-supervisor")
-    @Operation(summary = "se listan usuarios segun su rol")
-    public ResponseEntity<List<usuariobyrolProjection>> tecnicobySupervisor(@RequestParam Long idSupervisor) {
-        return ResponseEntity.ok(usuarioService.tecnicobySupervisor(idSupervisor));
+    @GetMapping("/tecnicos-por-supervisor")
+    @Operation(summary = "Lista técnicos asignados a un supervisor")
+    public ResponseEntity<List<UsuarioListarProjection>> listarTecnicosPorSupervisor(@RequestParam Long idSupervisor) {
+        return ResponseEntity.ok(usuarioService.listarTecnicosPorSupervisor(idSupervisor));
     }
 
 }

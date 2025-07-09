@@ -13,7 +13,6 @@ import lombok.Data;
  */
 @Data
 public class TecnicoDto {
-
     private Long idUsuario;
     private String nombreTecnico;
 }

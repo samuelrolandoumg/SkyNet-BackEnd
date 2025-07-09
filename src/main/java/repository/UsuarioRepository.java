@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import projection.DataUserProjection;
+import projection.UsuarioListarProjection;
 import projection.usuariobyrolProjection;
 
 /**
@@ -39,7 +40,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Usuario findByCorreo(String correo);
 
     @Query(value = "select nombre || ' ' || apellido as usuario,\n"
-            + "	u.id as idUsuario\n"
+            + "	u.id as idUsuario,\n"
+            + "	r.rol as rol\n"
             + "from usuarios u\n"
             + "inner join roles r on\n"
             + "u.id_rol = r.id\n"
@@ -53,5 +55,22 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             + "u.id_rol = r.id\n"
             + "where u.id_supervisor = :idSupervisor", nativeQuery = true)
     public List<usuariobyrolProjection> tecnicobySupervisor(@Param("idSupervisor") Long idSupervisor);
+
+    @Query(value = "SELECT u.id as idUsuario,\n"
+            + "           u.nombre || ' ' || u.apellido as nombreTecnico,\n"
+            + "           r.rol\n"
+            + "    FROM usuarios u\n"
+            + "    JOIN roles r ON u.id_rol = r.id\n"
+            + "    WHERE r.rol = 'SUPERVISOR'", nativeQuery = true)
+    public List<UsuarioListarProjection> listarSupervisores();
+
+    @Query(value = "SELECT u.id as idUsuario,\n"
+            + "   u.nombre || ' ' || u.apellido as nombreTecnico,\n"
+            + "       r.rol\n"
+            + "FROM usuarios u\n"
+            + "JOIN roles r ON u.id_rol = r.id\n"
+            + "WHERE r.rol = 'TECNICO'\n"
+            + "  AND u.id_supervisor = :idSupervisor", nativeQuery = true)
+    List<UsuarioListarProjection> listarTecnicosPorSupervisor(@Param("idSupervisor") Long idSupervisor);
 
 }

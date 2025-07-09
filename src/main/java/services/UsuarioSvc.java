@@ -10,6 +10,7 @@ import dtos.LoginRequestDto;
 import dtos.UsuarioDto;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import projection.UsuarioListarProjection;
 import projection.usuariobyrolProjection;
 
 /**
@@ -28,5 +29,8 @@ public interface UsuarioSvc {
 
     public List<usuariobyrolProjection> tecnicobySupervisor(Long idSupervisor);
 
-    
+    public List<UsuarioListarProjection> listarSupervisores();
+
+    public List<UsuarioListarProjection> listarTecnicosPorSupervisor(Long idSupervisor);
+
 }
