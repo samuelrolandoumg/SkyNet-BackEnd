@@ -187,6 +187,10 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         dto.setDpi(usuario.getDpi());
         dto.setNit(usuario.getNit());
         dto.setIdRol(usuario.getRol().getId());
+        //pasarle el nombre del rol
+        String rol = this.usuarioRepo.rolById(usuario.getRol().getId());
+        dto.setRol(rol);
+        
         dto.setEstado(usuario.getEstado());
 
         if (usuario.getSupervisor() != null) {

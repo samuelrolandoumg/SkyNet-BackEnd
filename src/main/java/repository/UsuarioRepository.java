@@ -73,4 +73,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             + "  AND u.id_supervisor = :idSupervisor", nativeQuery = true)
     List<UsuarioListarProjection> listarTecnicosPorSupervisor(@Param("idSupervisor") Long idSupervisor);
 
+    @Query(value = "SELECT DISTINCT r.rol\n"
+            + "FROM usuarios u\n"
+            + "INNER JOIN roles r ON u.id_rol = r.id\n"
+            + "where r.id = :idRol", nativeQuery = true)
+    public String rolById(@Param("idRol") Long idRol);
+
 }

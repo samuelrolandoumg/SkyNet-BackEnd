@@ -22,6 +22,7 @@ public class ActualizarUsuarioDto {
     private String dpi;
     private String nit;
     private Long idRol;
+    private String Rol;
     private Long idSupervisor; // puede ser null
     private Boolean estado;
 }
