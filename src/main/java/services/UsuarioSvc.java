@@ -12,6 +12,7 @@ import dtos.UsuarioDto;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import projection.UsuarioListarProjection;
+import projection.usuarioById;
 import projection.usuariobyrolProjection;
 
 /**
@@ -37,5 +38,7 @@ public interface UsuarioSvc {
     public void actualizarUsuario(ActualizarUsuarioDto datos);
     
     public ActualizarUsuarioDto obtenerUsuarioPorId(Long id);
-
+    
+    public usuarioById obtenerDatoUsuario(Long idUsuario);
+    
 }

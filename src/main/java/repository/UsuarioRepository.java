@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import projection.DataUserProjection;
 import projection.UsuarioListarProjection;
+import projection.usuarioById;
 import projection.usuariobyrolProjection;
 
 /**
@@ -78,5 +79,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             + "INNER JOIN roles r ON u.id_rol = r.id\n"
             + "where r.id = :idRol", nativeQuery = true)
     public String rolById(@Param("idRol") Long idRol);
+
+    
+    @Query(value = "select id as idUsuario,\n"
+            + "		u.nombre || ' ' || u.apellido as usuario\n"
+            + "from usuarios u \n"
+            + "where u.id = :idUsuario", nativeQuery = true)
+    public usuarioById obtenerDatoUsuario(@Param("idUsuario") Long idUsuario);
 
 }

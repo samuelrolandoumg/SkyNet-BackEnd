@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import projection.DataUserProjection;
 import projection.UsuarioListarProjection;
+import projection.usuarioById;
 import projection.usuariobyrolProjection;
 import repository.RolesRepository;
 import repository.UsuarioRepository;
@@ -198,5 +199,10 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         }
 
         return dto;
+    }
+    
+    @Override 
+    public usuarioById obtenerDatoUsuario(Long idUsuario){
+        return this.usuarioRepo.obtenerDatoUsuario(idUsuario);
     }
 }

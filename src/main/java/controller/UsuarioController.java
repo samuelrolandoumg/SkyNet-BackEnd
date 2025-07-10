@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import projection.UsuarioListarProjection;
+import projection.usuarioById;
 import projection.usuariobyrolProjection;
 import services.UsuarioSvc;
 
@@ -81,6 +82,12 @@ public class UsuarioController {
     @Operation(summary = "Obtiene un usuario por su ID")
     public ResponseEntity<ActualizarUsuarioDto> obtenerUsuarioPorId(@PathVariable Long id) {
         return ResponseEntity.ok(usuarioService.obtenerUsuarioPorId(id));
+    }
+
+    @GetMapping("/obtener-usuario/{idUsuario}")
+    @Operation(summary = "Obtiener el usuario por id")
+    public ResponseEntity<usuarioById> obtenerDatoUsuario(@PathVariable Long idUsuario) {
+        return ResponseEntity.ok(usuarioService.obtenerDatoUsuario(idUsuario));
     }
 
 }
