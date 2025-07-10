@@ -146,7 +146,7 @@ public class UsuarioSvcImpl implements UsuarioSvc {
 
     @Override
     public void actualizarUsuario(ActualizarUsuarioDto datos) {
-        Usuario usuario = usuarioRepo.findById(datos.getId()).orElseThrow(() -> new CustomException(ErrorEnum.S_DESCONOCIDO));
+        Usuario usuario = usuarioRepo.findById(datos.getId()).orElseThrow(() -> new CustomException(ErrorEnum.U_NO_REGISTRADO));
 
         usuario.setNombre(datos.getNombre());
         usuario.setApellido(datos.getApellido());
@@ -158,10 +158,10 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         usuario.setEstado(datos.getEstado() != null ? datos.getEstado() : usuario.getEstado());
 
         Roles rol = rolesRepo.findById(datos.getIdRol())
-                .orElseThrow(() -> new CustomException(ErrorEnum.S_DESCONOCIDO));
+                .orElseThrow(() -> new CustomException(ErrorEnum.U_NO_REGISTRADO));
         usuario.setRol(rol);
 
-        if (datos.getIdSupervisor() != null) {
+        if (datos.getIdSupervisor() != null && datos.getIdSupervisor() != 0) {
             Usuario supervisor = usuarioRepo.findById(datos.getIdSupervisor())
                     .orElseThrow(() -> new CustomException(ErrorEnum.S_DESCONOCIDO));
             usuario.setSupervisor(supervisor);
@@ -190,7 +190,7 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         //pasarle el nombre del rol
         String rol = this.usuarioRepo.rolById(usuario.getRol().getId());
         dto.setRol(rol);
-        
+
         dto.setEstado(usuario.getEstado());
 
         if (usuario.getSupervisor() != null) {
