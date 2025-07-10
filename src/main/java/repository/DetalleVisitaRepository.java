@@ -39,7 +39,7 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             + "inner join usuarios u ON c.id_tecnico = u.id\n"
             + "inner join visitas v ON v.id_cliente = c.id\n"
             + "inner join detalle_visita dv on dv.id_visita = v.id\n"
-            + "inner join seguimiento_incidencia si on si.id_detalle_visita = dv.id\n"
+            + "left join seguimiento_incidencia si on si.id_detalle_visita = dv.id\n"
             + "where v.id = :idVisita", nativeQuery = true)
     public DetalleVisitaReporteProjection getDatosReporte(@Param("idVisita") Long idVisita);
 
