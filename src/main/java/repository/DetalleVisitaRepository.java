@@ -12,6 +12,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import projection.DatosCorreoClienteProjection;
 import projection.DetalleVisitaReporteProjection;
+import projection.ResumenEstadoProjection;
+import projection.VisitaPorEstadoProjection;
 
 /**
  *
@@ -46,6 +48,35 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
     @Query(value = "select url_foto from visitas v \n"
             + "inner join detalle_visita dv on dv.id_visita = v.id\n"
             + "inner join foto_detalle_visita fdv on fdv.id_detalle_visita = dv.id\n"
+            + "where v.id = :idVisita limit 1", nativeQuery = true)
+    public String getImagen(@Param("idVisita") Long idVisita);
+
+    @Query(value = "select url_foto from visitas v \n"
+            + "inner join detalle_visita dv on dv.id_visita = v.id\n"
+            + "inner join foto_detalle_visita fdv on fdv.id_detalle_visita = dv.id\n"
             + "where v.id = :idVisita", nativeQuery = true)
     public List<String> getUrlImagen(@Param("idVisita") Long idVisita);
+
+    @Query(value = "select v.estado, COUNT(v.id) as cantidad from visitas v \n"
+            + "where v.id_tecnico = :idTecnico\n"
+            + "group by v.estado", nativeQuery = true)
+    public List<ResumenEstadoProjection> getresumenPorTecnico(@Param("idTecnico") Long idTecnico);
+
+    @Query(value = "SELECT \n"
+            + "    v.id AS idVisita,\n"
+            + "    v.estado,\n"
+            + "    c.nombre_cliente AS nombreCliente,\n"
+            + "    v.fecha_visita AS fechaVisita,\n"
+            + "    CASE \n"
+            + "        WHEN v.estado IN ('FINALIZADO', 'FINALIZADO CON INCIDENCIA') THEN 'Finalizada'\n"
+            + "        WHEN v.fecha_visita < CURRENT_DATE THEN 'Fuera de tiempo'\n"
+            + "        ELSE 'A tiempo'\n"
+            + "    END AS enTiempo\n"
+            + "FROM visitas v\n"
+            + "INNER JOIN clientes c ON v.id_cliente = c.id\n"
+            + "WHERE v.id_tecnico = :idTecnico AND v.estado = :estado", nativeQuery = true)
+    public List<VisitaPorEstadoProjection> getVisitasPorEstadoYTecnico(
+            @Param("idTecnico") Long idTecnico,
+            @Param("estado") String estado);
+
 }

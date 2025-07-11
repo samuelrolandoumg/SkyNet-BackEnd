@@ -5,10 +5,10 @@
  */
 package services;
 
-import dtos.DetalleVisitaReporteDto;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.web.bind.annotation.RequestBody;
+import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
+import projection.ResumenEstadoProjection;
+import projection.VisitaPorEstadoProjection;
 
 /**
  *
@@ -18,5 +18,10 @@ public interface DetalleVisitaSvc {
 
    public void crearDetalleVisita(Long idVisita, String resultadoVisita, String observaciones, String comentarioAdicional, MultipartFile[] fotos);
 
-    byte[] generarPDFVisita(Long idVisita) throws Exception;
+   public byte[] generarPDFVisita(Long idVisita) throws Exception;
+   
+   public List<ResumenEstadoProjection> resumenPorTecnico(Long idTecnico);
+
+   public List<VisitaPorEstadoProjection> visitasPorEstadoYTecnico(Long idTecnico, String estado);
+
 }

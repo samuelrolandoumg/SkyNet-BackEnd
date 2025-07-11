@@ -24,5 +24,6 @@ public class DetalleVisitaReporteDto {
     private String observaciones;
     private String comentarioAdicional;
     private String proximaFechaPorIncidencia;
+    private String imagen;
     private List<ImagenesDto> fotos;
 }

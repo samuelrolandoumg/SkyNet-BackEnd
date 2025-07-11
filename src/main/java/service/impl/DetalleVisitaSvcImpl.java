@@ -31,6 +31,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import projection.DatosCorreoClienteProjection;
 import projection.DetalleVisitaReporteProjection;
+import projection.ResumenEstadoProjection;
+import projection.VisitaPorEstadoProjection;
 import repository.DetalleVisitaRepository;
 import repository.FotoDetalleVisitaRepository;
 import repository.SeguimientoIncidenciaRepository;
@@ -155,8 +157,11 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
         data.setObservaciones(datos.getObservaciones());
         data.setComentarioAdicional(datos.getComentarioAdicional());
         data.setProximaFechaPorIncidencia(datos.getProximaFechaPorIncidencia());
+
+        data.setImagen(this.detalleRepo.getImagen(idVisita));
         //data.setFotos(urls);
         // Transformar URLs en objetos ImagenesDto
+
         List<String> urls = this.detalleRepo.getUrlImagen(idVisita);
 
         List<ImagenesDto> imagenes = new ArrayList<>();
@@ -165,11 +170,21 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
             imagen.setUrlFoto(url);
             imagenes.add(imagen);
         }
-        
+
         dato.add(data);
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(report, null, new JRBeanCollectionDataSource(dato));
 
         return JasperExportManager.exportReportToPdf(jasperPrint);
+    }
+
+    @Override
+    public List<ResumenEstadoProjection> resumenPorTecnico(Long idTecnico) {
+        return this.detalleRepo.getresumenPorTecnico(idTecnico);
+    }
+
+    @Override
+    public List<VisitaPorEstadoProjection> visitasPorEstadoYTecnico(Long idTecnico, String estado) {
+        return this.detalleRepo.getVisitasPorEstadoYTecnico(idTecnico, estado);
     }
 }

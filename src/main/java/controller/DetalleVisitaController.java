@@ -5,18 +5,21 @@
  */
 package controller;
 
-import dtos.DetalleVisitaReporteDto;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import projection.ResumenEstadoProjection;
+import projection.VisitaPorEstadoProjection;
 import services.DetalleVisitaSvc;
 
 /**
@@ -61,5 +64,19 @@ public class DetalleVisitaController {
         } catch (Exception e) {
             throw new RuntimeException("Error al generar el reporte PDF", e);
         }
+    }
+
+    @GetMapping("/resumen-estados")
+    @Operation(summary = "Resumen de visitas por estado para un técnico")
+    public ResponseEntity<List<ResumenEstadoProjection>> resumenVisitas(@RequestParam Long idTecnico) {
+        return ResponseEntity.ok(detalleVisitaSvc.resumenPorTecnico(idTecnico));
+    }
+
+    @GetMapping("/visitas-estado-tecnico")
+    @Operation(summary = "Lista visitas filtradas por estado y técnico")
+    public ResponseEntity<List<VisitaPorEstadoProjection>> visitasPorEstadoYTecnico(
+            @RequestParam Long idTecnico,
+            @RequestParam String estado) {
+        return ResponseEntity.ok(detalleVisitaSvc.visitasPorEstadoYTecnico(idTecnico, estado));
     }
 }
