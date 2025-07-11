@@ -79,4 +79,28 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             @Param("idTecnico") Long idTecnico,
             @Param("estado") String estado);
 
+    @Query(value = "SELECT v.estado,\n"
+            + "       v.id AS idVisita,\n"
+            + "       v.id_tecnico AS idTecnico,\n"
+            + "       v.fecha_visita as fechaVisita,\n"
+            + "       c.id AS idCliente,\n"
+            + "       c.nombre_cliente AS nombreCliente,\n"
+            + "       u.nombre || ' ' || u.apellido AS nombreTecnico,\n"
+            + "       CASE \n"
+            + "           WHEN v.fecha_visita < CURRENT_DATE THEN 'Fuera de tiempo'\n"
+            + "           ELSE 'A tiempo'\n"
+            + "       END AS enTiempo,\n"
+            + "       CASE \n"
+            + "           WHEN v.fecha_visita < CURRENT_DATE THEN \n"
+            + "               CONCAT(EXTRACT(DAY FROM CURRENT_TIMESTAMP - v.fecha_visita), ' días, ',\n"
+            + "                      EXTRACT(HOUR FROM CURRENT_TIMESTAMP - v.fecha_visita), ' horas')\n"
+            + "           ELSE NULL\n"
+            + "       END AS tiempoRetraso\n"
+            + "FROM visitas v\n"
+            + "INNER JOIN usuarios u ON v.id_tecnico = u.id\n"
+            + "INNER JOIN clientes c ON c.id = v.id_cliente\n"
+            + "WHERE v.id_supervisor = :idSupervisor\n"
+            + "  AND v.estado NOT IN ('FINALIZADO', 'FINALIZADO CON INCIDENCIA')", nativeQuery = true)
+    List<ConsultaVisitaSupervisorProjection> getConsultaVisitasPorSupervisor(@Param("idSupervisor") Long idSupervisor);
+
 }

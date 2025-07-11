@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import projection.ResumenEstadoProjection;
 import projection.VisitaPorEstadoProjection;
+import repository.ConsultaVisitaSupervisorProjection;
 import services.DetalleVisitaSvc;
 
 /**
@@ -79,4 +80,12 @@ public class DetalleVisitaController {
             @RequestParam String estado) {
         return ResponseEntity.ok(detalleVisitaSvc.visitasPorEstadoYTecnico(idTecnico, estado));
     }
+
+    @GetMapping("/consulta-visitas-supervisor")
+    @Operation(summary = "Consulta de visitas en estado pendiente asignadas a técnicos de un supervisor")
+    public ResponseEntity<List<ConsultaVisitaSupervisorProjection>> consultaVisitasSupervisor(
+            @RequestParam Long idSupervisor) {
+        return ResponseEntity.ok(detalleVisitaSvc.consultaVisitasPorSupervisor(idSupervisor));
+    }
+
 }

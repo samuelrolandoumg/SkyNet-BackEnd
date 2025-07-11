@@ -33,6 +33,7 @@ import projection.DatosCorreoClienteProjection;
 import projection.DetalleVisitaReporteProjection;
 import projection.ResumenEstadoProjection;
 import projection.VisitaPorEstadoProjection;
+import repository.ConsultaVisitaSupervisorProjection;
 import repository.DetalleVisitaRepository;
 import repository.FotoDetalleVisitaRepository;
 import repository.SeguimientoIncidenciaRepository;
@@ -186,5 +187,10 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
     @Override
     public List<VisitaPorEstadoProjection> visitasPorEstadoYTecnico(Long idTecnico, String estado) {
         return this.detalleRepo.getVisitasPorEstadoYTecnico(idTecnico, estado);
+    }
+
+    @Override
+    public List<ConsultaVisitaSupervisorProjection> consultaVisitasPorSupervisor(Long idSupervisor) {
+        return detalleRepo.getConsultaVisitasPorSupervisor(idSupervisor);
     }
 }
