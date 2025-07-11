@@ -210,43 +210,7 @@
 				<text><![CDATA[<style isBold='true' pdfFontName='Helvetica-Bold'>Resultado visita:</style>]]></text>
 			</staticText>
 			<componentElement>
-				<reportElement positionType="Float" stretchType="ElementGroupHeight" x="33" y="210" width="247" height="190" uuid="2d78e88f-f4ac-4aa0-96b5-f3b23152f28a">
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="imagenes" uuid="f51b3e3d-8eae-4b07-9f40-70e732d88bd8">
-						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{lineasItems})]]></dataSourceExpression>
-					</datasetRun>
-					<jr:column width="109" uuid="4ef2194c-31ae-4cdd-ad51-b667dd1fd844">
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
-						<jr:columnHeader style="Table 1_CH" height="30" rowSpan="1">
-							<staticText>
-								<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="109" height="30" uuid="4d55c518-6b83-4eae-a84d-7975611dce92"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
-									<font size="7"/>
-								</textElement>
-								<text><![CDATA[<style isBold='true' pdfFontName='Helvetica-Bold'>No. de Línea de la DUCA e Ítem de la DVA que presenta la incidencia:</style>]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:detailCell style="Table 1_TD" height="30">
-							<textField isBlankWhenNull="true">
-								<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="109" height="15" uuid="24e326df-9e97-46f8-9338-ff75cc57d1e0"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="7"/>
-								</textElement>
-								<textFieldExpression><![CDATA[$F{urlFoto}]]></textFieldExpression>
-							</textField>
-							<image>
-								<reportElement x="0" y="15" width="109" height="15" uuid="c965aee0-d77c-48dc-825f-5d4bdb63ef38"/>
-								<imageExpression><![CDATA[$F{urlFoto}]]></imageExpression>
-							</image>
-						</jr:detailCell>
-					</jr:column>
-				</jr:table>
-			</componentElement>
-			<componentElement>
-				<reportElement x="377" y="328" width="200" height="200" uuid="7fb210b0-f8aa-46d8-8cbd-b64700874a6c">
+				<reportElement x="320" y="230" width="200" height="200" uuid="7fb210b0-f8aa-46d8-8cbd-b64700874a6c">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
