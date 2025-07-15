@@ -99,7 +99,8 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             + "FROM visitas v\n"
             + "INNER JOIN usuarios u ON v.id_tecnico = u.id\n"
             + "INNER JOIN clientes c ON c.id = v.id_cliente\n"
-            + "WHERE v.id_supervisor = :idSupervisor\n"
+            + "left join alertas_visita av on av.id_visita = v.id\n"
+            + "WHERE v.id_supervisor = :idSupervisor and av.leido is null\n"
             + "  AND v.estado NOT IN ('FINALIZADO', 'FINALIZADO CON INCIDENCIA')", nativeQuery = true)
     List<ConsultaVisitaSupervisorProjection> getConsultaVisitasPorSupervisor(@Param("idSupervisor") Long idSupervisor);
 
