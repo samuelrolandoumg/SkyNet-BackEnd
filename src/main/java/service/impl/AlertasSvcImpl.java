@@ -7,13 +7,16 @@ package service.impl;
 
 import exceptions.CustomException;
 import exceptions.ErrorEnum;
+import jakarta.transaction.Transactional;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import models.AlertaVisita;
 import models.Usuario;
 import models.Visita;
 import org.springframework.stereotype.Service;
+import projection.AlertaVisitaProjection;
 import repository.AlertaGeneradaProjection;
 import repository.AlertasRepository;
 import repository.UsuarioRepository;
@@ -36,7 +39,7 @@ public class AlertasSvcImpl implements AlertasSvc {
             AlertasRepository repository,
             UsuarioRepository usuarioRepo,
             VisitaRepository visitaRepo
-            ) {
+    ) {
         this.repository = repository;
         this.usuarioRepo = usuarioRepo;
         this.visitaRepo = visitaRepo;
@@ -67,6 +70,17 @@ public class AlertasSvcImpl implements AlertasSvc {
         nuevo.setLeido(false);
         nuevo.setFechaAlerta(Timestamp.from(Instant.now()));
         repository.save(nuevo);
+    }
+
+    @Transactional
+    @Override
+    public List<AlertaVisitaProjection> listarAlertasTecnico(Long idTecnico) {
+        List<AlertaVisitaProjection> alertas = repository.obtenerAlertasPorTecnico(idTecnico);
+
+        // Marcar como leídas después de obtenerlas
+        repository.marcarAlertasComoLeidas(idTecnico);
+
+        return alertas;
     }
 
 }

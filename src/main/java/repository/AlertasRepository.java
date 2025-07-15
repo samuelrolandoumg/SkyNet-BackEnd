@@ -5,10 +5,13 @@
  */
 package repository;
 
+import java.util.List;
 import models.AlertaVisita;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import projection.AlertaVisitaProjection;
 
 /**
  *
@@ -31,5 +34,17 @@ public interface AlertasRepository extends JpaRepository<AlertaVisita, Long> {
             + "INNER JOIN clientes c ON c.id = v.id_cliente\n"
             + "where v.id = :idvisita", nativeQuery = true)
     public AlertaGeneradaProjection dataAlerta(@Param("idvisita") Long idvisita);
+
+    @Query(value = "select av.fecha_alerta as fechaAlerta,\n"
+            + "	av.mensaje\n"
+            + "from alertas_visita av\n"
+            + "where av.id_tecnico = :idTecnico", nativeQuery = true)
+    List<AlertaVisitaProjection> obtenerAlertasPorTecnico(@Param("idTecnico") Long idTecnico);
+
+    @Modifying
+    @Query(value = "UPDATE alertas_visita\n"
+            + "    SET leido = true\n"
+            + "    WHERE id_tecnico = :idTecnico", nativeQuery = true)
+    public void marcarAlertasComoLeidas(@Param("idTecnico") Long idTecnico);
 
 }

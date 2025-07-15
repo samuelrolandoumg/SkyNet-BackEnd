@@ -5,6 +5,9 @@
  */
 package services;
 
+import java.util.List;
+import projection.AlertaVisitaProjection;
+
 /**
  *
  * @author Samuel
@@ -13,4 +16,5 @@ public interface AlertasSvc {
 
     public void alertarRetrasoTecnico(Long idVisita);
 
+    public List<AlertaVisitaProjection> listarAlertasTecnico(Long idTecnico);
 }
