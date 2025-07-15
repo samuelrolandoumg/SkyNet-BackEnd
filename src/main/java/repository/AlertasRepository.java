@@ -38,7 +38,7 @@ public interface AlertasRepository extends JpaRepository<AlertaVisita, Long> {
     @Query(value = "select av.fecha_alerta as fechaAlerta,\n"
             + "	av.mensaje\n"
             + "from alertas_visita av\n"
-            + "where av.id_tecnico = :idTecnico", nativeQuery = true)
+            + "where av.id_tecnico = :idTecnico and av.leido is false", nativeQuery = true)
     List<AlertaVisitaProjection> obtenerAlertasPorTecnico(@Param("idTecnico") Long idTecnico);
 
     @Modifying
