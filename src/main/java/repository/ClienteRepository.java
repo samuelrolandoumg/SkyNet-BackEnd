@@ -60,5 +60,9 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
             + "AND (:rolBusqueda = 'ADMIN'\n"
             + "    OR (:rolBusqueda = 'SUPERVISOR' AND u.id_supervisor = :idUsuarioBusqueda))", nativeQuery = true)
     public List<tecnicosbyRolPrejection> tecnicosbyRol(@Param("rolBusqueda") String rolBusqueda, @Param("idUsuarioBusqueda") Long idUsuarioBusqueda);
-    
+
+    List<Cliente> findByEstadoTrue(); 
+
+    List<Cliente> findByTecnicoIdInAndEstadoTrue(List<Long> idsTecnicos);
+
 }

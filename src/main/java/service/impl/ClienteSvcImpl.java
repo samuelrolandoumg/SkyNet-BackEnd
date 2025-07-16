@@ -136,11 +136,10 @@ public class ClienteSvcImpl implements ClienteSvc {
         UsuarioDto usuario = usuarioService.obtenerUsuarioDesdeToken(request);
         String rol = usuario.getRol();
 
-        log.debug("trae" + usuario.getRol());
         List<Cliente> clientes;
 
         if ("ADMIN".equalsIgnoreCase(rol)) {
-            clientes = repository.findAll();
+            clientes = repository.findByEstadoTrue(); // solo activos
 
         } else if ("SUPERVISOR".equalsIgnoreCase(rol)) {
             List<Usuario> tecnicos = usuarioRepo.findBySupervisorId(usuario.getId());
@@ -148,11 +147,12 @@ public class ClienteSvcImpl implements ClienteSvc {
                     .map(Usuario::getId)
                     .toList();
 
-            clientes = repository.findByTecnicoIdIn(idsTecnicos);
+            clientes = repository.findByTecnicoIdInAndEstadoTrue(idsTecnicos); // solo activos
 
         } else {
             throw new CustomException(ErrorEnum.ROL_INVALIDO);
         }
+
         return clientes.stream().map(cliente -> {
             ClienteConsultaDto dto = new ClienteConsultaDto();
             dto.setIdCliente(cliente.getId());
