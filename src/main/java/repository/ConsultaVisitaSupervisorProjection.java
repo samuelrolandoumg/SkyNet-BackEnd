@@ -21,4 +21,5 @@ public interface ConsultaVisitaSupervisorProjection {
     String getnombreTecnico();
     String getenTiempo();
     String gettiempoRetraso(); 
+    Boolean getleido();
 }

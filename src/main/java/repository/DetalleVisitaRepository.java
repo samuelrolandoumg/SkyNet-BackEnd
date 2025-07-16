@@ -86,6 +86,7 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             + "       c.id AS idCliente,\n"
             + "       c.nombre_cliente AS nombreCliente,\n"
             + "       u.nombre || ' ' || u.apellido AS nombreTecnico,\n"
+            + "       av.leido,\n"
             + "       CASE \n"
             + "           WHEN v.fecha_visita < CURRENT_DATE THEN 'Fuera de tiempo'\n"
             + "           ELSE 'A tiempo'\n"
@@ -100,7 +101,7 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             + "INNER JOIN usuarios u ON v.id_tecnico = u.id\n"
             + "INNER JOIN clientes c ON c.id = v.id_cliente\n"
             + "left join alertas_visita av on av.id_visita = v.id\n"
-            + "WHERE v.id_supervisor = :idSupervisor and av.leido is null\n"
+            + "WHERE v.id_supervisor = :idSupervisor\n"
             + "  AND v.estado NOT IN ('FINALIZADO', 'FINALIZADO CON INCIDENCIA')", nativeQuery = true)
     List<ConsultaVisitaSupervisorProjection> getConsultaVisitasPorSupervisor(@Param("idSupervisor") Long idSupervisor);
 
