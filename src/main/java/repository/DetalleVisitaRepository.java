@@ -80,7 +80,7 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             @Param("idTecnico") Long idTecnico,
             @Param("estado") String estado);
 
-    @Query(value = "SELECT\n"
+    @Query(value = "SELECT \n"
             + "  v.estado,\n"
             + "  v.id AS idVisita,\n"
             + "  v.id_tecnico AS idTecnico,\n"
@@ -90,12 +90,14 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             + "  u.nombre || ' ' || u.apellido AS nombreTecnico,\n"
             + "  av.leido AS leido,\n"
             + "  CASE \n"
-            + "    WHEN v.fecha_visita < CURRENT_DATE THEN 'Fuera de tiempo'\n"
+            + "    WHEN v.fecha_visita < CURRENT_DATE AT TIME ZONE 'America/Guatemala' THEN 'Fuera de tiempo'\n"
             + "    ELSE 'A tiempo'\n"
             + "  END AS enTiempo,\n"
             + "  CASE \n"
-            + "    WHEN v.fecha_visita < CURRENT_DATE THEN \n"
-            + "      CONCAT(CURRENT_DATE - CAST(v.fecha_visita AS DATE), ' días')\n"
+            + "    WHEN v.fecha_visita < CURRENT_DATE AT TIME ZONE 'America/Guatemala' THEN \n"
+            + "      CONCAT(\n"
+            + "        EXTRACT(DAY FROM NOW() - v.fecha_visita), ' días'\n"
+            + "      )\n"
             + "    ELSE NULL\n"
             + "  END AS tiempoRetraso\n"
             + "FROM visitas v\n"
@@ -103,7 +105,7 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             + "JOIN usuarios sup ON u.id_supervisor = sup.id\n"
             + "JOIN clientes c ON c.id = v.id_cliente\n"
             + "LEFT JOIN alertas_visita av ON av.id_visita = v.id\n"
-            + "WHERE u.id_supervisor = :idSupervisor\n"
+            + "WHERE sup.id = :idSupervisor\n"
             + "  AND v.estado NOT IN ('FINALIZADO', 'FINALIZADO CON INCIDENCIA')", nativeQuery = true)
     List<ConsultaVisitaSupervisorProjection> getConsultaVisitasPorSupervisor(@Param("idSupervisor") Long idSupervisor);
 
