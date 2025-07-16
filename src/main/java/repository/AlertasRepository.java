@@ -38,13 +38,16 @@ public interface AlertasRepository extends JpaRepository<AlertaVisita, Long> {
     @Query(value = "select av.fecha_alerta as fechaAlerta,\n"
             + "	av.mensaje\n"
             + "from alertas_visita av\n"
-            + "where av.id_tecnico = :idTecnico and av.leido is false", nativeQuery = true)
+            + "inner join visitas v on v.id = av.id_visita\n"
+            + "where v.id_tecnico = :idTecnico and av.leido is false", nativeQuery = true)
     List<AlertaVisitaProjection> obtenerAlertasPorTecnico(@Param("idTecnico") Long idTecnico);
 
     @Modifying
-    @Query(value = "UPDATE alertas_visita\n"
-            + "    SET leido = true\n"
-            + "    WHERE id_tecnico = :idTecnico", nativeQuery = true)
+    @Query(value = "UPDATE alertas_visita av\n"
+            + "SET leido = true\n"
+            + "FROM visitas v\n"
+            + "WHERE av.id_visita = v.id\n"
+            + "  AND v.id_tecnico = :idTecnico", nativeQuery = true)
     public void marcarAlertasComoLeidas(@Param("idTecnico") Long idTecnico);
 
 }
