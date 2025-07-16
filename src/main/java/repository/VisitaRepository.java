@@ -15,6 +15,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import projection.VisitasTecnicoProjection;
+import projection.visitasTecnicobySuperProjection;
 
 /**
  *
@@ -69,4 +70,12 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
             + "where id = :idVisita", nativeQuery = true)
     public void finalizarServicio(@Param("fechaegreso") LocalDateTime fechaegreso, @Param("latitud") String latitud, @Param("longitud") String longitud, @Param("estado") String estado, @Param("idVisita") Long idVisita);
 
+    @Query(value = "SELECT \n"
+            + "  u.nombre || ' ' || u.apellido AS nombreTecnico,\n"
+            + "  COUNT(v.id) AS cantidad\n"
+            + "FROM visitas v\n"
+            + "INNER JOIN usuarios u ON v.id_tecnico = u.id\n"
+            + "WHERE u.id_supervisor = :idSupervisor\n"
+            + "GROUP BY nombreTecnico", nativeQuery = true)
+    public List<visitasTecnicobySuperProjection> visitasTecnicobySuper(@Param("idSupervisor") Long idSupervisor);
 }

@@ -7,9 +7,9 @@ package services;
 
 import dtos.CrearVisitaDto;
 import dtos.iniciarServicioDto;
-import java.util.Date;
 import java.util.List;
 import projection.VisitasTecnicoProjection;
+import projection.visitasTecnicobySuperProjection;
 
 /**
  *
@@ -27,4 +27,6 @@ public interface VisitaSvc {
 
     public void finalizarServicio(iniciarServicioDto datos);
 
+    public List<visitasTecnicobySuperProjection> visitasTecnicobySuper(Long idSupervisor);
+    
 }

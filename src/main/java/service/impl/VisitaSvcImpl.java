@@ -21,6 +21,7 @@ import models.Visita;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import projection.VisitasTecnicoProjection;
+import projection.visitasTecnicobySuperProjection;
 import repository.ClienteRepository;
 import repository.UsuarioRepository;
 import repository.VisitaRepository;
@@ -115,4 +116,8 @@ public class VisitaSvcImpl implements VisitaSvc {
         );
     }
 
+    @Override
+    public List<visitasTecnicobySuperProjection> visitasTecnicobySuper(Long idSupervisor) {
+        return this.visitaRepo.visitasTecnicobySuper(idSupervisor);
+    }
 }
