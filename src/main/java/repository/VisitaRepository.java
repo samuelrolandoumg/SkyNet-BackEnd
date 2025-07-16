@@ -7,7 +7,6 @@ package repository;
 
 import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import models.Visita;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +14,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import projection.VisitasTecnicoProjection;
+import projection.visitasSuperByAdminProjection;
 import projection.visitasTecnicobySuperProjection;
 
 /**
@@ -78,4 +78,15 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
             + "WHERE u.id_supervisor = :idSupervisor\n"
             + "GROUP BY nombreTecnico", nativeQuery = true)
     public List<visitasTecnicobySuperProjection> visitasTecnicobySuper(@Param("idSupervisor") Long idSupervisor);
+
+    @Query(value = "SELECT \n"
+            + "    CONCAT(sup.nombre, ' ', sup.apellido) AS nombreSupervisor,\n"
+            + "    COUNT(v.id) AS cantidad\n"
+            + "FROM visitas v\n"
+            + "JOIN usuarios u ON v.id_tecnico = u.id\n"
+            + "JOIN usuarios sup ON u.id_supervisor = sup.id\n"
+            + "JOIN usuarios admin ON sup.id_admin = admin.id\n"
+            + "WHERE admin.id = :idAdmin\n"
+            + "GROUP BY sup.nombre, sup.apellido", nativeQuery = true)
+    public List<visitasSuperByAdminProjection> visitasSupervisorbyAdmin(@Param("idAdmin") Long idAdmin);
 }
