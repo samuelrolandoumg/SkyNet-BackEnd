@@ -14,6 +14,7 @@ import dtos.UsuarioDto;
 import exceptions.CustomException;
 import exceptions.ErrorEnum;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -206,5 +207,10 @@ public class ClienteSvcImpl implements ClienteSvc {
         }
         return lista;
     }
-
+    
+    @Override
+    @Transactional
+    public void eliminarCliente(Long idCliente) {
+        this.repository.eliminarCliente(idCliente);
+    }
 }

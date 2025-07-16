@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package repository;
+package projection;
 
 /**
  *
  * @author Samuel
  */
 public interface AlertaGeneradaProjection {
+
     Long getidVisita();
     Long getidTecnico();
     Long getidSupervisor();

@@ -10,6 +10,7 @@ import models.DetalleVisita;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import projection.ConsultaVisitaSupervisorProjection;
 import projection.DatosCorreoClienteProjection;
 import projection.DetalleVisitaReporteProjection;
 import projection.ResumenEstadoProjection;

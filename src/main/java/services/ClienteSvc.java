@@ -37,4 +37,5 @@ public interface ClienteSvc {
 
     List<TecnicoDto> obtenerTecnicosPorRolAutenticado(HttpServletRequest request);
 
+    public void eliminarCliente(Long idCliente);
 }

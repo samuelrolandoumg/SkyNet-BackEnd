@@ -7,9 +7,9 @@ package services;
 
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
+import projection.ConsultaVisitaSupervisorProjection;
 import projection.ResumenEstadoProjection;
 import projection.VisitaPorEstadoProjection;
-import repository.ConsultaVisitaSupervisorProjection;
 
 /**
  *

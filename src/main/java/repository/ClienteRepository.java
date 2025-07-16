@@ -5,9 +5,11 @@
  */
 package repository;
 
+import jakarta.transaction.Transactional;
 import java.util.List;
 import models.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import projection.tecnicosbyRolPrejection;
@@ -61,8 +63,12 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
             + "    OR (:rolBusqueda = 'SUPERVISOR' AND u.id_supervisor = :idUsuarioBusqueda))", nativeQuery = true)
     public List<tecnicosbyRolPrejection> tecnicosbyRol(@Param("rolBusqueda") String rolBusqueda, @Param("idUsuarioBusqueda") Long idUsuarioBusqueda);
 
-    List<Cliente> findByEstadoTrue(); 
+    List<Cliente> findByEstadoTrue();
 
     List<Cliente> findByTecnicoIdInAndEstadoTrue(List<Long> idsTecnicos);
+
+    @Modifying
+    @Query("UPDATE Cliente c SET c.estado = false WHERE c.id = :idCliente")
+    void eliminarCliente(@Param("idCliente") Long idCliente);
 
 }

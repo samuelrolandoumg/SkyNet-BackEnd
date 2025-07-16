@@ -90,4 +90,10 @@ public class ClienteController {
         return clienteSrv.obtenerTecnicosPorRolAutenticado(request);
     }
 
+    @PutMapping("/eliminar-cliente")
+    @Operation(summary = "Actualiza un cliente existente")
+    public void eliminarCliente(@RequestParam Long idCliente) {
+        clienteSrv.eliminarCliente(idCliente);
+    }
+
 }
