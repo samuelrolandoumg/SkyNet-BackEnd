@@ -213,4 +213,8 @@ public class ClienteSvcImpl implements ClienteSvc {
     public void eliminarCliente(Long idCliente) {
         this.repository.eliminarCliente(idCliente);
     }
+    
+    public Integer obtenerVisitaCliente(Long idCliente){
+        return this.repository.obtenerVisitaCliente(idCliente);
+    }
 }

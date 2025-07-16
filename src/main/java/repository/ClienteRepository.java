@@ -71,4 +71,8 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     @Query("UPDATE Cliente c SET c.estado = false WHERE c.id = :idCliente")
     void eliminarCliente(@Param("idCliente") Long idCliente);
 
+    @Query(value = "select COUNT(id) from visitas v\n"
+            + "where v.id_cliente = :idCliente\n"
+            + "and v.estado NOT IN ('FINALIZADO', 'FINALIZADO CON INCIDENCIA')", nativeQuery = true)
+    public Integer obtenerVisitaCliente(@Param("idCliente") Long idCliente);
 }

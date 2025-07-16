@@ -96,4 +96,9 @@ public class ClienteController {
         clienteSrv.eliminarCliente(idCliente);
     }
 
+    @GetMapping("/visitas-cliente")
+    @Operation(summary = "antes de eliminar, veificar si el cliente tiene visitas pendientes")
+    public ResponseEntity<Integer> obtenerVisitaCliente(@RequestParam Long idCliente) {
+        return ResponseEntity.ok(clienteSrv.obtenerVisitaCliente(idCliente));
+    }
 }
