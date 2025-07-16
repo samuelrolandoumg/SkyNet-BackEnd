@@ -44,10 +44,6 @@ public class SeguimientoIncidencia {
     @JoinColumn(name = "id_tecnico", nullable = false)
     private Usuario tecnico;
 
-    @ManyToOne
-    @JoinColumn(name = "id_supervisor", nullable = false)
-    private Usuario supervisor;
-
     @Column(name = "fecha_programada", nullable = false)
     private LocalDate fechaProgramada;
 

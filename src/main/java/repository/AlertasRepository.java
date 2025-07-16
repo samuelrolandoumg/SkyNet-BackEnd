@@ -22,7 +22,6 @@ public interface AlertasRepository extends JpaRepository<AlertaVisita, Long> {
 
     @Query(value = "SELECT v.id AS idVisita,\n"
             + "       v.id_tecnico AS idTecnico,\n"
-            + "       v.id_supervisor as idSupervisor,\n"
             + "       c.nombre_cliente AS nombreCliente,\n"
             + "              CASE \n"
             + "           WHEN v.fecha_visita < CURRENT_DATE THEN \n"

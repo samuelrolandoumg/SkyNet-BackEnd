@@ -57,12 +57,8 @@ public class VisitaSvcImpl implements VisitaSvc {
         Usuario tecnico = usuarioRepo.findById(dto.getIdTecnico())
                 .orElseThrow(() -> new RuntimeException("Técnico no encontrado"));
 
-        Usuario supervisor = usuarioRepo.findById(dto.getIdSupervisor())
-                .orElseThrow(() -> new RuntimeException("Supervisor no encontrado"));
-
         nueva.setCliente(cliente);
         nueva.setTecnico(tecnico);
-        nueva.setSupervisor(supervisor);
         nueva.setFechaVisita(dto.getFechaVisita());
         nueva.setFechaCreacion(fechaConvertida);
         nueva.setEstado("CREADO");

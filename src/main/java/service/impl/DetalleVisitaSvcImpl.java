@@ -108,7 +108,6 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
             seguimiento.setDetalleVisita(detalle);
             seguimiento.setCliente(visita.getCliente());
             seguimiento.setTecnico(visita.getTecnico());
-            seguimiento.setSupervisor(visita.getSupervisor());
             seguimiento.setFechaProgramada(LocalDate.now().plusDays(20));
             seguimiento.setMotivo(observaciones != null ? observaciones : "Incidencia registrada");
             seguimientoRepo.save(seguimiento);

@@ -51,13 +51,7 @@ public class AlertasSvcImpl implements AlertasSvc {
 
         // Cargar visita, técnico y supervisor como entidades
         Visita visita = visitaRepo.findById(data.getidVisita()).orElseThrow(() -> new CustomException(ErrorEnum.U_NO_REGISTRADO));
-
-        Usuario tecnico = usuarioRepo.findById(data.getidTecnico())
-                .orElseThrow(() -> new CustomException(ErrorEnum.U_NO_REGISTRADO));
-
-        Usuario supervisor = usuarioRepo.findById(data.getidSupervisor())
-                .orElseThrow(() -> new CustomException(ErrorEnum.U_NO_REGISTRADO));
-
+        
         // Armar el mensaje personalizado
         String mensaje = "Se ha detectado un retraso de " + data.gettiempoRetraso()
                 + " en la visita del cliente: " + data.getnombreCliente();
@@ -65,7 +59,6 @@ public class AlertasSvcImpl implements AlertasSvc {
         // Crear alerta
         AlertaVisita nuevo = new AlertaVisita();
         nuevo.setVisita(visita);
-        nuevo.setTecnico(tecnico);
         nuevo.setMensaje(mensaje);
         nuevo.setLeido(false);
         nuevo.setFechaAlerta(Timestamp.from(Instant.now()));

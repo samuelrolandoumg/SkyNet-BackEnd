@@ -60,10 +60,6 @@ public class Visita {
     @JoinColumn(name = "id_tecnico", nullable = false)
     private Usuario tecnico;
 
-    @ManyToOne
-    @JoinColumn(name = "id_supervisor", nullable = false)
-    private Usuario supervisor;
-
     @Column(name = "reporte", columnDefinition = "TEXT")
     private String reporte;
 

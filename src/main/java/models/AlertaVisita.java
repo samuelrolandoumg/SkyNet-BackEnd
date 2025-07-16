@@ -35,10 +35,6 @@ public class AlertaVisita {
     @JoinColumn(name = "id_visita", nullable = false)
     private Visita visita;
 
-    @ManyToOne
-    @JoinColumn(name = "id_tecnico", nullable = false)
-    private Usuario tecnico;
-
     @Column(name = "mensaje", columnDefinition = "TEXT", nullable = false)
     private String mensaje;
 
