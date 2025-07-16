@@ -25,6 +25,7 @@ public class CrearUsuarioDto {
     private String contrasena;
     private Long idRol;
     private Long idSupervisor; // Solo el ID del supervisor
+    private Long idAdmin; // Solo el ID del supervisor
     private Boolean estado;
     private String fechaCreacion; 
     

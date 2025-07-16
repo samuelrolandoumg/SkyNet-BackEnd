@@ -17,7 +17,6 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
-
 /**
  *
  * @author Samuel
@@ -64,6 +63,10 @@ public class Usuario {
     @ManyToOne
     @JoinColumn(name = "id_supervisor")
     private Usuario supervisor;
+
+    @ManyToOne
+    @JoinColumn(name = "id_admin")
+    private Usuario admin;
 
     @Column(name = "estado", nullable = false)
     private Boolean estado = true;

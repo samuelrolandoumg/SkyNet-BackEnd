@@ -80,6 +80,13 @@ public class UsuarioSvcImpl implements UsuarioSvc {
             nuevoUsuario.setSupervisor(null);
         }
 
+        if (datos.getIdRol() == 2 && datos.getIdAdmin() != null) {
+            Usuario admin = usuarioRepo.findById(datos.getIdAdmin())
+                    .orElseThrow(() -> new RuntimeException("Admin no encontrado con ID: " + datos.getIdAdmin()));
+            nuevoUsuario.setAdmin(admin);
+        } else {
+            nuevoUsuario.setAdmin(null);
+        }
         usuarioRepo.save(nuevoUsuario);
     }
 
@@ -200,9 +207,14 @@ public class UsuarioSvcImpl implements UsuarioSvc {
 
         return dto;
     }
-    
-    @Override 
-    public usuarioById obtenerDatoUsuario(Long idUsuario){
+
+    @Override
+    public usuarioById obtenerDatoUsuario(Long idUsuario) {
         return this.usuarioRepo.obtenerDatoUsuario(idUsuario);
+    }
+    
+    @Override
+    public List<usuarioById> obtenerAdmins(){
+        return this.usuarioRepo.obtenerAdmins();
     }
 }

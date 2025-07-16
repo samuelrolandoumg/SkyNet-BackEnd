@@ -90,4 +90,9 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.obtenerDatoUsuario(idUsuario));
     }
 
+    @GetMapping("/lista-admin")
+    @Operation(summary = "Obtener la lista de administradores")
+    public ResponseEntity<List<usuarioById>> obtenerAdmins() {
+        return ResponseEntity.ok(usuarioService.obtenerAdmins());
+    }
 }

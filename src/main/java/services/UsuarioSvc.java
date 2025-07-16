@@ -34,11 +34,13 @@ public interface UsuarioSvc {
     public List<UsuarioListarProjection> listarSupervisores();
 
     public List<UsuarioListarProjection> listarTecnicosPorSupervisor(Long idSupervisor);
-    
+
     public void actualizarUsuario(ActualizarUsuarioDto datos);
-    
+
     public ActualizarUsuarioDto obtenerUsuarioPorId(Long id);
-    
+
     public usuarioById obtenerDatoUsuario(Long idUsuario);
+
+    public List<usuarioById> obtenerAdmins();
     
 }

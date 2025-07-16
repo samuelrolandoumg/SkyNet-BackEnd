@@ -80,11 +80,17 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             + "where r.id = :idRol", nativeQuery = true)
     public String rolById(@Param("idRol") Long idRol);
 
-    
     @Query(value = "select id as idUsuario,\n"
             + "		u.nombre || ' ' || u.apellido as usuario\n"
             + "from usuarios u \n"
             + "where u.id = :idUsuario", nativeQuery = true)
     public usuarioById obtenerDatoUsuario(@Param("idUsuario") Long idUsuario);
+
+    @Query(value = "select u.id as idUsuario,\n"
+            + "u.nombre || ' ' || u.apellido AS usuario\n"
+            + "	from usuarios u \n"
+            + "inner join roles r on r.id = u.id_rol\n"
+            + "where r.rol = 'ADMIN'", nativeQuery = true)
+    public List<usuarioById> obtenerAdmins();
 
 }
