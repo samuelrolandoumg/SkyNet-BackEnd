@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import projection.ConsultaVisitaSupervisorProjection;
 import projection.DatosCorreoClienteProjection;
 import projection.DetalleVisitaReporteProjection;
+import projection.DocumentosGeneradosProjection;
 import projection.ResumenEstadoProjection;
 import projection.VisitaPorEstadoProjection;
 import repository.DetalleVisitaRepository;
@@ -216,5 +217,10 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
     @Override
     public List<ConsultaVisitaSupervisorProjection> consultaVisitasPorSupervisor(Long idSupervisor) {
         return detalleRepo.getConsultaVisitasPorSupervisor(idSupervisor);
+    }
+
+    @Override
+    public List<DocumentosGeneradosProjection> visitasecnicobyID(Long idTecnico) {
+        return detalleRepo.visitasecnicobyID(idTecnico);
     }
 }

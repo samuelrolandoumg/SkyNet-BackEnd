@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import projection.ConsultaVisitaSupervisorProjection;
+import projection.DocumentosGeneradosProjection;
 import projection.ResumenEstadoProjection;
 import projection.VisitaPorEstadoProjection;
 import services.DetalleVisitaSvc;
@@ -86,6 +87,12 @@ public class DetalleVisitaController {
     public ResponseEntity<List<ConsultaVisitaSupervisorProjection>> consultaVisitasSupervisor(
             @RequestParam Long idSupervisor) {
         return ResponseEntity.ok(detalleVisitaSvc.consultaVisitasPorSupervisor(idSupervisor));
+    }
+
+    @GetMapping("documentos-generados-tecnico")
+    @Operation(summary = "lista de archivos")
+    public ResponseEntity<List<DocumentosGeneradosProjection>> visitasecnicobyID(@RequestParam Long idTecnico) {
+        return ResponseEntity.ok(detalleVisitaSvc.visitasecnicobyID(idTecnico));
     }
 
 }

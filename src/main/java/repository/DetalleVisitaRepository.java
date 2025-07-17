@@ -13,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 import projection.ConsultaVisitaSupervisorProjection;
 import projection.DatosCorreoClienteProjection;
 import projection.DetalleVisitaReporteProjection;
+import projection.DocumentosGeneradosProjection;
 import projection.ResumenEstadoProjection;
 import projection.VisitaPorEstadoProjection;
 
@@ -111,4 +112,16 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             + "  AND v.estado NOT IN ('FINALIZADO', 'FINALIZADO CON INCIDENCIA', 'FINALIZADO CON EXITO')", nativeQuery = true)
     List<ConsultaVisitaSupervisorProjection> getConsultaVisitasPorSupervisor(@Param("idSupervisor") Long idSupervisor);
 
+    @Query(value = "select dg.nombre_documento as nombreDocumento, \n"
+            + "	dg.url_documento as urlDocumento,\n"
+            + "	v.estado as resultadoObtenido,\n"
+            + "	v.fecha_visita as fechaProgramada,\n"
+            + "	v.hora_egreso as fechaServicioFinalizada,\n"
+            + "	c.nombre_cliente as nombreCliente\n"
+            + "from visitas v \n"
+            + "inner join detalle_visita dv on dv.id_visita = v.id\n"
+            + "inner join documentos_generados dg on dg.id_detalle_visita = dv.id\n"
+            + "inner join clientes c on c.id = v.id_cliente\n"
+            + "where v.id_tecnico = :idTecnico", nativeQuery = true)
+    List<DocumentosGeneradosProjection> visitasecnicobyID(@Param("idTecnico") Long idTecnico);
 }

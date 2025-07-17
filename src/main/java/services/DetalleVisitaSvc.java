@@ -8,6 +8,7 @@ package services;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 import projection.ConsultaVisitaSupervisorProjection;
+import projection.DocumentosGeneradosProjection;
 import projection.ResumenEstadoProjection;
 import projection.VisitaPorEstadoProjection;
 
@@ -17,13 +18,16 @@ import projection.VisitaPorEstadoProjection;
  */
 public interface DetalleVisitaSvc {
 
-   public void crearDetalleVisita(Long idVisita, String resultadoVisita, String observaciones, String comentarioAdicional, MultipartFile[] fotos);
+    public void crearDetalleVisita(Long idVisita, String resultadoVisita, String observaciones, String comentarioAdicional, MultipartFile[] fotos);
 
-   public byte[] generarPDFVisita(Long idVisita) throws Exception;
-   
-   public List<ResumenEstadoProjection> resumenPorTecnico(Long idTecnico);
+    public byte[] generarPDFVisita(Long idVisita) throws Exception;
 
-   public List<VisitaPorEstadoProjection> visitasPorEstadoYTecnico(Long idTecnico, String estado);
+    public List<ResumenEstadoProjection> resumenPorTecnico(Long idTecnico);
 
-   public List<ConsultaVisitaSupervisorProjection> consultaVisitasPorSupervisor(Long idSupervisor);
+    public List<VisitaPorEstadoProjection> visitasPorEstadoYTecnico(Long idTecnico, String estado);
+
+    public List<ConsultaVisitaSupervisorProjection> consultaVisitasPorSupervisor(Long idSupervisor);
+
+    public List<DocumentosGeneradosProjection> visitasecnicobyID(Long idTecnico);
+
 }
