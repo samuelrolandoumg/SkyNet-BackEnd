@@ -43,6 +43,7 @@ import repository.SeguimientoIncidenciaRepository;
 import repository.VisitaRepository;
 import services.CorreoSvc;
 import services.DetalleVisitaSvc;
+import projection.reporteSupervisorProjection;
 
 /**
  *
@@ -222,5 +223,10 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
     @Override
     public List<DocumentosGeneradosProjection> visitasecnicobyID(Long idTecnico) {
         return detalleRepo.visitasecnicobyID(idTecnico);
+    }
+
+    @Override
+    public List<reporteSupervisorProjection> reporteSupervisor(Long idSupervisor) {
+        return detalleRepo.reporteSupervisor(idSupervisor);
     }
 }

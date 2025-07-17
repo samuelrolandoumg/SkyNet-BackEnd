@@ -23,6 +23,7 @@ import projection.DocumentosGeneradosProjection;
 import projection.ResumenEstadoProjection;
 import projection.VisitaPorEstadoProjection;
 import services.DetalleVisitaSvc;
+import projection.reporteSupervisorProjection;
 
 /**
  *
@@ -93,6 +94,12 @@ public class DetalleVisitaController {
     @Operation(summary = "lista de archivos")
     public ResponseEntity<List<DocumentosGeneradosProjection>> visitasecnicobyID(@RequestParam Long idTecnico) {
         return ResponseEntity.ok(detalleVisitaSvc.visitasecnicobyID(idTecnico));
+    }
+
+    @GetMapping("reporte-generados-supervisor")
+    @Operation(summary = "lista de reporte con archivos para el supervisor")
+    public ResponseEntity<List<reporteSupervisorProjection>> reporteSupervisor(@RequestParam Long idSupervisor) {
+        return ResponseEntity.ok(detalleVisitaSvc.reporteSupervisor(idSupervisor));
     }
 
 }

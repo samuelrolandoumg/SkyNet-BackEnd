@@ -11,6 +11,8 @@ import projection.ConsultaVisitaSupervisorProjection;
 import projection.DocumentosGeneradosProjection;
 import projection.ResumenEstadoProjection;
 import projection.VisitaPorEstadoProjection;
+import projection.reporteSupervisorProjection;
+
 
 /**
  *
@@ -28,6 +30,8 @@ public interface DetalleVisitaSvc {
 
     public List<ConsultaVisitaSupervisorProjection> consultaVisitasPorSupervisor(Long idSupervisor);
 
-    public List<DocumentosGeneradosProjection> visitasecnicobyID(Long idTecnico);
+    public List<DocumentosGeneradosProjection> visitasecnicobyID(Long idSupervisor);
+    
+    public List<reporteSupervisorProjection> reporteSupervisor(Long idSupervisor);
 
 }

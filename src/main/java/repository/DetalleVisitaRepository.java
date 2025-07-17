@@ -16,6 +16,7 @@ import projection.DetalleVisitaReporteProjection;
 import projection.DocumentosGeneradosProjection;
 import projection.ResumenEstadoProjection;
 import projection.VisitaPorEstadoProjection;
+import projection.reporteSupervisorProjection;
 
 /**
  *
@@ -114,7 +115,6 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
 
     @Query(value = "select dg.nombre_documento as nombreDocumento, \n"
             + "	dg.url_documento as urlDocumento,\n"
-            + "	dg.nombre_documento as nombreDocumento,\n"
             + "	v.estado as resultadoObtenido,\n"
             + "	v.fecha_visita as fechaProgramada,\n"
             + "	v.hora_egreso as fechaServicioFinalizada,\n"
@@ -125,4 +125,21 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             + "inner join clientes c on c.id = v.id_cliente\n"
             + "where v.id_tecnico = :idTecnico", nativeQuery = true)
     List<DocumentosGeneradosProjection> visitasecnicobyID(@Param("idTecnico") Long idTecnico);
+
+    @Query(value = "select dg.nombre_documento as nombreDocumento, \n"
+            + "	dg.url_documento as urlDocumento,\n"
+            + "	v.estado as resultadoObtenido,\n"
+            + "	v.fecha_visita as fechaProgramada,\n"
+            + "	v.hora_egreso as fechaServicioFinalizada,\n"
+            + "	c.nombre_cliente as nombreCliente,\n"
+            + "	u.nombre || ' ' || u.apellido AS nombreTecnico,\n"
+            + "	si.fecha_programada as visitaProximaIncidencia\n"
+            + "from visitas v \n"
+            + "inner join detalle_visita dv on dv.id_visita = v.id\n"
+            + "left join seguimiento_incidencia si on si.id_detalle_visita = dv.id\n"
+            + "inner join documentos_generados dg on dg.id_detalle_visita = dv.id\n"
+            + "inner join clientes c on c.id = v.id_cliente\n"
+            + "inner join usuarios u on u.id = c.id_tecnico\n"
+            + "where u.id_supervisor = :idSupervisor", nativeQuery = true)
+    List<reporteSupervisorProjection> reporteSupervisor(@Param("idSupervisor") Long idSupervisor);
 }
