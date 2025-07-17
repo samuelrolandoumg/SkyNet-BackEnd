@@ -114,6 +114,7 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
 
     @Query(value = "select dg.nombre_documento as nombreDocumento, \n"
             + "	dg.url_documento as urlDocumento,\n"
+            + "	dg.nombre_documento as nombreDocumento,\n"
             + "	v.estado as resultadoObtenido,\n"
             + "	v.fecha_visita as fechaProgramada,\n"
             + "	v.hora_egreso as fechaServicioFinalizada,\n"
