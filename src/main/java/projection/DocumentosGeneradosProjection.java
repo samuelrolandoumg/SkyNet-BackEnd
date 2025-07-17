@@ -12,7 +12,6 @@ package projection;
 public interface DocumentosGeneradosProjection {
     String getnombreDocumento();
     String geturlDocumento();
-    String getnombreDocumento();
     String getresultadoObtenido();
     String getfechaProgramada();
     String getfechaServicioFinalizada();
