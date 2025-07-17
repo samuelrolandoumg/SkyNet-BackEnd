@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import models.DetalleVisita;
+import models.DocumentoGenerado;
 import models.FotoDetalleVisita;
 import models.SeguimientoIncidencia;
 import models.Visita;
@@ -35,6 +36,7 @@ import projection.DetalleVisitaReporteProjection;
 import projection.ResumenEstadoProjection;
 import projection.VisitaPorEstadoProjection;
 import repository.DetalleVisitaRepository;
+import repository.DocumentoGeneradoRepo;
 import repository.FotoDetalleVisitaRepository;
 import repository.SeguimientoIncidenciaRepository;
 import repository.VisitaRepository;
@@ -60,6 +62,9 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
 
     @Autowired
     private SeguimientoIncidenciaRepository seguimientoRepo;
+
+    @Autowired
+    private DocumentoGeneradoRepo documentoGeneradoRepo;
 
     @Autowired
     private Cloudinary cloudinary;
@@ -119,6 +124,25 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
         //ADJUNTAR EL PDF
         try {
             byte[] pdf = this.generarPDFVisita(idVisita);
+
+            // Subir a Cloudinary como archivo PDF
+            Map uploadResult = cloudinary.uploader().upload(pdf, Map.of(
+                    "folder", "visitas",
+                    "resource_type", "raw", // Usamos raw porque es un archivo PDF
+                    "public_id", "reporte_visita_" + idVisita
+            ));
+
+            String urlPDF = uploadResult.get("secure_url").toString();
+
+            // Guardar en base de datos como documento generado
+            DocumentoGenerado doc = new DocumentoGenerado();
+            doc.setUrlDocumento(urlPDF);
+            doc.setNombreDocumento("reporte_visita_" + idVisita + ".pdf");
+            doc.setDetalleVisita(detalle); // Este `detalle` ya fue guardado antes
+
+            documentoGeneradoRepo.save(doc);
+
+            // Enviar el correo
             correoSvc.enviarCorreoConAdjunto(
                     correoCliente.getCorreo(),
                     "Reporte de visita finalizada",
@@ -126,6 +150,7 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
                     pdf,
                     "reporte_visita.pdf"
             );
+
         } catch (Exception ex) {
             log.error("Error al generar o enviar el reporte PDF: {}", ex.getMessage());
             throw new RuntimeException("Error al generar o enviar el reporte PDF", ex);
