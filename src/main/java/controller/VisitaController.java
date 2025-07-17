@@ -80,7 +80,7 @@ public class VisitaController {
         return ResponseEntity.ok(visitaSvc.visitasSupervisorbyAdmin(idAdmin));
     }
 
-    @GetMapping("count-visitas-tecnico")
+    @GetMapping("visitas-tecnico-estado")
     @Operation(summary = "count de visitas del tecnico por estados")
     public ResponseEntity<List<ResumenEstadoProjection>> visitasecnicobyID(@RequestParam Long idTecnico) {
         return ResponseEntity.ok(visitaSvc.visitasecnicobyID(idTecnico));
