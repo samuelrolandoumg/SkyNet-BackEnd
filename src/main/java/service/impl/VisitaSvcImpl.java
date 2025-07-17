@@ -20,6 +20,7 @@ import models.Usuario;
 import models.Visita;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import projection.ResumenEstadoProjection;
 import projection.VisitasTecnicoProjection;
 import projection.visitasSuperByAdminProjection;
 import projection.visitasTecnicobySuperProjection;
@@ -125,5 +126,10 @@ public class VisitaSvcImpl implements VisitaSvc {
     @Override
     public List<visitasSuperByAdminProjection> visitasSupervisorbyAdmin(Long idAdmin) {
         return this.visitaRepo.visitasSupervisorbyAdmin(idAdmin);
+    }
+
+    @Override
+    public List<ResumenEstadoProjection> visitasecnicobyID(Long idTecnico) {
+        return this.visitaRepo.visitasecnicobyID(idTecnico);
     }
 }

@@ -8,6 +8,7 @@ package services;
 import dtos.CrearVisitaDto;
 import dtos.iniciarServicioDto;
 import java.util.List;
+import projection.ResumenEstadoProjection;
 import projection.VisitasTecnicoProjection;
 import projection.visitasSuperByAdminProjection;
 import projection.visitasTecnicobySuperProjection;
@@ -31,5 +32,7 @@ public interface VisitaSvc {
     public List<visitasTecnicobySuperProjection> visitasTecnicobySuper(Long idSupervisor);
 
     public List<visitasSuperByAdminProjection> visitasSupervisorbyAdmin(Long idAdmin);
-    
+
+    public List<ResumenEstadoProjection> visitasecnicobyID(Long idTecnico);
+
 }

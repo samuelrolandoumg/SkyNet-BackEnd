@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import projection.ResumenEstadoProjection;
 import projection.VisitasTecnicoProjection;
 import projection.visitasSuperByAdminProjection;
 import projection.visitasTecnicobySuperProjection;
@@ -89,4 +90,13 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
             + "WHERE admin.id = :idAdmin\n"
             + "GROUP BY sup.nombre, sup.apellido", nativeQuery = true)
     public List<visitasSuperByAdminProjection> visitasSupervisorbyAdmin(@Param("idAdmin") Long idAdmin);
+
+    @Query(value = "SELECT \n"
+            + "  v.estado,\n"
+            + "  COUNT(v.id) AS cantidad\n"
+            + "FROM visitas v\n"
+            + "INNER JOIN usuarios u ON v.id_tecnico = u.id\n"
+            + "WHERE u.id = :idTecnico\n"
+            + "group by v.estado", nativeQuery = true)
+    public List<ResumenEstadoProjection> visitasecnicobyID(@Param("idTecnico") Long idTecnico);
 }
