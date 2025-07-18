@@ -23,5 +23,5 @@ public class ActualizarClienteDto {
     private String correo;
     private Boolean estado;
     private Long idRol;
-    private Long idTecnico;
+    private Long idSupervisor;
 }

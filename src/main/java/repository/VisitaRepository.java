@@ -15,6 +15,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import projection.ResumenEstadoProjection;
 import projection.VisitasTecnicoProjection;
+import projection.tecnicosbyRolPrejection;
 import projection.visitasSuperByAdminProjection;
 import projection.visitasTecnicobySuperProjection;
 
@@ -24,20 +25,20 @@ import projection.visitasTecnicobySuperProjection;
  */
 public interface VisitaRepository extends JpaRepository<Visita, Long> {
 
-    @Query(value = "SELECT c.latitud,\n"
-            + "	c.longitud,\n"
-            + "	c.nombre_cliente as nombreCliente,\n"
-            + "	c.nombre_negocio as nombreNegocio,\n"
-            + "	c.id as idCliente,\n"
-            + "	v.fecha_visita as fechaVisita,\n"
-            + "	v.id as idVisita,\n"
-            + "	v.estado as estado\n"
+    @Query(value = "SELECT \n"
+            + "    c.latitud,\n"
+            + "    c.longitud,\n"
+            + "    c.nombre_cliente AS nombreCliente,\n"
+            + "    c.nombre_negocio AS nombreNegocio,\n"
+            + "    c.id AS idCliente,\n"
+            + "    v.fecha_visita AS fechaVisita,\n"
+            + "    v.id AS idVisita,\n"
+            + "    v.estado AS estado\n"
             + "FROM clientes c\n"
-            + "INNER JOIN usuarios u ON c.id_tecnico = u.id\n"
             + "INNER JOIN visitas v ON v.id_cliente = c.id\n"
-            + "where v.id_tecnico = :idTecnico\n"
-            + "	and v.hora_egreso is null\n"
-            + "order by v.fecha_visita desc", nativeQuery = true)
+            + "WHERE v.id_tecnico = :idTecnico\n"
+            + "  AND v.hora_egreso IS NULL\n"
+            + "ORDER BY v.fecha_visita DESC", nativeQuery = true)
     public List<VisitasTecnicoProjection> visitasbyTecnico(@Param("idTecnico") Long idTecnico);
 
     @Query(value = "select case\n"
@@ -99,4 +100,18 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
             + "WHERE u.id = :idTecnico\n"
             + "group by v.estado", nativeQuery = true)
     public List<ResumenEstadoProjection> visitasecnicobyID(@Param("idTecnico") Long idTecnico);
+
+    @Query(value = "SELECT id as idUsuario, \n"
+            + "	nombre || ' ' || apellido as nombreTecnico\n"
+            + "FROM usuarios\n"
+            + "WHERE puesto_tecnico = (\n"
+            + "    CASE \n"
+            + "        WHEN :tipoVisita = 'Mantenimiento Correctivo' THEN 'Soporte Técnico'\n"
+            + "        WHEN :tipoVisita = 'Revisión Preventiva' THEN 'Mantenimiento Preventivo'\n"
+            + "        WHEN :tipoVisita = 'Instalación de Cableado' THEN 'Instalación de Infraestructura'\n"
+            + "        WHEN :tipoVisita = 'Configuración de Software Empresarial' THEN 'Implementación de Sistemas'\n"
+            + "        ELSE NULL\n"
+            + "END)", nativeQuery = true)
+    public List<tecnicosbyRolPrejection> tecnicoTipoVisita(@Param("tipoVisita") String tipoVisita);
+
 }

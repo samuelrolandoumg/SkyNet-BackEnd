@@ -14,6 +14,7 @@ import models.Roles.Rol;
  */
 @Data
 public class CrearUsuarioDto {
+
     private Long id;
     private String nombre;
     private String apellido;
@@ -27,6 +28,7 @@ public class CrearUsuarioDto {
     private Long idSupervisor; // Solo el ID del supervisor
     private Long idAdmin; // Solo el ID del supervisor
     private Boolean estado;
-    private String fechaCreacion; 
-    
+    private String fechaCreacion;
+    private String puestoTecnico; 
+
 }

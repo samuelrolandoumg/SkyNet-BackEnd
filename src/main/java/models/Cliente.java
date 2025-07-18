@@ -17,7 +17,6 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
-
 /**
  *
  * @author Samuel
@@ -64,6 +63,6 @@ public class Cliente {
     private Roles rol;
 
     @ManyToOne
-    @JoinColumn(name = "id_tecnico")
-    private Usuario tecnico;
+    @JoinColumn(name = "id_supervisor")
+    private Usuario supervisor;
 }

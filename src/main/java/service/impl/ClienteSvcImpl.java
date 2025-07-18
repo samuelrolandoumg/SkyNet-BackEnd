@@ -25,6 +25,7 @@ import models.Cliente;
 import models.Roles;
 import models.Usuario;
 import org.springframework.stereotype.Service;
+import projection.SupervisorProjection;
 import projection.tecnicosbyRolPrejection;
 import projection.ubicacionClienteProjection;
 import projection.usuariobyrolProjection;
@@ -68,8 +69,8 @@ public class ClienteSvcImpl implements ClienteSvc {
     }
 
     @Override
-    public List<usuariobyrolProjection> clientesbyTecnico(Long idTecnico) {
-        return this.repository.clientesbyTecnico(idTecnico);
+    public List<usuariobyrolProjection> clientesbyTecnico(Long idSupervisor) {
+        return this.repository.clientesbyTecnico(idSupervisor);
     }
 
     @Override
@@ -93,10 +94,10 @@ public class ClienteSvcImpl implements ClienteSvc {
                 .orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + datos.getIdRol()));
         nuevo.setRol(rol);
 
-        if (datos.getIdTecnico() != null) {
-            Usuario tecnico = usuarioRepo.findById(datos.getIdTecnico())
-                    .orElseThrow(() -> new RuntimeException("Supervisor no encontrado con ID: " + datos.getIdTecnico()));
-            nuevo.setTecnico(tecnico);
+        if (datos.getIdSupervisor() != null) {
+            Usuario supervisor = usuarioRepo.findById(datos.getIdSupervisor())
+                    .orElseThrow(() -> new RuntimeException("Supervisor no encontrado con ID: " + datos.getIdSupervisor()));
+            nuevo.setSupervisor(supervisor);
         }
 
         repository.save(nuevo);
@@ -121,12 +122,12 @@ public class ClienteSvcImpl implements ClienteSvc {
         cliente.setRol(rol);
 
         // Actualizar técnico (opcional)
-        if (datos.getIdTecnico() != null) {
-            Usuario tecnico = usuarioRepo.findById(datos.getIdTecnico()).orElseThrow(() -> new CustomException(ErrorEnum.S_DESCONOCIDO));
+        if (datos.getIdSupervisor() != null) {
+            Usuario tecnico = usuarioRepo.findById(datos.getIdSupervisor()).orElseThrow(() -> new CustomException(ErrorEnum.S_DESCONOCIDO));
 
-            cliente.setTecnico(tecnico);
+            cliente.setSupervisor(tecnico);
         } else {
-            cliente.setTecnico(null); // Puedes ajustar esto si deseas mantener el anterior
+            cliente.setSupervisor(null); // Puedes ajustar esto si deseas mantener el anterior
         }
 
         repository.save(cliente);
@@ -140,15 +141,11 @@ public class ClienteSvcImpl implements ClienteSvc {
         List<Cliente> clientes;
 
         if ("ADMIN".equalsIgnoreCase(rol)) {
-            clientes = repository.findByEstadoTrue(); // solo activos
+            clientes = repository.findByEstadoTrue(); // Admin ve todos los activos
 
         } else if ("SUPERVISOR".equalsIgnoreCase(rol)) {
-            List<Usuario> tecnicos = usuarioRepo.findBySupervisorId(usuario.getId());
-            List<Long> idsTecnicos = tecnicos.stream()
-                    .map(Usuario::getId)
-                    .toList();
-
-            clientes = repository.findByTecnicoIdInAndEstadoTrue(idsTecnicos); // solo activos
+            // Supervisor solo ve los clientes asignados a él
+            clientes = repository.findBySupervisorIdAndEstadoTrue(usuario.getId());
 
         } else {
             throw new CustomException(ErrorEnum.ROL_INVALIDO);
@@ -182,9 +179,9 @@ public class ClienteSvcImpl implements ClienteSvc {
         dto.setEstado(cliente.getEstado());
         dto.setIdRol(cliente.getRol().getId());
 
-        if (cliente.getTecnico() != null) {
-            dto.setIdTecnico(cliente.getTecnico().getId());
-            dto.setNombreTecnico(cliente.getTecnico().getNombre() + " " + cliente.getTecnico().getApellido());
+        if (cliente.getSupervisor() != null) {
+            dto.setIdSupervisor(cliente.getSupervisor().getId());
+            dto.setNombreSupervisor(cliente.getSupervisor().getNombre() + " " + cliente.getSupervisor().getApellido());
         }
 
         return dto;
@@ -207,14 +204,18 @@ public class ClienteSvcImpl implements ClienteSvc {
         }
         return lista;
     }
-    
+
     @Override
     @Transactional
     public void eliminarCliente(Long idCliente) {
         this.repository.eliminarCliente(idCliente);
     }
-    
-    public Integer obtenerVisitaCliente(Long idCliente){
+
+    public Integer obtenerVisitaCliente(Long idCliente) {
         return this.repository.obtenerVisitaCliente(idCliente);
+    }
+
+    public List<SupervisorProjection> obtenerSupervisores() {
+        return this.repository.obtenerSupervisores();
     }
 }

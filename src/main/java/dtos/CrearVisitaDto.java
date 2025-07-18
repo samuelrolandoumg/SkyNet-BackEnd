@@ -16,6 +16,6 @@ import lombok.Data;
 public class CrearVisitaDto {
     private Long idCliente;
     private Long idTecnico;
-    private Long idSupervisor;
+    private String tipoVisita;
     private LocalDate fechaVisita;
 }

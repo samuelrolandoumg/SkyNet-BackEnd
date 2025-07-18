@@ -55,7 +55,6 @@ public class Usuario {
     @Column(name = "contrasena", nullable = false, length = 255)
     private String contrasena;
 
-    // Relación automática con la tabla roles
     @ManyToOne
     @JoinColumn(name = "id_rol", nullable = false)
     private Roles rol;
@@ -70,6 +69,9 @@ public class Usuario {
 
     @Column(name = "estado", nullable = false)
     private Boolean estado = true;
+
+    @Column(name = "puesto_tecnico", length = 100)
+    private String puestoTecnico;
 
     @Column(name = "fecha_creacion")
     private Date fechaCreacion = new Date();

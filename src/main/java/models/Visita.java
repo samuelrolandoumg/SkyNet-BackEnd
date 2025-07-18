@@ -39,7 +39,7 @@ public class Visita {
 
     @Column(name = "hora_egreso")
     private Date horaEgreso;
-    
+
     @Column(name = "latitud_ingreso", columnDefinition = "TEXT")
     private String latitudIngreso;
 
@@ -68,4 +68,8 @@ public class Visita {
 
     @Column(name = "estado", nullable = false, length = 30)
     private String estado = "CREADO";
+
+    @Column(name = "tipo_visita", nullable = false, length = 100)
+    private String tipoVisita;
+
 }

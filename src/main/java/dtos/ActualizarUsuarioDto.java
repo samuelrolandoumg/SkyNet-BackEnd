@@ -13,6 +13,7 @@ import lombok.Data;
  */
 @Data
 public class ActualizarUsuarioDto {
+
     private Long id;
     private String nombre;
     private String apellido;
@@ -25,4 +26,6 @@ public class ActualizarUsuarioDto {
     private String Rol;
     private Long idSupervisor; // puede ser null
     private Boolean estado;
+    private String puestoTecnico; 
+
 }

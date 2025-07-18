@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import projection.ResumenEstadoProjection;
 import projection.VisitasTecnicoProjection;
+import projection.tecnicosbyRolPrejection;
 import projection.visitasSuperByAdminProjection;
 import projection.visitasTecnicobySuperProjection;
 import repository.ClienteRepository;
@@ -65,6 +66,7 @@ public class VisitaSvcImpl implements VisitaSvc {
         nueva.setFechaVisita(dto.getFechaVisita());
         nueva.setFechaCreacion(fechaConvertida);
         nueva.setEstado("CREADO");
+        nueva.setTipoVisita(dto.getTipoVisita()); // ← DIRECTO
 
         visitaRepo.save(nueva);
     }
@@ -131,5 +133,10 @@ public class VisitaSvcImpl implements VisitaSvc {
     @Override
     public List<ResumenEstadoProjection> visitasecnicobyID(Long idTecnico) {
         return this.visitaRepo.visitasecnicobyID(idTecnico);
+    }
+    
+    @Override
+    public List<tecnicosbyRolPrejection> tecnicoTipoVisita(String tipoVisita){
+        return this.visitaRepo.tecnicoTipoVisita(tipoVisita);
     }
 }

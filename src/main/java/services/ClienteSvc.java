@@ -12,6 +12,7 @@ import dtos.CrearClienteDto;
 import dtos.TecnicoDto;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import projection.SupervisorProjection;
 import projection.ubicacionClienteProjection;
 import projection.usuariobyrolProjection;
 
@@ -40,5 +41,7 @@ public interface ClienteSvc {
     public void eliminarCliente(Long idCliente);
     
     public Integer obtenerVisitaCliente(Long idCliente);
+    
+    public List<SupervisorProjection> obtenerSupervisores();
     
 }

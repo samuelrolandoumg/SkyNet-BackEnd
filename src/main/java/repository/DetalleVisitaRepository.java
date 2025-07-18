@@ -32,20 +32,21 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             + "limit 1", nativeQuery = true)
     public DatosCorreoClienteProjection getCorreoCliente(@Param("idVisita") Long idVisita);
 
-    @Query(value = "SELECT c.nombre_cliente as nombreCliente,\n"
-            + "	u.nombre || ' ' || u.apellido as nombreTecnico,\n"
-            + "	v.hora_ingreso as fechaInicio,\n"
-            + "	v.hora_egreso as fechaFin,\n"
-            + "	dv.resultado_visita as resultadoVisita,\n"
-            + "	dv.observaciones as observaciones,\n"
-            + "	dv.comentario_adicional as comentarioAdicional,\n"
-            + "	si.fecha_programada as proximaFechaPorIncidencia\n"
+    @Query(value = "SELECT \n"
+            + "    c.nombre_cliente AS nombreCliente,\n"
+            + "    u.nombre || ' ' || u.apellido AS nombreTecnico,\n"
+            + "    v.hora_ingreso AS fechaInicio,\n"
+            + "    v.hora_egreso AS fechaFin,\n"
+            + "    dv.resultado_visita AS resultadoVisita,\n"
+            + "    dv.observaciones AS observaciones,\n"
+            + "    dv.comentario_adicional AS comentarioAdicional,\n"
+            + "    si.fecha_programada AS proximaFechaPorIncidencia\n"
             + "FROM clientes c\n"
-            + "inner join usuarios u ON c.id_tecnico = u.id\n"
-            + "inner join visitas v ON v.id_cliente = c.id\n"
-            + "inner join detalle_visita dv on dv.id_visita = v.id\n"
-            + "left join seguimiento_incidencia si on si.id_detalle_visita = dv.id\n"
-            + "where v.id = :idVisita", nativeQuery = true)
+            + "INNER JOIN visitas v ON v.id_cliente = c.id\n"
+            + "INNER JOIN usuarios u ON v.id_tecnico = u.id\n"
+            + "INNER JOIN detalle_visita dv ON dv.id_visita = v.id\n"
+            + "LEFT JOIN seguimiento_incidencia si ON si.id_detalle_visita = dv.id\n"
+            + "WHERE v.id = :idVisita", nativeQuery = true)
     public DetalleVisitaReporteProjection getDatosReporte(@Param("idVisita") Long idVisita);
 
     @Query(value = "select url_foto from visitas v \n"
@@ -126,20 +127,21 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             + "where v.id_tecnico = :idTecnico", nativeQuery = true)
     List<DocumentosGeneradosProjection> visitasecnicobyID(@Param("idTecnico") Long idTecnico);
 
-    @Query(value = "select dg.nombre_documento as nombreDocumento, \n"
-            + "	dg.url_documento as urlDocumento,\n"
-            + "	v.estado as resultadoObtenido,\n"
-            + "	v.fecha_visita as fechaProgramada,\n"
-            + "	v.hora_egreso as fechaServicioFinalizada,\n"
-            + "	c.nombre_cliente as nombreCliente,\n"
-            + "	u.nombre || ' ' || u.apellido AS nombreTecnico,\n"
-            + "	si.fecha_programada as visitaProximaIncidencia\n"
-            + "from visitas v \n"
-            + "inner join detalle_visita dv on dv.id_visita = v.id\n"
-            + "left join seguimiento_incidencia si on si.id_detalle_visita = dv.id\n"
-            + "inner join documentos_generados dg on dg.id_detalle_visita = dv.id\n"
-            + "inner join clientes c on c.id = v.id_cliente\n"
-            + "inner join usuarios u on u.id = c.id_tecnico\n"
-            + "where u.id_supervisor = :idSupervisor", nativeQuery = true)
+    @Query(value = "SELECT \n"
+            + "    dg.nombre_documento AS nombreDocumento,\n"
+            + "    dg.url_documento AS urlDocumento,\n"
+            + "    v.estado AS resultadoObtenido,\n"
+            + "    v.fecha_visita AS fechaProgramada,\n"
+            + "    v.hora_egreso AS fechaServicioFinalizada,\n"
+            + "    c.nombre_cliente AS nombreCliente,\n"
+            + "    u.nombre || ' ' || u.apellido AS nombreTecnico,\n"
+            + "    si.fecha_programada AS visitaProximaIncidencia\n"
+            + "FROM visitas v\n"
+            + "INNER JOIN detalle_visita dv ON dv.id_visita = v.id\n"
+            + "LEFT JOIN seguimiento_incidencia si ON si.id_detalle_visita = dv.id\n"
+            + "INNER JOIN documentos_generados dg ON dg.id_detalle_visita = dv.id\n"
+            + "INNER JOIN clientes c ON c.id = v.id_cliente\n"
+            + "INNER JOIN usuarios u ON v.id_tecnico = u.id\n"
+            + "WHERE u.id_supervisor = :idSupervisor", nativeQuery = true)
     List<reporteSupervisorProjection> reporteSupervisor(@Param("idSupervisor") Long idSupervisor);
 }

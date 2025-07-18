@@ -65,8 +65,8 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         nuevoUsuario.setDireccion(datos.getDireccion());
         nuevoUsuario.setContrasena(datos.getContrasena());
 
-        // ✅ Buscar el rol por ID
-        Roles rol = rolesRepo.findById(datos.getIdRol()).orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + datos.getIdRol()));
+        Roles rol = rolesRepo.findById(datos.getIdRol())
+                .orElseThrow(() -> new RuntimeException("Rol no encontrado con ID: " + datos.getIdRol()));
         nuevoUsuario.setRol(rol);
 
         nuevoUsuario.setEstado(true);
@@ -87,6 +87,13 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         } else {
             nuevoUsuario.setAdmin(null);
         }
+
+        if (datos.getIdRol() == 3 && datos.getPuestoTecnico() != null) {
+            nuevoUsuario.setPuestoTecnico(datos.getPuestoTecnico());
+        } else {
+            nuevoUsuario.setPuestoTecnico(null);
+        }
+
         usuarioRepo.save(nuevoUsuario);
     }
 
@@ -154,7 +161,8 @@ public class UsuarioSvcImpl implements UsuarioSvc {
 
     @Override
     public void actualizarUsuario(ActualizarUsuarioDto datos) {
-        Usuario usuario = usuarioRepo.findById(datos.getId()).orElseThrow(() -> new CustomException(ErrorEnum.U_NO_REGISTRADO));
+        Usuario usuario = usuarioRepo.findById(datos.getId())
+                .orElseThrow(() -> new CustomException(ErrorEnum.U_NO_REGISTRADO));
 
         usuario.setNombre(datos.getNombre());
         usuario.setApellido(datos.getApellido());
@@ -168,6 +176,13 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         Roles rol = rolesRepo.findById(datos.getIdRol())
                 .orElseThrow(() -> new CustomException(ErrorEnum.U_NO_REGISTRADO));
         usuario.setRol(rol);
+
+        // 🔥 Nuevo: asignar puesto técnico si aplica
+        if (datos.getIdRol() == 3 && datos.getPuestoTecnico() != null && !datos.getPuestoTecnico().isBlank()) {
+            usuario.setPuestoTecnico(datos.getPuestoTecnico());
+        } else {
+            usuario.setPuestoTecnico(null);
+        }
 
         if (datos.getIdSupervisor() != null && datos.getIdSupervisor() != 0) {
             Usuario supervisor = usuarioRepo.findById(datos.getIdSupervisor())
@@ -195,7 +210,6 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         dto.setDpi(usuario.getDpi());
         dto.setNit(usuario.getNit());
         dto.setIdRol(usuario.getRol().getId());
-        //pasarle el nombre del rol
         String rol = this.usuarioRepo.rolById(usuario.getRol().getId());
         dto.setRol(rol);
 
@@ -204,6 +218,7 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         if (usuario.getSupervisor() != null) {
             dto.setIdSupervisor(usuario.getSupervisor().getId());
         }
+        dto.setPuestoTecnico(usuario.getPuestoTecnico());
 
         return dto;
     }
@@ -212,9 +227,9 @@ public class UsuarioSvcImpl implements UsuarioSvc {
     public usuarioById obtenerDatoUsuario(Long idUsuario) {
         return this.usuarioRepo.obtenerDatoUsuario(idUsuario);
     }
-    
+
     @Override
-    public List<usuarioById> obtenerAdmins(){
+    public List<usuarioById> obtenerAdmins() {
         return this.usuarioRepo.obtenerAdmins();
     }
 }

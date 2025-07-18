@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import projection.ResumenEstadoProjection;
 import projection.VisitasTecnicoProjection;
+import projection.tecnicosbyRolPrejection;
 import projection.visitasSuperByAdminProjection;
 import projection.visitasTecnicobySuperProjection;
 import services.VisitaSvc;
@@ -85,4 +86,11 @@ public class VisitaController {
     public ResponseEntity<List<ResumenEstadoProjection>> visitasecnicobyID(@RequestParam Long idTecnico) {
         return ResponseEntity.ok(visitaSvc.visitasecnicobyID(idTecnico));
     }
+
+    @GetMapping("tecnico-tipovisita")
+    @Operation(summary = "tecnico segun tipo de visita")
+    public ResponseEntity<List<tecnicosbyRolPrejection>> tecnicoTipoVisita(@RequestParam String tipoVisita) {
+        return ResponseEntity.ok(visitaSvc.tecnicoTipoVisita(tipoVisita));
+    }
+
 }

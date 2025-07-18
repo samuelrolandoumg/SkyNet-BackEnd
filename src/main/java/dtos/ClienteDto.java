@@ -24,6 +24,6 @@ public class ClienteDto {
     private String longitud;
     private Boolean estado;
     private Long idRol;
-    private Long idTecnico;
-    private String nombreTecnico;
+    private Long idSupervisor;
+    private String nombreSupervisor;
 }
