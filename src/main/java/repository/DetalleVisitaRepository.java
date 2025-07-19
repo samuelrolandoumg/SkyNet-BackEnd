@@ -144,4 +144,34 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             + "INNER JOIN usuarios u ON v.id_tecnico = u.id\n"
             + "WHERE u.id_supervisor = :idSupervisor", nativeQuery = true)
     List<reporteSupervisorProjection> reporteSupervisor(@Param("idSupervisor") Long idSupervisor);
+
+    @Query(value = "select v.estado,\n"
+            + "v.id AS idVisita,\n"
+            + "v.id_tecnico AS idTecnico,\n"
+            + "v.fecha_visita AS fechaVisita,\n"
+            + "c.id AS idCliente,\n"
+            + "c.nombre_cliente AS nombreCliente,\n"
+            + "u.nombre || ' ' || u.apellido AS nombreTecnico,\n"
+            + "av.leido AS leido,\n"
+            + "CASE \n"
+            + "    WHEN DATE(v.fecha_visita) < CURRENT_DATE \n"
+            + "        THEN 'Fuera de tiempo'\n"
+            + "    ELSE 'A tiempo'\n"
+            + "END AS enTiempo,\n"
+            + "CASE \n"
+            + "    WHEN DATE(v.fecha_visita) < CURRENT_DATE THEN\n"
+            + "        CONCAT(\n"
+            + "            EXTRACT(DAY FROM CURRENT_TIMESTAMP - v.fecha_visita), ' días, ',\n"
+            + "            EXTRACT(HOUR FROM CURRENT_TIMESTAMP - v.fecha_visita), ' horas'\n"
+            + "            )\n"
+            + "        ELSE NULL\n"
+            + "    END AS tiempoRetraso\n"
+            + "FROM visitas v\n"
+            + "JOIN usuarios u ON v.id_tecnico = u.id\n"
+            + "JOIN usuarios sup ON u.id_supervisor = sup.id\n"
+            + "JOIN clientes c ON c.id = v.id_cliente\n"
+            + "LEFT JOIN alertas_visita av ON av.id_visita = v.id\n"
+            + "WHERE sup.id_admin = :idAdmin\n"
+            + "  AND v.estado NOT IN ('FINALIZADO', 'FINALIZADO CON INCIDENCIA', 'FINALIZADO CON EXITO')", nativeQuery = true)
+    List<ConsultaVisitaSupervisorProjection> getConsultaVisitasPorSupervisorAdmin(@Param("idAdmin") Long idAdmin);
 }

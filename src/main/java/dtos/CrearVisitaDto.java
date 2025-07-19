@@ -18,4 +18,5 @@ public class CrearVisitaDto {
     private Long idTecnico;
     private String tipoVisita;
     private LocalDate fechaVisita;
+    private Long usuarioCreo;
 }

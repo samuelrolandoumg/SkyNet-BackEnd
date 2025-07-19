@@ -44,6 +44,8 @@ import repository.VisitaRepository;
 import services.CorreoSvc;
 import services.DetalleVisitaSvc;
 import projection.reporteSupervisorProjection;
+import projection.usuariobyrolProjection;
+import repository.ClienteRepository;
 
 /**
  *
@@ -55,6 +57,9 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
 
     @Autowired
     private VisitaRepository visitaRepo;
+
+    @Autowired
+    private ClienteRepository clienteRepo;
 
     @Autowired
     private DetalleVisitaRepository detalleRepo;
@@ -217,7 +222,17 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
 
     @Override
     public List<ConsultaVisitaSupervisorProjection> consultaVisitasPorSupervisor(Long idSupervisor) {
-        return detalleRepo.getConsultaVisitasPorSupervisor(idSupervisor);
+        usuariobyrolProjection data = this.clienteRepo.usuariobyrol(idSupervisor);
+
+        if (data.getRol().equals("ADMIN")) {
+            return this.detalleRepo.getConsultaVisitasPorSupervisorAdmin(idSupervisor);
+        } else if (data.getRol().equals("SUPERVISOR")) {
+            return this.detalleRepo.getConsultaVisitasPorSupervisor(idSupervisor);
+        } else {
+            throw new RuntimeException("El rol del usuario no está autorizado para esta operación");
+        }
+
+        
     }
 
     @Override

@@ -10,15 +10,12 @@ package models;
  * @author Samuel
  */
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "visitas")
 public class Visita {
@@ -72,4 +69,6 @@ public class Visita {
     @Column(name = "tipo_visita", nullable = false, length = 100)
     private String tipoVisita;
 
+    @Column(name = "usuario_creo", nullable = false)
+    private Long usuarioCreo;
 }

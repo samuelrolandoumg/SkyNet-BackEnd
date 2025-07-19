@@ -21,8 +21,11 @@ import models.Visita;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import projection.ResumenEstadoProjection;
+import projection.SupervisorVisitaResumenProjection;
+import projection.TecnicoVisitaResumenProjection;
 import projection.VisitasTecnicoProjection;
 import projection.tecnicosbyRolPrejection;
+import projection.usuariobyrolProjection;
 import projection.visitasSuperByAdminProjection;
 import projection.visitasTecnicobySuperProjection;
 import repository.ClienteRepository;
@@ -66,7 +69,8 @@ public class VisitaSvcImpl implements VisitaSvc {
         nueva.setFechaVisita(dto.getFechaVisita());
         nueva.setFechaCreacion(fechaConvertida);
         nueva.setEstado("CREADO");
-        nueva.setTipoVisita(dto.getTipoVisita()); // ← DIRECTO
+        nueva.setTipoVisita(dto.getTipoVisita());
+        nueva.setUsuarioCreo(dto.getUsuarioCreo());
 
         visitaRepo.save(nueva);
     }
@@ -134,9 +138,30 @@ public class VisitaSvcImpl implements VisitaSvc {
     public List<ResumenEstadoProjection> visitasecnicobyID(Long idTecnico) {
         return this.visitaRepo.visitasecnicobyID(idTecnico);
     }
-    
+
     @Override
-    public List<tecnicosbyRolPrejection> tecnicoTipoVisita(String tipoVisita){
-        return this.visitaRepo.tecnicoTipoVisita(tipoVisita);
+    public List<tecnicosbyRolPrejection> tecnicoTipoVisita(String tipoVisita, Long idUsuario) {
+
+        usuariobyrolProjection data = this.clienteRepo.usuariobyrol(idUsuario);
+
+        if (data.getRol().equals("ADMIN")) {
+            return this.visitaRepo.tecnicoTipoVisita(tipoVisita);
+        } else if (data.getRol().equals("SUPERVISOR")) {
+            return this.visitaRepo.tecnicoTipoVisitaSuper(tipoVisita, idUsuario);
+        } else {
+            throw new RuntimeException("El rol del usuario no está autorizado para esta operación");
+        }
+        // return this.visitaRepo.tecnicoTipoVisita(tipoVisita);
     }
+
+    @Override
+    public List<SupervisorVisitaResumenProjection> resumenVisitasPorAdmin(Long idAdmin) {
+        return visitaRepo.obtenerResumenVisitasPorSupervisor(idAdmin);
+    }
+
+    @Override
+    public List<TecnicoVisitaResumenProjection> resumenTecnicosPorSupervisor(Long idSupervisor) {
+        return visitaRepo.obtenerResumenTecnicosPorSupervisor(idSupervisor);
+    }
+
 }

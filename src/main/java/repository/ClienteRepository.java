@@ -53,7 +53,14 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
             + "	c.nombre_cliente as usuario\n"
             + "from clientes c \n"
             + "where c.id_supervisor = :idSupervisor", nativeQuery = true)
-    public List<usuariobyrolProjection> clientesbyTecnico(@Param("idSupervisor") Long idSupervisor);
+    public List<usuariobyrolProjection> clientesBySupervisor(@Param("idSupervisor") Long idSupervisor);
+
+    @Query(value = "SELECT c.id AS idUsuario,\n"
+            + "       c.nombre_cliente AS usuario\n"
+            + "FROM clientes c\n"
+            + "INNER JOIN usuarios s ON c.id_supervisor = s.id\n"
+            + "WHERE s.id_admin = :idAdmin", nativeQuery = true)
+    List<usuariobyrolProjection> clientesByAdmin(@Param("idAdmin") Long idAdmin);
 
     @Query(value = "SELECT u.id as idUsuario, u.nombre || ' ' || u.apellido as nombreTecnico\n"
             + "FROM usuarios u\n"
@@ -86,4 +93,18 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
             + "where r.rol = 'SUPERVISOR'", nativeQuery = true)
     public List<SupervisorProjection> obtenerSupervisores();
 
+    @Query(value = "select u.id as idUsuario,\n"
+            + "	u.usuario as usuario,\n"
+            + "	r.rol as rol\n"
+            + "from usuarios u \n"
+            + "inner join roles r on r.id = u.id_rol \n"
+            + "where u.id = :idUsuario", nativeQuery = true)
+    public usuariobyrolProjection usuariobyrol(@Param("idUsuario") Long idUsuario);
+
+    @Query(value = "SELECT c.id AS idUsuario,\n"
+            + "       c.nombre_cliente AS usuario\n"
+            + "FROM clientes c\n"
+            + "JOIN usuarios t ON c.id_supervisor = t.id_supervisor\n"
+            + "WHERE t.id = :idTecnico", nativeQuery = true)
+    List<usuariobyrolProjection> clientesBytec(@Param("idTecnico") Long idTecnico);
 }

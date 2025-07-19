@@ -9,6 +9,8 @@ import dtos.CrearVisitaDto;
 import dtos.iniciarServicioDto;
 import java.util.List;
 import projection.ResumenEstadoProjection;
+import projection.SupervisorVisitaResumenProjection;
+import projection.TecnicoVisitaResumenProjection;
 import projection.VisitasTecnicoProjection;
 import projection.tecnicosbyRolPrejection;
 import projection.visitasSuperByAdminProjection;
@@ -36,6 +38,10 @@ public interface VisitaSvc {
 
     public List<ResumenEstadoProjection> visitasecnicobyID(Long idTecnico);
 
-    public List<tecnicosbyRolPrejection> tecnicoTipoVisita(String tipoVisita);
+    public List<tecnicosbyRolPrejection> tecnicoTipoVisita(String tipoVisita,  Long idUsuario);
     
+    public List<SupervisorVisitaResumenProjection> resumenVisitasPorAdmin(Long idAdmin);
+    
+    public List<TecnicoVisitaResumenProjection> resumenTecnicosPorSupervisor(Long idSupervisor);
+
 }

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import projection.ResumenEstadoProjection;
+import projection.SupervisorVisitaResumenProjection;
+import projection.TecnicoVisitaResumenProjection;
 import projection.VisitasTecnicoProjection;
 import projection.tecnicosbyRolPrejection;
 import projection.visitasSuperByAdminProjection;
@@ -89,8 +91,21 @@ public class VisitaController {
 
     @GetMapping("tecnico-tipovisita")
     @Operation(summary = "tecnico segun tipo de visita")
-    public ResponseEntity<List<tecnicosbyRolPrejection>> tecnicoTipoVisita(@RequestParam String tipoVisita) {
-        return ResponseEntity.ok(visitaSvc.tecnicoTipoVisita(tipoVisita));
+    public ResponseEntity<List<tecnicosbyRolPrejection>> tecnicoTipoVisita(@RequestParam String tipoVisita, @RequestParam Long idUsuario) {
+        return ResponseEntity.ok(visitaSvc.tecnicoTipoVisita(tipoVisita, idUsuario));
+    }
+
+    @GetMapping("/resumen-supervisores")
+    @Operation(summary = "Resumen de visitas por supervisor bajo un admin")
+    public ResponseEntity<List<SupervisorVisitaResumenProjection>> resumenVisitas(@RequestParam Long idAdmin) {
+        return ResponseEntity.ok(visitaSvc.resumenVisitasPorAdmin(idAdmin));
+    }
+
+    @GetMapping("/resumen-tecnicos")
+    @Operation(summary = "Resumen de visitas por técnico bajo un supervisor")
+    public ResponseEntity<List<TecnicoVisitaResumenProjection>> resumenTecnicos(
+            @RequestParam Long idSupervisor) {
+        return ResponseEntity.ok(visitaSvc.resumenTecnicosPorSupervisor(idSupervisor));
     }
 
 }

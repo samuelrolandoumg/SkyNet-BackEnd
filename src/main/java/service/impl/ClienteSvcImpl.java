@@ -69,8 +69,19 @@ public class ClienteSvcImpl implements ClienteSvc {
     }
 
     @Override
-    public List<usuariobyrolProjection> clientesbyTecnico(Long idSupervisor) {
-        return this.repository.clientesbyTecnico(idSupervisor);
+    public List<usuariobyrolProjection> clientesbyTecnico(Long idUsuario) {
+        
+//        usuariobyrolProjection data = this.repository.usuariobyrol(idUsuario);
+//        
+//        if (data.getRol().equals("ADMIN")) {
+//            return repository.clientesByAdmin(idUsuario);
+//        } else if (data.getRol().equals("SUPERVISOR")) {
+//            return repository.clientesBySupervisor(idUsuario);
+//        } else {
+//            throw new RuntimeException("El rol del usuario no está autorizado para esta operación");
+//        }
+
+        return this.repository.clientesBytec(idUsuario);
     }
 
     @Override
