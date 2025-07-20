@@ -36,13 +36,13 @@ public class SeguimientoIncidencia {
     @JoinColumn(name = "id_detalle_visita", nullable = false, unique = true)
     private DetalleVisita detalleVisita;
 
-    @ManyToOne
-    @JoinColumn(name = "id_cliente", nullable = false)
-    private Cliente cliente;
-
-    @ManyToOne
-    @JoinColumn(name = "id_tecnico", nullable = false)
-    private Usuario tecnico;
+//    @ManyToOne
+//    @JoinColumn(name = "id_cliente", nullable = false)
+//    private Cliente cliente;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "id_tecnico", nullable = false)
+//    private Usuario tecnico;
 
     @Column(name = "fecha_programada", nullable = false)
     private LocalDate fechaProgramada;

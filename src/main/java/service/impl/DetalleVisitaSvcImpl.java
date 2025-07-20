@@ -118,8 +118,8 @@ public class DetalleVisitaSvcImpl implements DetalleVisitaSvc {
         if (detalle.getTipoIncidencia() != null) {
             SeguimientoIncidencia seguimiento = new SeguimientoIncidencia();
             seguimiento.setDetalleVisita(detalle);
-            seguimiento.setCliente(visita.getCliente());
-            seguimiento.setTecnico(visita.getTecnico());
+//            seguimiento.setCliente(visita.getCliente());
+//            seguimiento.setTecnico(visita.getTecnico());
             seguimiento.setFechaProgramada(LocalDate.now().plusDays(20));
             seguimiento.setMotivo(observaciones != null ? observaciones : "Incidencia registrada");
             seguimientoRepo.save(seguimiento);
