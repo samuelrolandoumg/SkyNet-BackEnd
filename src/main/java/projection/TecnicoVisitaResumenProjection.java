@@ -10,10 +10,14 @@ package projection;
  * @author Samuel
  */
 public interface TecnicoVisitaResumenProjection {
+    String getnombreSupervisor();
     Long getIdTecnico();
     String getNombreTecnico();
     Long getTotalVisitas();
     Long getCreadas();
     Long getIniciadas();
-    Long getFinalizadas();
+    Long getFinalizadasExito();
+    Long getFinalizadasIncidencia();
+    Long getCancelada();
+
 }

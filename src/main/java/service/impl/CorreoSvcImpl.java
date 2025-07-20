@@ -47,4 +47,22 @@ public class CorreoSvcImpl implements CorreoSvc {
         }
     }
 
+    @Override
+    public void enviarCorreoSimple(String destinatario, String asunto, String cuerpoHtml) {
+        try {
+            MimeMessage mensaje = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mensaje, true, "UTF-8");
+
+            helper.setTo(destinatario);
+            helper.setSubject(asunto);
+            helper.setText(cuerpoHtml, true);
+
+            mailSender.send(mensaje);
+            log.info("Correo enviado a {}", destinatario);
+        } catch (Exception e) {
+            log.error("Error al enviar correo simple: {}", e.getMessage());
+            throw new RuntimeException("Error al enviar el correo", e);
+        }
+    }
+
 }

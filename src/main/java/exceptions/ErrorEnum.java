@@ -10,13 +10,16 @@ package exceptions;
  * @author Samuel
  */
 public enum ErrorEnum {
-    S_DESCONOCIDO   (1000, EstadoHttp.UNAUTHORIZED, "Credenciales de usuario inválidas."),
-    TOKEN_I         (1001, EstadoHttp.UNAUTHORIZED, "Token invalido"),
-    ROL_INVALIDO         (1001, EstadoHttp.UNAUTHORIZED, "Rol no autorizado para listar clientes"),
+    S_DESCONOCIDO       (1000, EstadoHttp.UNAUTHORIZED, "Credenciales de usuario inválidas."),
+    TOKEN_I             (1001, EstadoHttp.UNAUTHORIZED, "Token invalido"),
+    ROL_INVALIDO        (1001, EstadoHttp.UNAUTHORIZED, "Rol no autorizado para listar clientes"),
     
-    SERVICIO_REGISTRADO (1001, EstadoHttp.BAD_REQUEST, "Ya se ha registrado un inicio de servicio"),
-    NO_REGISTRADO (1001, EstadoHttp.BAD_REQUEST, "Cliente no registrado"),
-    U_NO_REGISTRADO (1001, EstadoHttp.BAD_REQUEST, "Usuario no registrado");
+    SERVICIO_REGISTRADO (2001, EstadoHttp.BAD_REQUEST, "Ya se ha registrado un inicio de servicio"),
+    NO_REGISTRADO       (2002, EstadoHttp.BAD_REQUEST, "Cliente no registrado"),
+    U_NO_REGISTRADO     (2003, EstadoHttp.BAD_REQUEST, "Usuario no registrado"),
+    CORREO_YA_REGISTRADO(2004, EstadoHttp.BAD_REQUEST,"El correo ya está registrado por otro usuario."),
+    V_NO_POSPONER       (2005, EstadoHttp.BAD_REQUEST,"Visita no se puede posponer en este estado"),
+    V_NO_ENCONTRADA     (2005, EstadoHttp.BAD_REQUEST,"Visita no encontrada");
 
     
     

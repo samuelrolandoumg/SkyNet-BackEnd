@@ -111,7 +111,7 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             + "JOIN clientes c ON c.id = v.id_cliente\n"
             + "LEFT JOIN alertas_visita av ON av.id_visita = v.id\n"
             + "WHERE sup.id = :idSupervisor\n"
-            + "  AND v.estado NOT IN ('FINALIZADO', 'FINALIZADO CON INCIDENCIA', 'FINALIZADO CON EXITO')", nativeQuery = true)
+            + "  AND v.estado NOT IN ('FINALIZADO', 'FINALIZADO CON INCIDENCIA', 'FINALIZADO CON EXITO', 'CANCELADA')", nativeQuery = true)
     List<ConsultaVisitaSupervisorProjection> getConsultaVisitasPorSupervisor(@Param("idSupervisor") Long idSupervisor);
 
     @Query(value = "select dg.nombre_documento as nombreDocumento, \n"
@@ -172,6 +172,6 @@ public interface DetalleVisitaRepository extends JpaRepository<DetalleVisita, Lo
             + "JOIN clientes c ON c.id = v.id_cliente\n"
             + "LEFT JOIN alertas_visita av ON av.id_visita = v.id\n"
             + "WHERE sup.id_admin = :idAdmin\n"
-            + "  AND v.estado NOT IN ('FINALIZADO', 'FINALIZADO CON INCIDENCIA', 'FINALIZADO CON EXITO')", nativeQuery = true)
+            + "  AND v.estado NOT IN ('FINALIZADO', 'FINALIZADO CON INCIDENCIA', 'FINALIZADO CON EXITO', 'CANCELADA')", nativeQuery = true)
     List<ConsultaVisitaSupervisorProjection> getConsultaVisitasPorSupervisorAdmin(@Param("idAdmin") Long idAdmin);
 }

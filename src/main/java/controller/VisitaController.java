@@ -5,7 +5,9 @@
  */
 package controller;
 
+import dtos.CancelarVisitaDto;
 import dtos.CrearVisitaDto;
+import dtos.PosponerVisitaDto;
 import dtos.iniciarServicioDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,6 +15,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import projection.ResumenEstadoProjection;
 import projection.SupervisorVisitaResumenProjection;
 import projection.TecnicoVisitaResumenProjection;
+import projection.VisitaPorClienteProjection;
 import projection.VisitasTecnicoProjection;
 import projection.tecnicosbyRolPrejection;
 import projection.visitasSuperByAdminProjection;
@@ -106,6 +110,26 @@ public class VisitaController {
     public ResponseEntity<List<TecnicoVisitaResumenProjection>> resumenTecnicos(
             @RequestParam Long idSupervisor) {
         return ResponseEntity.ok(visitaSvc.resumenTecnicosPorSupervisor(idSupervisor));
+    }
+
+    @PutMapping("/cancelar")
+    @Operation(summary = "Cancela una visita existente con motivo")
+    public ResponseEntity<Void> cancelarVisita(@RequestBody CancelarVisitaDto dto) {
+        visitaSvc.cancelarVisita(dto);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/posponer")
+    @Operation(summary = "Pospone una visita reprogramando su fecha y notificando por correo")
+    public ResponseEntity<Void> posponerVisita(@RequestBody PosponerVisitaDto dto) {
+        visitaSvc.posponerVisita(dto);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/listar-visitas-tecnico")
+    @Operation(summary = "Lista las visitas por técnico")
+    public ResponseEntity<List<VisitaPorClienteProjection>> listarVisitasPorTecnico(@RequestParam Long idTecnico) {
+        return ResponseEntity.ok(visitaSvc.listarVisitasPorTecnico(idTecnico));
     }
 
 }

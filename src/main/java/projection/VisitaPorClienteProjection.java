@@ -5,18 +5,19 @@
  */
 package projection;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author Samuel
  */
-public interface VisitasTecnicoProjection {
-    String getLatitud();
-    String getLongitud();
+public interface VisitaPorClienteProjection {
+    Long getIdCliente();
     String getNombreCliente();
     String getNombreNegocio();
-    Long getIdCliente();
-    String getfechaVisita();
-    Long getidVisita();
-    String getEstado();
-    String gettipoVisita();
+    Long getIdVisita();
+    String getFechaVisita();
+    String getEstadoVisita();
+    String getTipoVisita();
+    String getfechaFinalizada();
 }

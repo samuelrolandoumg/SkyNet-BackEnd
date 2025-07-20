@@ -5,12 +5,15 @@
  */
 package services;
 
+import dtos.CancelarVisitaDto;
 import dtos.CrearVisitaDto;
+import dtos.PosponerVisitaDto;
 import dtos.iniciarServicioDto;
 import java.util.List;
 import projection.ResumenEstadoProjection;
 import projection.SupervisorVisitaResumenProjection;
 import projection.TecnicoVisitaResumenProjection;
+import projection.VisitaPorClienteProjection;
 import projection.VisitasTecnicoProjection;
 import projection.tecnicosbyRolPrejection;
 import projection.visitasSuperByAdminProjection;
@@ -43,5 +46,11 @@ public interface VisitaSvc {
     public List<SupervisorVisitaResumenProjection> resumenVisitasPorAdmin(Long idAdmin);
     
     public List<TecnicoVisitaResumenProjection> resumenTecnicosPorSupervisor(Long idSupervisor);
+    
+    public void cancelarVisita(CancelarVisitaDto dto);
+    
+    public void posponerVisita(PosponerVisitaDto dto);
+
+    public List<VisitaPorClienteProjection> listarVisitasPorTecnico(Long idTecnico);
 
 }

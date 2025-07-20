@@ -5,7 +5,9 @@
  */
 package service.impl;
 
+import dtos.CancelarVisitaDto;
 import dtos.CrearVisitaDto;
+import dtos.PosponerVisitaDto;
 import dtos.iniciarServicioDto;
 import exceptions.CustomException;
 import exceptions.ErrorEnum;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
 import projection.ResumenEstadoProjection;
 import projection.SupervisorVisitaResumenProjection;
 import projection.TecnicoVisitaResumenProjection;
+import projection.VisitaPorClienteProjection;
 import projection.VisitasTecnicoProjection;
 import projection.tecnicosbyRolPrejection;
 import projection.usuariobyrolProjection;
@@ -31,6 +34,7 @@ import projection.visitasTecnicobySuperProjection;
 import repository.ClienteRepository;
 import repository.UsuarioRepository;
 import repository.VisitaRepository;
+import services.CorreoSvc;
 import services.VisitaSvc;
 
 /**
@@ -49,6 +53,9 @@ public class VisitaSvcImpl implements VisitaSvc {
 
     @Autowired
     private VisitaRepository visitaRepo;
+
+    @Autowired
+    private CorreoSvc correoSvc;
 
     @Override
     @Transactional
@@ -162,6 +169,71 @@ public class VisitaSvcImpl implements VisitaSvc {
     @Override
     public List<TecnicoVisitaResumenProjection> resumenTecnicosPorSupervisor(Long idSupervisor) {
         return visitaRepo.obtenerResumenTecnicosPorSupervisor(idSupervisor);
+    }
+
+    @Override
+    @Transactional
+    public void cancelarVisita(CancelarVisitaDto dto) {
+        Visita visita = visitaRepo.findById(dto.getIdVisita())
+                .orElseThrow(() -> new CustomException(ErrorEnum.V_NO_ENCONTRADA));
+
+        visita.setEstado("CANCELADA");
+        visita.setMotivoCancelacion(dto.getMotivoCancelacion());
+        visita.setUsuarioCancelo(dto.getUsuarioCancelo());
+        visitaRepo.save(visita);
+
+        // Obtener correo del cliente
+        String correo = visita.getCliente().getCorreo();
+        String nombre = visita.getCliente().getNombreCliente();
+
+        String cuerpoHtml = "<h3>Hola " + nombre + "</h3>"
+                + "<p>Tu visita de <strong>" + visita.getTipoVisita() + "</strong> ha sido cancelada.</p>"
+                + "<p><strong>Motivo:</strong> " + dto.getMotivoCancelacion() + "</p>"
+                + "<p>Esperamos tu comprensión.</p>"
+                + "<p>Para más información puedes contactarte a soporte al <strong>2424-2424</strong>.</p>";
+
+        correoSvc.enviarCorreoSimple(
+                correo,
+                "Tu visita ha sido canculada",
+                cuerpoHtml
+        );
+    }
+
+    @Override
+    @Transactional
+    public void posponerVisita(PosponerVisitaDto dto) {
+        Visita visita = visitaRepo.findById(dto.getIdVisita())
+                .orElseThrow(() -> new CustomException(ErrorEnum.V_NO_ENCONTRADA));
+
+        if (!visita.getEstado().equalsIgnoreCase("CREADO")) {
+            throw new CustomException(ErrorEnum.V_NO_POSPONER);
+        }
+
+        visita.setFechaVisita(dto.getNuevaFecha());
+        visita.setMotivoPosposicion(dto.getMotivoPosposicion());
+
+        visitaRepo.save(visita);
+
+        // Obtener correo del cliente
+        String correo = visita.getCliente().getCorreo();
+        String nombre = visita.getCliente().getNombreCliente();
+
+        String cuerpoHtml = "<h3>Hola " + nombre + "</h3>"
+                + "<p>Tu visita ha sido <strong>pospuesta</strong> para el día <strong>" + dto.getNuevaFecha() + "</strong>.</p>"
+                + "<p><strong>Motivo:</strong> " + dto.getMotivoPosposicion() + "</p>"
+                + "<p>Esperamos tu comprensión.</p>"
+                + "<p>Para más información puedes contactarte a soporte al <strong>2424-2424</strong>.</p>";
+
+        correoSvc.enviarCorreoSimple(
+                correo,
+                "Tu visita ha sido pospuesta",
+                cuerpoHtml
+        );
+    }
+
+    @Override
+    public List<VisitaPorClienteProjection> listarVisitasPorTecnico(Long idTecnico) {
+        return visitaRepo.listarVisitasPorTecnico(idTecnico);
     }
 
 }

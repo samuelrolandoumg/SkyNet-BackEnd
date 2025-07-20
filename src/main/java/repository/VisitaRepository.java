@@ -16,6 +16,7 @@ import org.springframework.data.repository.query.Param;
 import projection.ResumenEstadoProjection;
 import projection.SupervisorVisitaResumenProjection;
 import projection.TecnicoVisitaResumenProjection;
+import projection.VisitaPorClienteProjection;
 import projection.VisitasTecnicoProjection;
 import projection.tecnicosbyRolPrejection;
 import projection.visitasSuperByAdminProjection;
@@ -27,20 +28,21 @@ import projection.visitasTecnicobySuperProjection;
  */
 public interface VisitaRepository extends JpaRepository<Visita, Long> {
 
-    @Query(value = "SELECT \n"
-            + "    c.latitud,\n"
+    @Query(value = "select c.latitud,\n"
             + "    c.longitud,\n"
             + "    c.nombre_cliente AS nombreCliente,\n"
             + "    c.nombre_negocio AS nombreNegocio,\n"
             + "    c.id AS idCliente,\n"
             + "    v.fecha_visita AS fechaVisita,\n"
             + "    v.id AS idVisita,\n"
-            + "    v.estado AS estado\n"
+            + "    v.estado AS estado,\n"
+            + "    v.tipo_visita as tipoVisita\n"
             + "FROM clientes c\n"
             + "INNER JOIN visitas v ON v.id_cliente = c.id\n"
             + "WHERE v.id_tecnico = :idTecnico\n"
-            + "  AND v.hora_egreso IS NULL\n"
-            + "ORDER BY v.fecha_visita DESC", nativeQuery = true)
+            + "  AND v.hora_egreso IS null\n"
+            + "  and v.estado != 'CANCELADA'\n"
+            + "ORDER BY v.fecha_visita desc", nativeQuery = true)
     public List<VisitasTecnicoProjection> visitasbyTecnico(@Param("idTecnico") Long idTecnico);
 
     @Query(value = "select case\n"
@@ -130,31 +132,51 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
             + "and u.id_supervisor = :idSupervisor", nativeQuery = true)
     public List<tecnicosbyRolPrejection> tecnicoTipoVisitaSuper(@Param("tipoVisita") String tipoVisita, @Param("idSupervisor") Long idSupervisor);
 
-    @Query(value = "    SELECT \n"
-            + "        u.id AS idSupervisor,\n"
-            + "        u.nombre AS nombreSupervisor,\n"
-            + "        COUNT(v.id) AS totalVisitas,\n"
-            + "        COUNT(CASE WHEN v.estado = 'CREADO' THEN 1 END) AS creadas,\n"
-            + "        COUNT(CASE WHEN v.estado = 'SERVICIO INICIADO' THEN 1 END) AS iniciadas,\n"
-            + "        COUNT(CASE WHEN v.estado = 'FINALIZADO' THEN 1 END) AS finalizadas,\n"
-            + "        COUNT(CASE WHEN v.estado = 'FINALIZADO CON INCIDENCIA' THEN 1 END) AS finalizadas\n"
-            + "    FROM usuarios u\n"
-            + "    JOIN clientes c ON u.id = c.id_supervisor\n"
-            + "    LEFT JOIN visitas v ON c.id = v.id_cliente\n"
-            + "    WHERE u.id_admin = :idAdmin\n"
-            + "    GROUP BY u.id, u.nombre", nativeQuery = true)
-    public List<SupervisorVisitaResumenProjection> obtenerResumenVisitasPorSupervisor(@Param("idAdmin") Long idAdmin);
-
-    @Query(value = "SELECT\n"
-            + "    u.id AS idTecnico,\n"
-            + "    u.nombre AS nombreTecnico,\n"
+    @Query(value = "SELECT \n"
+            + "    u.id AS idSupervisor,\n"
+            + "    u.nombre AS nombreSupervisor,\n"
             + "    COUNT(v.id) AS totalVisitas,\n"
             + "    COUNT(CASE WHEN v.estado = 'CREADO' THEN 1 END) AS creadas,\n"
             + "    COUNT(CASE WHEN v.estado = 'SERVICIO INICIADO' THEN 1 END) AS iniciadas,\n"
-            + "    COUNT(CASE WHEN v.estado = 'FINALIZADO' THEN 1 END) AS finalizadas\n"
+            + "    COUNT(CASE WHEN v.estado IN ('FINALIZADO CON EXITO', 'FINALIZADO CON INCIDENCIA') THEN 1 END) AS finalizadas,\n"
+            + "    COUNT(CASE WHEN v.estado = 'CANCELADA' THEN 1 END) AS canceladas\n"
             + "FROM usuarios u\n"
+            + "JOIN clientes c ON u.id = c.id_supervisor\n"
+            + "LEFT JOIN visitas v ON c.id = v.id_cliente\n"
+            + "WHERE u.id_admin = :idAdmin\n"
+            + "GROUP BY u.id, u.nombre", nativeQuery = true)
+    public List<SupervisorVisitaResumenProjection> obtenerResumenVisitasPorSupervisor(@Param("idAdmin") Long idAdmin);
+
+    @Query(value = "SELECT\n"
+            + "  u.id AS idTecnico,\n"
+            + "  u.nombre AS nombreTecnico,\n"
+            + "  s.nombre AS nombreSupervisor,\n"
+            + "  COUNT(v.id) AS totalVisitas,\n"
+            + "  COUNT(CASE WHEN v.estado = 'CREADO' THEN 1 END) AS creadas,\n"
+            + "  COUNT(CASE WHEN v.estado = 'SERVICIO INICIADO' THEN 1 END) AS iniciadas,\n"
+            + "  COUNT(CASE WHEN v.estado = 'FINALIZADO CON EXITO' THEN 1 END) AS finalizadasExito,\n"
+            + "  COUNT(CASE WHEN v.estado = 'FINALIZADO CON INCIDENCIA' THEN 1 END) AS finalizadasIncidencia,\n"
+            + "  COUNT(CASE WHEN v.estado = 'CANCELADA' THEN 1 END) AS cancelada\n"
+            + "FROM usuarios u\n"
+            + "LEFT JOIN usuarios s ON u.id_supervisor = s.id      \n"
             + "LEFT JOIN visitas v ON u.id = v.id_tecnico\n"
             + "WHERE u.id_supervisor = :idSupervisor\n"
-            + "GROUP BY u.id, u.nombre", nativeQuery = true)
+            + "GROUP BY u.id, u.nombre, s.nombre", nativeQuery = true)
     public List<TecnicoVisitaResumenProjection> obtenerResumenTecnicosPorSupervisor(@Param("idSupervisor") Long idSupervisor);
+
+    @Query(value = "SELECT \n"
+            + "    c.id AS idCliente,\n"
+            + "    c.nombre_cliente AS nombreCliente,\n"
+            + "    c.nombre_negocio AS nombreNegocio,\n"
+            + "    v.id AS idVisita,\n"
+            + "    v.fecha_visita AS fechaVisita,\n"
+            + "    v.estado AS estadoVisita,\n"
+            + "    v.tipo_visita AS tipoVisita,\n"
+            + "    v.hora_egreso as fechaFinalizada\n"
+            + "FROM visitas v\n"
+            + "JOIN clientes c ON v.id_cliente = c.id\n"
+            + "WHERE v.id_tecnico = :idTecnico\n"
+            + "ORDER BY c.nombre_cliente, v.fecha_visita DESC", nativeQuery = true)
+    public List<VisitaPorClienteProjection> listarVisitasPorTecnico(@Param("idTecnico") Long idTecnico);
+
 }

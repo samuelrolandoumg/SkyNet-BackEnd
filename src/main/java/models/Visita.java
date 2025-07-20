@@ -71,4 +71,13 @@ public class Visita {
 
     @Column(name = "usuario_creo", nullable = false)
     private Long usuarioCreo;
+
+    @Column(name = "motivo_cancelacion", columnDefinition = "TEXT")
+    private String motivoCancelacion;
+
+    @Column(name = "usuario_cancelo")
+    private Long usuarioCancelo;
+
+    @Column(name = "motivo_posposicion", columnDefinition = "TEXT")
+    private String motivoPosposicion;
 }

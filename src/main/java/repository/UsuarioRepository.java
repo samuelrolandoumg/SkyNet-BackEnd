@@ -93,4 +93,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             + "where r.rol = 'ADMIN'", nativeQuery = true)
     public List<usuarioById> obtenerAdmins();
 
+    public boolean existsByCorreoAndIdNot(String correo, Long id);
+
 }

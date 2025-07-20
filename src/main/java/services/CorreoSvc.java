@@ -11,6 +11,8 @@ package services;
  */
 public interface CorreoSvc {
 
-    void enviarCorreoConAdjunto(String destinatario, String asunto, String cuerpoHtml, byte[] pdf, String nombreArchivo);
+    public void enviarCorreoConAdjunto(String destinatario, String asunto, String cuerpoHtml, byte[] pdf, String nombreArchivo);
+    
+    public void enviarCorreoSimple(String destinatario, String asunto, String cuerpoHtml);
 
 }

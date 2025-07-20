@@ -16,4 +16,5 @@ public interface SupervisorVisitaResumenProjection {
     Long getCreadas();
     Long getIniciadas();
     Long getFinalizadas();
+    Long getCanceladas();
 }

@@ -164,6 +164,11 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         Usuario usuario = usuarioRepo.findById(datos.getId())
                 .orElseThrow(() -> new CustomException(ErrorEnum.U_NO_REGISTRADO));
 
+        // ✅ Validar si el correo ya existe en otro usuario
+        if (usuarioRepo.existsByCorreoAndIdNot(datos.getCorreo(), datos.getId())) {
+            throw new CustomException(ErrorEnum.CORREO_YA_REGISTRADO);
+        }
+
         usuario.setNombre(datos.getNombre());
         usuario.setApellido(datos.getApellido());
         usuario.setCorreo(datos.getCorreo());
@@ -177,7 +182,6 @@ public class UsuarioSvcImpl implements UsuarioSvc {
                 .orElseThrow(() -> new CustomException(ErrorEnum.U_NO_REGISTRADO));
         usuario.setRol(rol);
 
-        // 🔥 Nuevo: asignar puesto técnico si aplica
         if (datos.getIdRol() == 3 && datos.getPuestoTecnico() != null && !datos.getPuestoTecnico().isBlank()) {
             usuario.setPuestoTecnico(datos.getPuestoTecnico());
         } else {
