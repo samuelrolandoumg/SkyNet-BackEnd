@@ -47,7 +47,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             + "from usuarios u\n"
             + "inner join roles r on\n"
             + "u.id_rol = r.id\n"
-            + "where r.rol = :rol", nativeQuery = true)
+            + "where r.rol = :rol\n"
+            + "and u.estado = true", nativeQuery = true)
     public List<usuariobyrolProjection> usuariobyRol(@Param("rol") String rol);
 
     @Query(value = "select nombre || ' ' || apellido as usuario,\n"
@@ -72,7 +73,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
             + "FROM usuarios u\n"
             + "JOIN roles r ON u.id_rol = r.id\n"
             + "WHERE r.rol = 'TECNICO'\n"
-            + "  AND u.id_supervisor = :idSupervisor", nativeQuery = true)
+            + "  AND u.id_supervisor = :idSupervisor\n"
+            + "	and u.estado = true", nativeQuery = true)
     List<UsuarioListarProjection> listarTecnicosPorSupervisor(@Param("idSupervisor") Long idSupervisor);
 
     @Query(value = "SELECT DISTINCT r.rol\n"
@@ -130,6 +132,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     @Modifying
     @Query(value = "UPDATE usuarios SET estado = false WHERE id = :idUsuario", nativeQuery = true)
-
-    void deshabilitarUsuario(@Param("idUsuario") Long idUsuario);
+    public void deshabilitarUsuario(@Param("idUsuario") Long idUsuario);
 }

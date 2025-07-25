@@ -12,7 +12,9 @@ import dtos.UsuarioDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -96,7 +98,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.obtenerAdmins());
     }
 
-    @GetMapping("usuarios-id")
+    @GetMapping("/usuarios-id")
     @Operation(summary = "se listan usuarios segun su id")
     public ResponseEntity<usuariobyrolProjection> usuariobyid(@RequestParam Long idSupervisor) {
         return ResponseEntity.ok(usuarioService.usuariobyid(idSupervisor));
@@ -104,9 +106,13 @@ public class UsuarioController {
 
     @PutMapping("/eliminar")
     @Operation(summary = "Deshabilita un usuario si pasa las validaciones")
-    public ResponseEntity<String> eliminarUsuario(@RequestParam Long idUsuario) {
+    public ResponseEntity<Map<String, String>> eliminarUsuario(@RequestParam Long idUsuario) {
         usuarioService.eliminarUsuario(idUsuario);
-        return ResponseEntity.ok("Usuario eliminado correctamente.");
+
+        Map<String, String> response = new HashMap<>();
+        response.put("mensaje", "Usuario eliminado correctamente.");
+
+        return ResponseEntity.ok(response);
     }
 
 }

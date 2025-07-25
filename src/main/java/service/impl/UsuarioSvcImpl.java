@@ -262,6 +262,7 @@ public class UsuarioSvcImpl implements UsuarioSvc {
             Long tecnico = usuarioRepo.registroTecnico(idUsuario);
 
             if (tecnico == 0) {
+                log.debug("trea" + idUsuario );
                 this.usuarioRepo.deshabilitarUsuario(idUsuario); 
             } else {
                 throw new CustomException(ErrorEnum.T_REGISTROS); 
