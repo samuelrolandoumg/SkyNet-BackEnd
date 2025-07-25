@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import models.Cliente;
 import models.Roles;
 import models.Usuario;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import projection.SupervisorProjection;
 import projection.tecnicosbyRolPrejection;
@@ -48,6 +49,7 @@ public class ClienteSvcImpl implements ClienteSvc {
     private final UsuarioRepository usuarioRepo;
     private final UsuarioSvc usuarioService;
 
+    @Autowired
     public ClienteSvcImpl(ClienteRepository repository,
             RolesRepository rolesRepo,
             UsuarioRepository usuarioRepo,
@@ -138,7 +140,7 @@ public class ClienteSvcImpl implements ClienteSvc {
 
             cliente.setSupervisor(tecnico);
         } else {
-            cliente.setSupervisor(null); // Puedes ajustar esto si deseas mantener el anterior
+            cliente.setSupervisor(null);
         }
 
         repository.save(cliente);
@@ -151,8 +153,9 @@ public class ClienteSvcImpl implements ClienteSvc {
 
         List<Cliente> clientes;
 
+        // Admin ve todos los activos
         if ("ADMIN".equalsIgnoreCase(rol)) {
-            clientes = repository.findByEstadoTrue(); // Admin ve todos los activos
+            clientes = repository.findByEstadoTrue(); 
 
         } else if ("SUPERVISOR".equalsIgnoreCase(rol)) {
             // Supervisor solo ve los clientes asignados a él

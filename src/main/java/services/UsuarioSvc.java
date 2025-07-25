@@ -43,4 +43,7 @@ public interface UsuarioSvc {
 
     public List<usuarioById> obtenerAdmins();
     
+    public usuariobyrolProjection usuariobyid(Long idSupervisor);
+    
+    public void eliminarUsuario(Long idUsuario);
 }

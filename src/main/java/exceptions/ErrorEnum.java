@@ -19,7 +19,9 @@ public enum ErrorEnum {
     U_NO_REGISTRADO     (2003, EstadoHttp.BAD_REQUEST, "Usuario no registrado"),
     CORREO_YA_REGISTRADO(2004, EstadoHttp.BAD_REQUEST,"El correo ya está registrado por otro usuario."),
     V_NO_POSPONER       (2005, EstadoHttp.BAD_REQUEST,"Visita no se puede posponer en este estado"),
-    V_NO_ENCONTRADA     (2005, EstadoHttp.BAD_REQUEST,"Visita no encontrada");
+    V_NO_ENCONTRADA     (2005, EstadoHttp.BAD_REQUEST,"Visita no encontrada"),
+    S_REGISTROS         (2006, EstadoHttp.BAD_REQUEST,"El supervisor tiene tecnicos asignados"),    
+    T_REGISTROS         (2007, EstadoHttp.BAD_REQUEST,"El tecnico tiene visitas pendientes");       
 
     
     

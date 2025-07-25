@@ -95,4 +95,18 @@ public class UsuarioController {
     public ResponseEntity<List<usuarioById>> obtenerAdmins() {
         return ResponseEntity.ok(usuarioService.obtenerAdmins());
     }
+
+    @GetMapping("usuarios-id")
+    @Operation(summary = "se listan usuarios segun su id")
+    public ResponseEntity<usuariobyrolProjection> usuariobyid(@RequestParam Long idSupervisor) {
+        return ResponseEntity.ok(usuarioService.usuariobyid(idSupervisor));
+    }
+
+    @PutMapping("/eliminar/{id}")
+    @Operation(summary = "Deshabilita un usuario si pasa las validaciones")
+    public ResponseEntity<String> eliminarUsuario(@RequestParam Long idUsuario) {
+        usuarioService.eliminarUsuario(idUsuario);
+        return ResponseEntity.ok("Usuario eliminado correctamente.");
+    }
+
 }

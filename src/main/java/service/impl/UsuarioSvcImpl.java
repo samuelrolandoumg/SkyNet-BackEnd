@@ -12,6 +12,7 @@ import dtos.UsuarioDto;
 import exceptions.CustomException;
 import exceptions.ErrorEnum;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -25,6 +26,7 @@ import projection.DataUserProjection;
 import projection.UsuarioListarProjection;
 import projection.usuarioById;
 import projection.usuariobyrolProjection;
+import repository.ClienteRepository;
 import repository.RolesRepository;
 import repository.UsuarioRepository;
 import services.UsuarioSvc;
@@ -135,7 +137,7 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         UsuarioDto respuesta = new UsuarioDto();
         respuesta.setId(usuario.getId());
         respuesta.setNombre(usuario.getNombre());
-        respuesta.setRol(usuario.getRol().getRol().name()); // ← 🔥 aquí está el fix bueno
+        respuesta.setRol(usuario.getRol().getRol().name());
         return respuesta;
     }
 
@@ -235,5 +237,38 @@ public class UsuarioSvcImpl implements UsuarioSvc {
     @Override
     public List<usuarioById> obtenerAdmins() {
         return this.usuarioRepo.obtenerAdmins();
+    }
+
+    @Override
+    public usuariobyrolProjection usuariobyid(Long idSupervisor) {
+        return usuarioRepo.usuariobyid(idSupervisor);
+    }
+
+    @Override
+    @Transactional
+    public void eliminarUsuario(Long idUsuario) {
+        usuariobyrolProjection data = this.usuarioRepo.usuariobyrol(idUsuario);
+
+        if (data.getRol().equals("SUPERVISOR")) {
+            Long superV = usuarioRepo.registrosSupervisor(idUsuario);
+
+            if (superV == 0) {
+                this.usuarioRepo.deshabilitarUsuario(idUsuario);
+            } else {
+                throw new CustomException(ErrorEnum.S_REGISTROS);
+            }
+
+        } else if (data.getRol().equals("TECNICO")) {
+            Long tecnico = usuarioRepo.registroTecnico(idUsuario);
+
+            if (tecnico == 0) {
+                this.usuarioRepo.deshabilitarUsuario(idUsuario); 
+            } else {
+                throw new CustomException(ErrorEnum.T_REGISTROS); 
+            }
+
+        } else {
+            throw new RuntimeException("El rol del usuario no está autorizado para esta operación");
+        }
     }
 }
