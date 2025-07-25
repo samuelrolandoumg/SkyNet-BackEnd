@@ -102,7 +102,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.usuariobyid(idSupervisor));
     }
 
-    @PutMapping("/eliminar/{id}")
+    @PutMapping("/eliminar")
     @Operation(summary = "Deshabilita un usuario si pasa las validaciones")
     public ResponseEntity<String> eliminarUsuario(@RequestParam Long idUsuario) {
         usuarioService.eliminarUsuario(idUsuario);
