@@ -81,7 +81,7 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
             + "  COUNT(v.id) AS cantidad\n"
             + "FROM visitas v\n"
             + "INNER JOIN usuarios u ON v.id_tecnico = u.id\n"
-            + "WHERE u.id_supervisor = :idSupervisor\n"
+            + "WHERE u.id_supervisor = :idSupervisor and u.estado = true\n"
             + "GROUP BY nombreTecnico", nativeQuery = true)
     public List<visitasTecnicobySuperProjection> visitasTecnicobySuper(@Param("idSupervisor") Long idSupervisor);
 
@@ -115,7 +115,7 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
             + "        WHEN :tipoVisita = 'Instalación de Cableado' THEN 'Instalación de Infraestructura'\n"
             + "        WHEN :tipoVisita = 'Configuración de Software Empresarial' THEN 'Implementación de Sistemas'\n"
             + "        ELSE NULL\n"
-            + "END)", nativeQuery = true)
+            + "END) and estado is true", nativeQuery = true)
     public List<tecnicosbyRolPrejection> tecnicoTipoVisita(@Param("tipoVisita") String tipoVisita);
 
     @Query(value = "SELECT id as idUsuario, \n"
@@ -129,7 +129,7 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
             + "        WHEN :tipoVisita = 'Configuración de Software Empresarial' THEN 'Implementación de Sistemas'\n"
             + "        ELSE NULL\n"
             + "END)\n"
-            + "and u.id_supervisor = :idSupervisor", nativeQuery = true)
+            + "and u.id_supervisor = :idSupervisor and u.estado = true", nativeQuery = true)
     public List<tecnicosbyRolPrejection> tecnicoTipoVisitaSuper(@Param("tipoVisita") String tipoVisita, @Param("idSupervisor") Long idSupervisor);
 
     @Query(value = "SELECT \n"
@@ -161,6 +161,7 @@ public interface VisitaRepository extends JpaRepository<Visita, Long> {
             + "LEFT JOIN usuarios s ON u.id_supervisor = s.id      \n"
             + "LEFT JOIN visitas v ON u.id = v.id_tecnico\n"
             + "WHERE u.id_supervisor = :idSupervisor\n"
+            + "	and u.estado is true\n"
             + "GROUP BY u.id, u.nombre, s.nombre", nativeQuery = true)
     public List<TecnicoVisitaResumenProjection> obtenerResumenTecnicosPorSupervisor(@Param("idSupervisor") Long idSupervisor);
 

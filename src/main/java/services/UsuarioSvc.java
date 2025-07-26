@@ -42,8 +42,13 @@ public interface UsuarioSvc {
     public usuarioById obtenerDatoUsuario(Long idUsuario);
 
     public List<usuarioById> obtenerAdmins();
-    
+
     public usuariobyrolProjection usuariobyid(Long idSupervisor);
-    
+
     public void eliminarUsuario(Long idUsuario);
+
+    public String obtenerContrasena(Long idUsuario);
+
+    public void actualizarContrasena(Long idUsuario, String nuevaContrasena);
+
 }

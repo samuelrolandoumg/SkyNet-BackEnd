@@ -166,7 +166,6 @@ public class UsuarioSvcImpl implements UsuarioSvc {
         Usuario usuario = usuarioRepo.findById(datos.getId())
                 .orElseThrow(() -> new CustomException(ErrorEnum.U_NO_REGISTRADO));
 
-        // ✅ Validar si el correo ya existe en otro usuario
         if (usuarioRepo.existsByCorreoAndIdNot(datos.getCorreo(), datos.getId())) {
             throw new CustomException(ErrorEnum.CORREO_YA_REGISTRADO);
         }
@@ -262,14 +261,26 @@ public class UsuarioSvcImpl implements UsuarioSvc {
             Long tecnico = usuarioRepo.registroTecnico(idUsuario);
 
             if (tecnico == 0) {
-                log.debug("trea" + idUsuario );
-                this.usuarioRepo.deshabilitarUsuario(idUsuario); 
+                log.debug("trea" + idUsuario);
+                this.usuarioRepo.deshabilitarUsuario(idUsuario);
             } else {
-                throw new CustomException(ErrorEnum.T_REGISTROS); 
+                throw new CustomException(ErrorEnum.T_REGISTROS);
             }
 
         } else {
             throw new RuntimeException("El rol del usuario no está autorizado para esta operación");
         }
     }
+
+    @Override
+    public String obtenerContrasena(Long idUsuario) {
+        return usuarioRepo.obtenerContrasena(idUsuario);
+    }
+
+    @Override
+    @Transactional
+    public void actualizarContrasena(Long idUsuario, String nuevaContrasena) {
+        usuarioRepo.actualizarContrasena(idUsuario, nuevaContrasena);
+    }
+
 }

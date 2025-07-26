@@ -133,4 +133,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Modifying
     @Query(value = "UPDATE usuarios SET estado = false WHERE id = :idUsuario", nativeQuery = true)
     public void deshabilitarUsuario(@Param("idUsuario") Long idUsuario);
+
+    @Query(value = "SELECT u.contrasena FROM usuarios u WHERE u.id = :idUsuario", nativeQuery = true)
+    String obtenerContrasena(@Param("idUsuario") Long idUsuario);
+
+    @Modifying
+    @Query(value = "UPDATE usuarios SET contrasena = :nuevaContrasena WHERE id = :idUsuario", nativeQuery = true)
+    void actualizarContrasena(@Param("idUsuario") Long idUsuario, @Param("nuevaContrasena") String nuevaContrasena);
+
 }

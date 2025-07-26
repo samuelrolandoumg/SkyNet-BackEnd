@@ -115,4 +115,24 @@ public class UsuarioController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/contrasena")
+    @Operation(summary = "Obtiene la contraseña actual del usuario por ID")
+    public ResponseEntity<String> obtenerContrasena(@RequestParam Long idUsuario) {
+        String contrasena = usuarioService.obtenerContrasena(idUsuario);
+        return ResponseEntity.ok(contrasena);
+    }
+
+    @PutMapping("/actualizar-contrasena")
+    @Operation(summary = "Actualiza la contraseña del usuario")
+    public ResponseEntity<Map<String, String>> actualizarContrasena(
+            @RequestParam Long idUsuario,
+            @RequestParam String nuevaContrasena
+    ) {
+        usuarioService.actualizarContrasena(idUsuario, nuevaContrasena);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("mensaje", "Contraseña actualizada correctamente.");
+        return ResponseEntity.ok(response);
+    }
+
 }
