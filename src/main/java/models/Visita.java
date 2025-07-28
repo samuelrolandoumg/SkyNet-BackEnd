@@ -20,7 +20,6 @@ import lombok.Data;
 @Table(name = "visitas")
 public class Visita {
 
-    //trae el id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

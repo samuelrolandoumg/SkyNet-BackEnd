@@ -37,7 +37,7 @@ public class DetalleVisita {
     private String resultadoVisita;
 
     @Column(name = "tipo_incidencia", columnDefinition = "TEXT")
-    private String tipoIncidencia; // puede ser null si no fue con incidencia
+    private String tipoIncidencia; // aca puede ser null si no fue con incidencia
 
     @Column(name = "observaciones", columnDefinition = "TEXT")
     private String observaciones;
