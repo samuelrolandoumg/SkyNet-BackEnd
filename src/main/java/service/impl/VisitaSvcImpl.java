@@ -194,7 +194,7 @@ public class VisitaSvcImpl implements VisitaSvc {
 
         correoSvc.enviarCorreoSimple(
                 correo,
-                "Tu visita ha sido canculada",
+                "Tu visita ha sido cancelada",
                 cuerpoHtml
         );
     }
